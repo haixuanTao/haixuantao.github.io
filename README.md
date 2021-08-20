@@ -8,3 +8,4 @@ This project my html resume.
 mdbook serve
 ```
 
+Feel free to clone/fork for your own purpose.
