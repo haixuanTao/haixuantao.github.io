@@ -1,3 +1,6 @@
 # Summary
 
-- [About me](./about_me.md)
+- [About Me](./about-me.md)
+  - [Work Experience](./work.md)
+  - [Education](./education.md)
+  - [Skills](./skills.md)
