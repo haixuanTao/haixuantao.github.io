@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="about-me.html"><strong aria-hidden="true">1.</strong> About Me</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="work.html"><strong aria-hidden="true">1.1.</strong> Work Experience</a></li><li class="chapter-item expanded "><a href="education.html"><strong aria-hidden="true">1.2.</strong> Education</a></li><li class="chapter-item expanded "><a href="skills.html"><strong aria-hidden="true">1.3.</strong> Skills</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="about-me.html"><strong aria-hidden="true">1.</strong> About Me</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="work.html"><strong aria-hidden="true">1.1.</strong> Work Experience</a></li><li class="chapter-item expanded "><a href="education.html"><strong aria-hidden="true">1.2.</strong> Education</a></li><li class="chapter-item expanded "><a href="skills.html"><strong aria-hidden="true">1.3.</strong> Skills</a></li></ol></li><li class="chapter-item expanded "><a href="00-blog.html"><strong aria-hidden="true">2.</strong> Python vs Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="01-pandas-vs-rust.html"><strong aria-hidden="true">2.1.</strong> Pandas vs Rust</a></li><li class="chapter-item expanded "><a href="02-polars-vs-rust.html"><strong aria-hidden="true">2.2.</strong> Pandas vs Polars </a></li><li class="chapter-item expanded "><a href="03-deep_learning_in_rust.html"><strong aria-hidden="true">2.3.</strong> Deep Learning in Rust</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -190,6 +190,835 @@
 <p>Rust, Python, C/C++, Javascript, Typescript, Git, Docker, Kubernetes</p>
 <h3 id="sports"><a class="header" href="#sports">Sports</a></h3>
 <p>Sailing ⛵ and Kitesurfing 🏄</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="python-vs-rust"><a class="header" href="#python-vs-rust">Python vs Rust</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pandas-vs-rust"><a class="header" href="#pandas-vs-rust">Pandas vs Rust</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Pandas is the main Data analysis package of Python. For many reasons, Native Python has very poor performance on data analysis without vectorizing with NumPy and the likes. And historically, Pandas has been created by Wes McKinney to package those optimisations in a nice API to facilitate data analysis in Python.</p>
+<p>This, however, is not necessary for Rust. Rust has great data performance natively. This is why Rust doesn’t really need a package like Pandas.</p>
+<p>I believe the rustiest way to do Data Manipulation in Rust would be to build a <strong>heap of data struct</strong>.</p>
+<p><em>But, I could be wrong, let me know if that’s the case.</em></p>
+<p>This is my experience and reasoning comparing <strong>Pandas vs Rust</strong>.</p>
+<h3 id="data"><a class="header" href="#data">Data</a></h3>
+<p>Performance benchmarks are done on this very random dataset: <a href="https://www.kaggle.com/START-UMD/gtd">https://www.kaggle.com/START-UMD/gtd</a> that offers around 160,000 lines / 130 columns for a total size of 150Mb. The size of this dataset corresponds to the type of dataset I regularly encounter, that’s why I chose this one. It isn’t the biggest dataset in the world, and, more studies should probably be done on a larger dataset.</p>
+<p>The merge will be done with another random dataset: <a href="https://datacatalog.worldbank.org/dataset/world-development-indicators">https://datacatalog.worldbank.org/dataset/world-development-indicators</a>, the <code>WDICountry.csv</code></p>
+<hr />
+<h2 id="1-reading-and-instantiating-data"><a class="header" href="#1-reading-and-instantiating-data">1. Reading and instantiating Data</a></h2>
+<h3 id="pandas"><a class="header" href="#pandas">[Pandas]</a></h3>
+<p>Reading and instantiating Data in Pandas is pretty straightforward, and handles by default many data quality problems:</p>
+<pre><code>import pandas as pd
+
+path = &quot;/home/peter/Documents/TEST/RUST/terrorism/src/globalterrorismdb_0718dist.csv&quot;
+df = pd.read_csv(path)
+</code></pre>
+<h3 id="rust-reading-csv"><a class="header" href="#rust-reading-csv">[Rust] Reading CSV</a></h3>
+<p>For Rust, Managing bad quality data is very very tedious. In this dataset, some fields are empty, some lines are badly formatted, and some are not UTF-8 encoded.</p>
+<p>To open the CSV, I used the <code>csv</code> crate but it does not solve all the issues listed above. With well-formatted data, reading can be done like so:</p>
+<pre><code>let path = &quot;/home/peter/Documents/TEST/RUST/terrorism/src/foo.csv&quot;
+let mut rdr = csv::Reader::from_path(path).unwrap();
+</code></pre>
+<p>But with bad quality formatting, mine looked like this:</p>
+<pre><code>use std::fs::File;    
+use encoding_rs::WINDOWS_1252;
+use encoding_rs_io::DecodeReaderBytesBuilder;
+
+// ...
+
+    let file = File::open(path)?;
+    let transcoded = DecodeReaderBytesBuilder::new()
+        .encoding(Some(WINDOWS_1252))
+        .build(file);
+    let mut rdr = csv::ReaderBuilder::new()
+        .delimiter(b',')
+        .from_reader(transcoded); 
+</code></pre>
+<p><em>ref:</em> <a href="https://stackoverflow.com/questions/53826986/how-to-read-a-non-utf8-encoded-csv-file"><em>https://stackoverflow.com/questions/53826986/how-to-read-a-non-utf8-encoded-csv-file</em></a></p>
+<h3 id="rust-instantiating-the-data"><a class="header" href="#rust-instantiating-the-data">[Rust] Instantiating the data</a></h3>
+<p>To instantiate the data, I used Serde <a href="https://serde.rs/">https://serde.rs/</a> for serializing and deserializing my data.</p>
+<p>To use Serde, I needed to make a struct of my data. But, having a struct of my data is great has it makes my code follow a model-based coding paradigm with a well-defined type for each field. It also enables me to implement traits and methods on top of them.</p>
+<p>However, the data I wanted to use has 130 columns… And, It seemed that there is no way to generate the definition of the struct automatically.</p>
+<p>To avoid doing the definition manually, I had to build my own struct generator:</p>
+<pre><code>fn inspect(path: &amp;str) {
+    let mut record: Record = HashMap::new();
+
+    let mut rdr = csv::Reader::from_path(path).unwrap();
+
+    for result in rdr.deserialize() {
+        match result {
+            Ok(rec) =&gt; {
+                record = rec;
+                break;
+            }
+            Err(e) =&gt; (),
+        };
+    }
+    // Print Struct
+    println!(&quot;#[skip_serializing_none]&quot;);
+    println!(&quot;#[derive(Debug, Deserialize, Serialize)]&quot;);
+    println!(&quot;struct DataFrame {{&quot;);
+    for (key, value) in &amp;record {
+        println!(&quot;    #[serialize_always]&quot;);
+
+        match value.parse::&lt;i64&gt;() {
+            Ok(n) =&gt; {
+                println!(&quot;    {}: Option&lt;i64&gt;,&quot;, key);
+                continue;
+            }
+            Err(e) =&gt; (),
+        }
+        match value.parse::&lt;f64&gt;() {
+            Ok(n) =&gt; {
+                println!(&quot;    {}: Option&lt;f64&gt;,&quot;, key);
+                continue;
+            }
+            Err(e) =&gt; (),
+        }
+        println!(&quot;    {}: Option&lt;String&gt;,&quot;, key);
+    }
+    println!(&quot;}}&quot;);
+}
+</code></pre>
+<p>This generated the struct as follows:</p>
+<pre><code>use serde::{Deserialize, Serialize};
+use serde_with::skip_serializing_none;
+
+#[skip_serializing_none]
+#[derive(Debug, Clone, Deserialize, Serialize)]
+struct DataFrame {
+    #[serialize_always]
+    individual: Option&lt;f64&gt;,
+    #[serialize_always]
+    natlty3_txt: Option&lt;String&gt;,
+    #[serialize_always]
+    ransom: Option&lt;f64&gt;,
+    #[serialize_always]
+    related: Option&lt;String&gt;,
+    #[serialize_always]
+    gsubname: Option&lt;String&gt;,
+    #[serialize_always]
+    claim2: Option&lt;String&gt;,
+    #[serialize_always]
+
+    // ...
+</code></pre>
+<p><em>skip_serializing_none: Avoid having error on empty fields in the CSV.</em></p>
+<p><em>serialize_always: Makes the number of field when writing csv fixed.</em></p>
+<p>Now, that I had my struct, I used serde serialization to populate a vector of struct:</p>
+<pre><code>    let mut records: Vec&lt;DataFrame&gt; = Vec::new();
+
+    for result in rdr.deserialize() {
+        match result {
+            Ok(rec) =&gt; {
+                records.push(rec);
+            }
+            Err(e) =&gt; println!(&quot;{}&quot;, e),
+        };
+    }
+</code></pre>
+<p>This generated my vector of struct, hooray 🎉</p>
+<p>On a general note with Rust, you shouldn’t expect things to work as smoothly as it would with Python.</p>
+<h3 id="conclusion"><a class="header" href="#conclusion"><strong>Conclusion</strong></a></h3>
+<p>On reading / instantiating data, <strong>Pandas</strong> wins hands down for CSV.</p>
+<hr />
+<h2 id="2-filtering"><a class="header" href="#2-filtering">2. Filtering</a></h2>
+<h3 id="pandas-1"><a class="header" href="#pandas-1">[Pandas]</a></h3>
+<p>There are many ways to do filtering in pandas, the most common way for me is as follows:</p>
+<pre><code>df = df[df.country_txt == &quot;United States&quot;]
+df.to_csv(&quot;python_output.csv&quot;)
+</code></pre>
+<h3 id="rust"><a class="header" href="#rust">[Rust]</a></h3>
+<p>To do filtering in Rust, we can refer to the docs for vector in Rust <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">https://doc.rust-lang.org/std/vec/struct.Vec.html</a></p>
+<p>There is a large umbrella of methods for Vector filtering, with many nightly features that are going to be great for data manipulation when they ship. For this use case, I used the <code>retain</code> method has it was fitted my need perfectly:</p>
+<pre><code>    records.retain(|x| &amp;x.country_txt.unwrap() == &quot;United States&quot;);
+    let mut wtr =
+        csv::Writer::from_path(&quot;output_rust_filter.csv&quot;)?;
+
+    for record in &amp;records {
+        wtr.serialize(record)?;
+    }
+</code></pre>
+<p><strong>One big difference between Pandas and Rust is that Rust filtering uses Closures (<em>eq. lambda function in python</em>) whereas Pandas filtering uses Pandas API based on columns. This means Rust can make more complex filters compared to Pandas. It also adds in readability in my opinion.</strong></p>
+<h3 id="performance"><a class="header" href="#performance">Performance</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Mem Usage(Gb)</th></tr></thead><tbody>
+<tr><td>Pandas</td><td>3.0s</td><td>2.5Gb</td></tr>
+<tr><td>Rust</td><td>1.6s 🔥 -50%</td><td>1.7Gb 🔥 -32%</td></tr>
+</tbody></table>
+<p>Even though we’re using Pandas API for filtering, we get significantly better performance using Rust.</p>
+<h3 id="conclusion-1"><a class="header" href="#conclusion-1"><strong>Conclusion</strong></a></h3>
+<p>On Filtering, <strong>Rust</strong> seems to be more capable and faster. 🚅</p>
+<hr />
+<h2 id="3-group-by"><a class="header" href="#3-group-by">3. Group By</a></h2>
+<h3 id="pandas-2"><a class="header" href="#pandas-2">[Pandas]</a></h3>
+<p>Group by are a big part of the data reduction pipeline in python, it goes usually as follows:</p>
+<pre><code>df = df.groupby(by=&quot;country_txt&quot;, as_index=False).agg(
+    {&quot;nkill&quot;: &quot;sum&quot;, &quot;individual&quot;: &quot;mean&quot;, &quot;eventid&quot;: &quot;count&quot;}
+)
+df.to_csv(&quot;python_output_groupby.csv&quot;)
+</code></pre>
+<h3 id="rust-1"><a class="header" href="#rust-1">[Rust]</a></h3>
+<p>For group by and data reduction, thanks to <a href="https://able.bio/insideoutclub">David Sanders</a>, group by can be done as follows:</p>
+<pre><code>use itertools::Itertools;
+
+
+// ...
+
+#[derive(Debug, Deserialize, Serialize)]
+struct GroupBy {
+    country: String,
+    total_nkill: f64,
+    average_individual: f64,
+    count: f64,
+}
+
+// ... 
+
+    let groups = records
+        .into_iter()
+        .sorted_unstable_by(|a, b| Ord::cmp(&amp;a.country_txt, &amp;b.country_txt))
+        .group_by(|record| record.country_txt.clone())
+        .into_iter()
+        .map(|(country, group)| {
+            let (total_nkill, count, average_individual) = group.into_iter().fold(
+                (0., 0., 0.),
+                |(total_nkill, count, average_individual), record| {
+                    (
+                        total_nkill + record.nkill.unwrap_or(0.),
+                        count + 1.,
+                        average_individual + record.individual.unwrap_or(0.),
+                    )
+                },
+            );
+            GroupBy {
+                country: country.unwrap(),
+                total_nkill,
+                average_individual: average_individual / count,
+                count,
+            }
+        })
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+    let mut wtr =
+        csv::Writer::from_path(&quot;output_rust_groupby.csv&quot;)
+            .unwrap();
+
+    for group in &amp;groups {
+        wtr.serialize(group)?;
+    }
+</code></pre>
+<p>‌</p>
+<p>Although this solution is not as elegant as Pandas groupby, it gives a lot of flexibility on the computation of the reduced fields. Again, thanks to Closures.</p>
+<p>I think more reduction method other than <code>sum</code> and <code>fold</code> would greatly improve the development experience of map-reduce style operation in rust. We will then probably have equivalent experience between Rust and Pandas.</p>
+<h3 id="performance-1"><a class="header" href="#performance-1">Performance</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Mem(Gb)</th></tr></thead><tbody>
+<tr><td>Pandas</td><td>2.78s</td><td>2.5Gb</td></tr>
+<tr><td>Rust</td><td>2.0s🔥 -35%</td><td>1.7Gb🔥 -32%</td></tr>
+</tbody></table>
+<p>‌</p>
+<h3 id="conclusion-2"><a class="header" href="#conclusion-2"><strong>Conclusion</strong></a></h3>
+<p>Although the performance is better for Rust, I would advise using <strong>Pandas</strong> for map-reduce heavy application, as it seems more appropriate.</p>
+<hr />
+<h2 id="4-mutation"><a class="header" href="#4-mutation">4. Mutation</a></h2>
+<h3 id="pandas-3"><a class="header" href="#pandas-3">[Pandas]</a></h3>
+<p>There are many ways to do mutation in Pandas, I usually do the following for performance and functional style:</p>
+<pre><code>df[&quot;computed&quot;] = df[&quot;nkill&quot;].map(lambda x: (x - 10) / 2 + x ** 2 / 3)
+df.to_csv(&quot;python_output_map.csv&quot;)
+</code></pre>
+<h3 id="rust-2"><a class="header" href="#rust-2">[Rust]</a></h3>
+<p>For mutation, the functional <code>iter</code> of Rust really makes this part a walk in the park:</p>
+<pre><code>    records.iter_mut().for_each(|x: &amp;mut DataFrame| {
+        let nkill = match &amp;x.nkill {
+            Some(nkill) =&gt; nkill,
+            None =&gt; &amp;0.,
+        };
+
+        x.computed = Some((nkill - 10.) / 2. + nkill * nkill / 3.);
+    });
+
+    let mut wtr = csv::Writer::from_path(
+        &quot;output_rust_map.csv&quot;,
+    )?;
+    for record in &amp;records {
+        wtr.serialize(record)?;
+    }
+</code></pre>
+<h3 id="performance-2"><a class="header" href="#performance-2">Performance</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Mem(Gb)</th></tr></thead><tbody>
+<tr><td>Pandas</td><td>12.82s</td><td>4.7Gb</td></tr>
+<tr><td>Rust</td><td>1.58s🔥 -87%</td><td>1.7Gb🔥 -64%</td></tr>
+</tbody></table>
+<p>This is where the difference really appeared to me. Pandas do not scale for line-by-line custom build lambda functions. Pandas would have been even worst if I had done an operation involving several columns.</p>
+<h3 id="conclusion-3"><a class="header" href="#conclusion-3"><strong>Conclusion</strong></a></h3>
+<p><strong>Rust</strong> is way better for line-by-line mutation natively.</p>
+<hr />
+<h2 id="5-merge"><a class="header" href="#5-merge">5. Merge</a></h2>
+<h3 id="python"><a class="header" href="#python">[Python]</a></h3>
+<p>Merging in python is pretty efficient generally speaking, it goes like this in general:</p>
+<pre><code>df_country = pd.read_csv(
+    &quot;/home/peter/Documents/TEST/RUST/terrorism/src/WDICountry.csv&quot;
+)
+
+df_merge = pd.merge(
+    df, df_country, left_on=&quot;country_txt&quot;, right_on=&quot;Short_Name&quot;
+)
+df_merge.to_csv(&quot;python_output_merge.csv&quot;)
+</code></pre>
+<h3 id="rust-3"><a class="header" href="#rust-3">[Rust]</a></h3>
+<p>For Rust, however, this is a tricky part as, with Struct, merging isn’t really a thing. For me, the rustiest way of doing a merge is by adding a nested field containing the other struct we want to join data with.</p>
+<p>I  first created a new struct and a new heap for the new data:</p>
+<pre><code>#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct DataFrameCountry {
+    #[serialize_always]
+    SNA_price_valuation: Option&lt;String&gt;,
+    #[serialize_always]
+    IMF_data_dissemination_standard: Option&lt;String&gt;,
+    #[serialize_always]
+    Latest_industrial_data: Option&lt;String&gt;,
+    #[serialize_always]
+    System_of_National_Accounts: Option&lt;String&gt;,
+    //...
+
+// ...
+
+    let mut records_country: Vec&lt;DataFrameCountry&gt; = Vec::new();
+    let file = File::open(path_country)?;
+    let transcoded = DecodeReaderBytesBuilder::new()
+        .encoding(Some(WINDOWS_1252))
+        .build(file);
+    let mut rdr = csv::ReaderBuilder::new()
+        .delimiter(b',')
+        .from_reader(transcoded); 
+
+    for result in rdr.deserialize() {
+        match result {
+            Ok(rec) =&gt; {
+                records_country.push(rec);
+            }
+            Err(e) =&gt; println!(&quot;{}&quot;, e),
+        };
+    }
+</code></pre>
+<p>I then cloned this new struct with the previous struct on a specific field that is unique.</p>
+<pre><code>
+impl DataFrame {
+    fn add_country_ext(&amp;mut self, country: Option&lt;DataFrameCountry&gt;) {
+        self.country_merge = Some(country)
+    }
+}
+
+//...
+
+    for country in records_country {
+        records
+            .iter_mut()
+            .filter(|record| record.country_txt == country.Short_Name)
+            .for_each(|x| {
+                x.add_country_ext(Some(country.clone()));
+            });
+    }
+    let mut wtr =
+        csv::Writer::from_path(&quot;output_rust_join.csv&quot;)
+            .unwrap();
+    for record in &amp;records {
+        wtr.serialize(record)?;
+    }
+</code></pre>
+<p>I cloned the data for convenience and also for better comparability, but a reference can be passed if you can manage it.</p>
+<p>And there we go! 🚀</p>
+<p>Except, a nested struct is not yet serializable in CSV for Rust -&gt; <a href="https://github.com/BurntSushi/rust-csv/pull/197">https://github.com/BurntSushi/rust-csv/pull/197</a></p>
+<p>So I had to adapt it to:</p>
+<pre><code>impl DataFrame {
+    fn add_country_ext(&amp;mut self, country: Option&lt;DataFrameCountry&gt;) {
+        self.country_ext = Some(format!(&quot;{:?}&quot;, country))
+    }
+}
+</code></pre>
+<p>But, then, we got a sort of merge! 🚀</p>
+<h3 id="performance-3"><a class="header" href="#performance-3">Performance</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Mem(Gb)</th></tr></thead><tbody>
+<tr><td>Pandas</td><td>22.47s</td><td>11.8Gb</td></tr>
+<tr><td>Rust</td><td>5.48s🔥 -75%</td><td>2.6Gb🔥 -78%</td></tr>
+</tbody></table>
+<p>‌</p>
+<h3 id="conclusion-4"><a class="header" href="#conclusion-4"><strong>Conclusion</strong></a></h3>
+<p><strong>Rust</strong> is capable of doing nested structs that are going to be as capable if not more capable than <strong>Pandas</strong> merges. However, it isn’t really a one to one comparison and in this case, it is going to depend on your use case.</p>
+<p>‌</p>
+<hr />
+<h2 id="ending-conclusion"><a class="header" href="#ending-conclusion">Ending conclusion</a></h2>
+<p>After this experience, this is my take away.</p>
+<ul>
+<li>Use Pandas when you can: small CSV(&lt;1M lines), simple operation, data cleaning …</li>
+<li>Use Rust when you have: complex operations, memory heavy or time-consuming pipelines, custom build functions, scalable software…</li>
+</ul>
+<p>That been said, Rust offers impressive flexibility compared to Pandas. Adding the fact that Rust is way more capable of multi-threading than Pandas, I believe that Rust can solve problems Pandas simply cannot.</p>
+<p>Additionally, the possibility to run Rust on any platform(Web, Android, or Embedded) also create new opportunities for data manipulation in places inconceivable for Pandas and can provide solutions for yet to be resolved challenges.</p>
+<h3 id="performance-4"><a class="header" href="#performance-4">Performance</a></h3>
+<p>The performance table gives us an insight as to what to expect from Rust. I believe, the speedup can go from <strong>x2</strong> at the minimum and up to <strong>x50</strong> for large data pipelines. The memory use will have an even greater decrease as memory usage accumulates over time with python.</p>
+<h3 id="disclaimer"><a class="header" href="#disclaimer">Disclaimer</a></h3>
+<p>In many ways, Pandas can be optimized, but optimisation comes at a cost, whether it is hardware (e.g. Cluster #Dask, GPU #Cudf) or dependency on the reliability and maintenance of those optimisation packages.</p>
+<p>What I like about using Native Rust is that it doesn’t rely on additional hardware nor does it depends on additional packages. This solution doesn’t require an additional layer of abstraction, which makes it way more intuitive in many regards.</p>
+<p>‌</p>
+<p>‌</p>
+<p><strong>I wrote a continuation article covering polars a rust dataframe crate in another post:</strong> <a href="https://able.bio/haixuanTao/data-manipulation-polars-vs-rust--3def44c8"><strong>https://able.bio/haixuanTao/data-manipulation-polars-vs-rust--3def44c8</strong></a></p>
+<p><strong>with another repo:</strong> <a href="https://github.com/haixuanTao/dataframe-python-rust"><strong>https://github.com/haixuanTao/dataframe-python-rust</strong></a></p>
+<hr />
+<h2 id="annexe"><a class="header" href="#annexe">Annexe</a></h2>
+<h3 id="git-repository"><a class="header" href="#git-repository">Git repository</a></h3>
+<p><a href="https://github.com/haixuanTao/Data-Manipulation-Rust-Pandas">https://github.com/haixuanTao/Data-Manipulation-Rust-Pandas</a></p>
+<p>‌</p>
+<h3 id="data-oriented-design"><a class="header" href="#data-oriented-design">Data-Oriented Design</a></h3>
+<p>One other way to handle data in Rust is using a data-oriented design, that translates into building a struct of heap: <a href="https://jamesmcm.github.io/blog/2020/07/25/intro-dod/">https://jamesmcm.github.io/blog/2020/07/25/intro-dod/</a></p>
+<p>I first tried to build it this way, but, I did not manage to make it work, as I had to implement a lot of function to make things like filtering work on all columns.</p>
+<p>‌</p>
+<h3 id="btreemap"><a class="header" href="#btreemap">BTreeMap</a></h3>
+<p>One way to optimize for speed for Rust would be to replace the Vector with a Binary tree as the Heap. The filtering will then be done on this Tree, making the filtering faster. This would work if one field can be used as a primary filter.</p>
+<p>‌</p>
+<p>‌</p>
+<p>‌</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pandas-vs-polars"><a class="header" href="#pandas-vs-polars">Pandas vs Polars</a></h1>
+<h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
+<p>Everyone loves the API of Pandas. It’s fast, easy, and well documented. There are some rough edges, but most times, it’s just a blast.</p>
+<p>Now, when it comes to production, Pandas is slightly trickier. Pandas does not scale very well… there is no multithreading… It’s not thread-safe… It’s not memory efficient.</p>
+<p>But all those problems are the raison d’être of Rust.</p>
+<p><strong>But what if, there was a DataFrame API written in Rust that solves all those issues and at the same time keeps a nice API?</strong></p>
+<hr />
+<h2 id="polars"><a class="header" href="#polars">Polars</a></h2>
+<p>Well, <a href="https://github.com/ritchie46/polars"><strong>Polars</strong></a> tries to do just that. It allows you to do read, write, filter, apply functions, group by and merge, all in a <strong>thread-safe fashion</strong>.</p>
+<p>It uses <a href="https://github.com/apache/arrow"><strong>Apache Arrow</strong></a>, a data framework purposely built for doing efficient data processing and data sharing across language.</p>
+<h2 id="3-reasons-for-choosing-polars"><a class="header" href="#3-reasons-for-choosing-polars">3 reasons for choosing <strong>Polars</strong></a></h2>
+<h3 id="reason-1-performance"><a class="header" href="#reason-1-performance">Reason #1. Performance.</a></h3>
+<p>it’s killing it <a href="https://h2oai.github.io/db-benchmark/">performance-wise</a>.</p>
+<h3 id="reason-2-the-api-is-straightforward"><a class="header" href="#reason-2-the-api-is-straightforward">Reason #2. The API is straightforward.</a></h3>
+<p>Do you want to mutate the data? Use <code>apply</code>. Do you want to filter the data? use <code>filter</code>. Do you want to merge? Use <code>join</code> . There is not going to be rust syntax like <code>struct</code>, <code>derive</code>, <code>impl</code> …</p>
+<h3 id="reason-3-no-troubles-with-the-borrow-checker"><a class="header" href="#reason-3-no-troubles-with-the-borrow-checker">Reason #3. No troubles with the borrow checker.</a></h3>
+<p>It uses Arc, Mutex like referencing, which means that you can clone variables as much as you like. Variables are only references to in-memory data. No more fighting with the borrow checker. Mutability is limited to the API calls, which preserve the consistency/thread-safety of the data.</p>
+<h2 id="3-caveats-of-polars"><a class="header" href="#3-caveats-of-polars">3 caveats of <strong>Polars</strong></a></h2>
+<h3 id="caveat-1-issues"><a class="header" href="#caveat-1-issues">‌‌Caveat #1. Issues…</a></h3>
+<p>Building a DataFrame API is hard. It’s so hard, Pandas took 12 years to reach 1.0.0. And,  as Polars is rather young, you may face unexpected issues. In my cases, there were issues with <a href="https://github.com/ritchie46/polars/issues/387">\n characters</a>,<a href="https://github.com/ritchie46/polars/pull/399"> double quotes characters</a>, and <a href="https://github.com/ritchie46/polars/pull/400">long utf8</a>.</p>
+<p>On the other hand, those are great first issues to get started with contribution and getting better at Rust 🔨</p>
+<h3 id="caveat-2-getting-comfortable-with-two-apis-polars-and-arrow"><a class="header" href="#caveat-2-getting-comfortable-with-two-apis-polars-and-arrow">Caveat #2. Getting comfortable with two APIs: Polars and Arrow.</a></h3>
+<p>As many of the heavy liftings are done using the Apache Arrow backend, you’ll have to get used to reading both documentation. Both documentations are pretty straightforward, but it might feel tiring for someone who was looking for a drop-in replacement of Pandas.</p>
+<h3 id="caveat-3-compiling-time"><a class="header" href="#caveat-3-compiling-time">Caveat #3. Compiling time…</a></h3>
+<p>Sadly, compiling time takes around <a href="https://github.com/ritchie46/polars/issues/402">6min</a> uncached. And, it uses a lot of resources.</p>
+<hr />
+<h2 id="case-study"><a class="header" href="#case-study">Case Study</a></h2>
+<p><strong>Now the question is, is it better than native Rust as I’ve explained</strong> <a href="https://able.bio/haixuanTao/data-manipulation-pandas-vs-rust--1d70e7fc"><strong>in my previous blog post</strong></a><strong>?</strong></p>
+<p>Let’s take a hands-on comparison for a Data Pipeline and get a feel for it.</p>
+<p>In this case study, I’m going to use the <a href="https://www.kaggle.com/c/predict-closed-questions-on-stack-overflow/data?select=2012-07+Stack+Overflow.7z">stack overflow kaggle dataset</a>. I’m going to read the database, parse the dates, make a merge between the first tag and the<a href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages#Failsafe_I/O_and_system_calls"> Wikipedia comparison of programming language</a>. Group by the status of the question asked. And retrieve the distribution of language’s features within each ‘status’ of questions.</p>
+<p>We’ll compare Polars API &amp; Native Rust generic heap structure to do this task.</p>
+<ul>
+<li><em>I’ll go slightly quicker on the native Rust, as I already put more details</em> <a href="https://able.bio/haixuanTao/data-manipulation-pandas-vs-rust--1d70e7fc"><em>here</em></a><em>.</em></li>
+<li><em>Multithreading is done on 12 threads Intel(R) Core(TM) i7-8750H / 20G RAM.</em></li>
+<li><em>The database is 4.2G big for around 3.6 Million rows.</em></li>
+</ul>
+<h2 id="reading"><a class="header" href="#reading">Reading</a></h2>
+<h3 id="reading-in-polars"><a class="header" href="#reading-in-polars">Reading in Polars</a></h3>
+<p>Reading is pretty straightforward with many configurations possible.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use polars::prelude::*;
+
+//...
+
+    let mut df = CsvReader::from_path(path)?
+        .with_n_threads(Some(1)) // comment for multithreading
+        .with_encoding(CsvEncoding::LossyUtf8)
+        .has_header(true)
+        .finish()?;
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="reading-in-native-rust"><a class="header" href="#reading-in-native-rust">Reading in Native Rust</a></h3>
+<p>Reading in Rust using csv and serde requires that you already have a <code>struct</code> , in my case my struct is <code>utils::NativeDataFrame</code></p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    let file = File::open(path)?;
+
+    let mut rdr = csv::ReaderBuilder::new().delimiter(b',').from_reader(file);
+    let mut records: Vec&lt;utils::NativeDataFrame&gt; = rdr
+        .deserialize()
+        .into_iter()
+        .filter_map(|result| match result {
+            Ok(rec) =&gt; rec,
+            Err(e) =&gt; None,
+        })
+        .collect();
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="performance-5"><a class="header" href="#performance-5">Performance</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
+<tr><td>Native Rust (Single thread)</td><td>12 s</td><td>2.4x</td></tr>
+<tr><td>Polars(Single thread)</td><td>19 s</td><td>1.5x</td></tr>
+<tr><td>Polars(Multithread)</td><td>22 s</td><td>1.3x</td></tr>
+<tr><td>Pandas</td><td>29.6 s</td><td></td></tr>
+</tbody></table>
+<h3 id="conclusion-5"><a class="header" href="#conclusion-5">Conclusion</a></h3>
+<p>For reading, <strong>Polars</strong> has a nice happy and I bet it’s also doing some indexing which explains the difference in timing between the native implementation. There seems to be a bug for multithreaded Polars that makes it slower than single-threaded. <em>(Probably a good first issue…</em> 🤪 <em>)</em></p>
+<p>Note that reading is bound by the reading speed of my SSD around ~300Mb/s.</p>
+<h2 id="applying-functions"><a class="header" href="#applying-functions">Applying functions</a></h2>
+<h3 id="applying-function-in-polars"><a class="header" href="#applying-function-in-polars">Applying Function in Polars</a></h3>
+<p>To Apply a function in Polars, you can use the default <code>apply</code> or <code>may_apply</code>. I prefer the latter. This will mutate the original data.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn str_to_date(dates: &amp;Series) -&gt; std::result::Result&lt;Series, PolarsError&gt; {
+    let fmt = Some(&quot;%m/%d/%Y %H:%M:%S&quot;);
+
+    Ok(dates.utf8()?.as_date64(fmt)?.into_series())
+}
+
+fn count_words(dates: &amp;Series) -&gt; std::result::Result&lt;Series, PolarsError&gt; {
+    Ok(dates
+        .utf8()?
+        .into_iter()
+        .map(|opt_name: Option&lt;&amp;str&gt;| 
+                 opt_name.map(|name: &amp;str| name.split(&quot; &quot;).count() as u64
+        ))
+        .collect::&lt;UInt64Chunked&gt;()
+        .into_series())
+}
+
+// ...
+
+    // Apply Format Date
+    df.may_apply(&quot;PostCreationDate&quot;, str_to_date)?;
+
+    let t_formatting = Instant::now();
+
+    // Apply Custom counting words in string
+    df.may_apply(&quot;BodyMarkdown&quot;, count_words)?;
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="applying-function-in-native-rust"><a class="header" href="#applying-function-in-native-rust">Applying Function in Native Rust</a></h3>
+<p>Now, what I like about native rust mutation, is that the syntax is standard among iterator, and so once you get comfortable with the syntax, you can apply it everywhere 😀</p>
+<pre><code>use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime};
+// use rayon::prelude::*;  for multithreads
+
+    // Apply Format Date
+    let fmt = &quot;%m/%d/%Y %H:%M:%S&quot;;
+
+    records
+        .iter_mut()  // .par_iter_mut() for multithreads
+        .for_each(|record: &amp;mut utils::NativeDataFrame| {
+            record.PostCreationDatetime =
+                match DateTime::parse_from_str(
+                  record.PostCreationDate.as_ref().unwrap(), fmt) {
+                    Ok(dates) =&gt; Some(dates),
+                    Err(_) =&gt; None,
+                }
+        });
+
+    // Apply Custom Formatting counting words in string
+    records
+        .iter_mut() // .par_iter_mut() for multithreads
+        .for_each(|record: &amp;mut utils::NativeDataFrame| {
+            record.CountWords =
+                Some(
+          record.BodyMarkdown.as_ref().unwrap().split(' ').count() as f64
+                )
+        });
+</code></pre>
+<h3 id="performance-for-formatting-dates"><a class="header" href="#performance-for-formatting-dates">Performance for formatting dates</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
+<tr><td>Native Rust (Single thread)</td><td>.98 s</td><td>8x</td></tr>
+<tr><td>Native Rust (Multithread)</td><td>.148 s</td><td>52x</td></tr>
+<tr><td>Polars(Single thread)</td><td>.88 s</td><td>8.8x</td></tr>
+<tr><td>Pandas</td><td>7.8 s</td><td></td></tr>
+</tbody></table>
+<h3 id="performance-for-counting-words"><a class="header" href="#performance-for-counting-words">Performance for counting words</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
+<tr><td>Native Rust (Single thread)</td><td>9 s</td><td>2.7x</td></tr>
+<tr><td>Native Rust (Multithread)</td><td>1.3 s</td><td>19x</td></tr>
+<tr><td>Polars(Single thread)</td><td>9 s</td><td>2.7x</td></tr>
+<tr><td>Pandas</td><td>24.8 s</td><td></td></tr>
+</tbody></table>
+<h3 id="conclusion-6"><a class="header" href="#conclusion-6">Conclusion</a></h3>
+<p><strong>Polars</strong> does not seem to offer increased performance over the standard library on a single thread, and I couldn’t find a way to do multi-threaded apply… In this scenario, I’ll prefer native rust.</p>
+<h2 id="merging"><a class="header" href="#merging">Merging</a></h2>
+<h3 id="merging-in-polars"><a class="header" href="#merging-in-polars">Merging in Polars</a></h3>
+<p>Merging in Polars is dead easy, although the number of strategy for filling <code>none</code> values are limited for now.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    df = df
+        .join(&amp;df_wikipedia, &quot;Tag1&quot;, &quot;Language&quot;, JoinType::Left)?
+        .fill_none(FillNoneStrategy::Min)?;
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="merging-in-native-rust"><a class="header" href="#merging-in-native-rust">Merging in Native Rust</a></h3>
+<p>Merging in native Rust can be done with nested structure and pairing with a Hashmap:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut hash_wikipedia: &amp;HashMap&lt;&amp;String, &amp;utils::WikiDataFrame&gt; = &amp;records_wikipedia
+    .iter()
+    .map(|record| (record.Language.as_ref().unwrap(), record))
+    .collect();
+
+records.iter_mut().for_each(|record| {
+    record.Wikipedia = match hash_wikipedia.get(&amp;record.Tag1.as_ref().unwrap()) {
+        Some(wikipedia) =&gt; Some(wikipedia.clone().clone()),
+        None =&gt; None,
+    }
+});
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="performance-6"><a class="header" href="#performance-6">Performance</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
+<tr><td>Native Rust (Single thread)</td><td>.680 s</td><td>6.3x</td></tr>
+<tr><td>Native Rust (Multithread)</td><td>.215 s</td><td>20x</td></tr>
+<tr><td>Polars</td><td>.543 s</td><td>8x</td></tr>
+<tr><td>Pandas</td><td>4.347 s</td><td></td></tr>
+</tbody></table>
+<h3 id="conclusion-7"><a class="header" href="#conclusion-7">Conclusion</a></h3>
+<p>For merging, having a nested structure with <code>None</code> values can be very verbose. Having a flat structure is a huge plus. So, I’ll recommend using <strong>Polars</strong> if merging is key.</p>
+<p><em>I’m not sure If polars merging is done multi-threaded or not. It seems to be multithreaded by default.</em></p>
+<h2 id="group-by"><a class="header" href="#group-by">Group By</a></h2>
+<p>‌</p>
+<h3 id="group-by-in-polars"><a class="header" href="#group-by-in-polars">Group By in Polars</a></h3>
+<p>Group by in polars are really easy</p>
+<pre><code>    // Groupby series as a clone of reference
+    let groupby_series = vec![
+        df.column(&quot;OpenStatus&quot;)?.clone(),
+    ];
+
+    let target_column = vec![
+        &quot;ReputationAtPostCreation&quot;,
+        &quot;OwnerUndeletedAnswerCountAtPostTime&quot;,
+        &quot;Imperative&quot;,
+        &quot;Object-oriented&quot;,
+        &quot;Functional&quot;,
+        &quot;Procedural&quot;,
+        &quot;Generic&quot;,
+        &quot;Reflective&quot;,
+        &quot;Event-driven&quot;,
+    ];
+
+    let groups = df
+        .groupby_with_series(groupby_series, false)?
+        .select(target_column)
+        .mean()?;
+</code></pre>
+<h3 id="group-by-in-native-rust"><a class="header" href="#group-by-in-native-rust">Group By in Native Rust</a></h3>
+<p>This part is quite tricky. To make a group by in a thread-safe manner, you’ll need to use a Hashmap with <code>fold</code>. Note that, <a href="https://docs.rs/rayon/0.7.1/rayon/iter/trait.ParallelIterator.html#method.fold">parallel fold</a>s are slightly more complicated as folding requires passing data around threads.</p>
+<pre><code>    let groups_hash: HashMap&lt;String, (utils::GroupBy, i16)&gt; = records
+        .iter() // .par_iter()
+        .fold(
+            HashMap::new(), // || HashMap::new()
+            |mut hash_group: HashMap&lt;String, (utils::GroupBy, i16)&gt;, record| {
+                let group: utils::GroupBy = if let Some(wiki) = &amp;record.Wikipedia {
+                    utils::GroupBy {
+                        status: record.OpenStatus.as_ref().unwrap().to_string(),
+                        ReputationAtPostCreation: record.ReputationAtPostCreation.unwrap(),
+                        OwnerUndeletedAnswerCountAtPostTime: record
+                            .OwnerUndeletedAnswerCountAtPostTime
+                            .unwrap(),
+                        Imperative: wiki.Imperative.unwrap(),
+                        ObjectOriented: wiki.ObjectOriented.unwrap(),
+                        Functional: wiki.Functional.unwrap(),
+                        Procedural: wiki.Procedural.unwrap(),
+                        Generic: wiki.Generic.unwrap(),
+                        Reflective: wiki.Reflective.unwrap(),
+                        EventDriven: wiki.EventDriven.unwrap(),
+                    }
+                } else {
+                    utils::GroupBy {
+                        status: record.OpenStatus.as_ref().unwrap().to_string(),
+                        ReputationAtPostCreation: record.ReputationAtPostCreation.unwrap(),
+                        OwnerUndeletedAnswerCountAtPostTime: record
+                            .OwnerUndeletedAnswerCountAtPostTime
+                            .unwrap(),
+                        ..Default::default()
+                    }
+                };
+                if let Some((previous, count)) = hash_group.get_mut(&amp;group.status.to_string()) {
+                    *previous = previous.clone() + group;
+                    *count += 1;
+                } else {
+                    hash_group.insert(group.status.to_string(), (group, 1));
+                };
+                hash_group
+            },
+        ); // }
+           // .reduce(
+           //     || HashMap::new(),
+           //     |prev, other| {
+           //         let set1: HashSet&lt;String&gt; = prev.keys().cloned().collect();
+           //         let set2: HashSet&lt;String&gt; = other.keys().cloned().collect();
+           //         let unions: HashSet&lt;String&gt; = set1.union(&amp;set2).cloned().collect();
+           //         let mut map = HashMap::new();
+           //         for key in unions.iter() {
+           //             map.insert(
+           //                 key.to_string(),
+           //                 match (prev.get(key), other.get(key)) {
+           //                     (Some((previous, count_prev)), Some((group, count_other))) =&gt; {
+           //                         (previous.clone() + group.clone(), count_prev + count_other)
+           //                     }
+           //                     (Some(previous), None) =&gt; previous.clone(),
+           //                     (None, Some(other)) =&gt; other.clone(),
+           //                     (None, None) =&gt; (utils::GroupBy::new(), 0),
+           //                 },
+           //             );
+           //         }
+           //         map
+           //     },
+           // );
+
+    let groups: Vec&lt;utils::GroupBy&gt; = groups_hash
+        .iter()
+        .map(|(_, (group, count))| utils::GroupBy {
+            status: group.status.to_string(),
+            ReputationAtPostCreation: group.ReputationAtPostCreation / count.clone() as f64,
+            OwnerUndeletedAnswerCountAtPostTime: group.OwnerUndeletedAnswerCountAtPostTime
+                / count.clone() as f64,
+            Imperative: group.Imperative / count.clone() as f64,
+            ObjectOriented: group.ObjectOriented / count.clone() as f64,
+            Functional: group.Functional / count.clone() as f64,
+            Procedural: group.Procedural / count.clone() as f64,
+            Generic: group.Generic / count.clone() as f64,
+            Reflective: group.Reflective / count.clone() as f64,
+            EventDriven: group.EventDriven / count.clone() as f64,
+        })
+        .collect();
+</code></pre>
+<p><em>Uncomment for multithreading</em></p>
+<h3 id="performance-7"><a class="header" href="#performance-7">Performance</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
+<tr><td>Native Rust (Single thread)</td><td>.536 s</td><td>2x</td></tr>
+<tr><td>Native Rust (Multithread)</td><td>.115 s</td><td>9.5x</td></tr>
+<tr><td>Polars(Single thread)</td><td>.131 s</td><td>8.3x</td></tr>
+<tr><td>Polars(Multithread)</td><td>.125 s</td><td>8.8x</td></tr>
+<tr><td>Pandas</td><td>1.1 s</td><td></td></tr>
+</tbody></table>
+<h3 id="conclusion-8"><a class="header" href="#conclusion-8">Conclusion</a></h3>
+<p>Group By and Merging are the ideal case for Polars. You’ll get 8x more performance than Pandas on a single thread, and Polars handle multi-threading although, in my case, it didn’t matter much.</p>
+<p>It can be done with native rust, but judging by the size of the code, it’s not an ideal use case.</p>
+<hr />
+<h3 id="polars-lazy"><a class="header" href="#polars-lazy">Polars Lazy</a></h3>
+<p>Polars also offers a query optimized version called Lazy with a slightly different API. In my use case, I did not find it hard to go from one to the other, but I did not find any significant increase in performance either. The result is in the overall performance.</p>
+<hr />
+<h2 id="overall"><a class="header" href="#overall">Overall</a></h2>
+<h3 id="performance-overall"><a class="header" href="#performance-overall">Performance overall</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
+<tr><td>Native Rust (Single thread)</td><td>24 s</td><td>3.3x</td></tr>
+<tr><td>Native Rust (Multithread)</td><td>13.7 s</td><td>5.8x</td></tr>
+<tr><td>Polars(Single thread)</td><td>30 s</td><td>2.6x</td></tr>
+<tr><td>Polars(Multithread)</td><td>33 s</td><td>2.4x</td></tr>
+<tr><td>Polars(lazy, Multithreaded)</td><td>32s</td><td>2.5x</td></tr>
+<tr><td>Pandas</td><td>80 s</td><td></td></tr>
+</tbody></table>
+<p>As reading is io bound, I wanted to make a benchmark of pure performance.</p>
+<h3 id="performance-without-reading"><a class="header" href="#performance-without-reading">Performance without Reading</a></h3>
+<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
+<tr><td>Native Rust (Single thread)</td><td>12 s</td><td>3.3x</td></tr>
+<tr><td>Native Rust (Multithread)</td><td>1.7 s</td><td>23x</td></tr>
+<tr><td>Polars(Single thread)</td><td>10 s</td><td>4x</td></tr>
+<tr><td>Polars(Multithread)</td><td>11 s</td><td>3.6x</td></tr>
+<tr><td>Polars(Lazy, Multithread)</td><td>11 s</td><td>3.6x</td></tr>
+<tr><td>Pandas</td><td>40 s</td><td></td></tr>
+</tbody></table>
+<p>‌</p>
+<h3 id="overall-takeaway"><a class="header" href="#overall-takeaway">Overall takeaway</a></h3>
+<ul>
+<li>Use Polars if you want a great API.</li>
+<li>Use Polars for merging and group by.</li>
+<li>Use Polars for <a href="https://en.wikipedia.org/wiki/SIMD">single instruction multiple data(SIMD) </a>operation.</li>
+<li>Use Native Rust if you’re already familiar with rust generic heap structure like vectors and hashmap.</li>
+<li>Use Native Rust for linear mutation of the data with <code>map</code> and <code>fold</code>. You’ll get O(n) scalability that can be parallelized almost instantly with <code>rayon</code>.</li>
+<li>Use pandas when performance, scalability, memory usage does not matter.</li>
+</ul>
+<p>For me, both Polars and native Rust makes a lot of sense for data between 1Go and 1To, single-threaded or not.</p>
+<p>I’ll invite you to make your own opinion. The code is available here: <a href="https://github.com/haixuanTao/dataframe-python-rust">https://github.com/haixuanTao/dataframe-python-rust</a></p>
+<h3 id="future-writing"><a class="header" href="#future-writing"><em>Future writing</em></a></h3>
+<p>The output of our data pipeline show divergence in distribution between language feature and question status.</p>
+<p>This means we may have a signal for doing Machine Learning.</p>
+<p>Next Stop, ML in Rust</p>
+<h2 id="annexe-1"><a class="header" href="#annexe-1">‌Annexe</a></h2>
+<h3 id="dask"><a class="header" href="#dask">Dask</a></h3>
+<p>For the life of me, I tried to run <strong>dask</strong> for benchmarking but did not succeed in making it faster than native pandas. On the <strong>dask</strong> website, they say:</p>
+<p><em>If your dataset fits comfortably into RAM on your laptop, then you may be better off just using Pandas. There may be simpler ways to improve performance than through parallelism</em></p>
+<p>This means, there is this void in pandas optimization for data sized between 1Go to 1To. Dask seems to be a replacement of Spark but not pandas itself.</p>
+<p>And even if it worked, performance increase would only be around 4-5x, from past experience</p>
+<h3 id="cudf"><a class="header" href="#cudf">Cudf</a></h3>
+<p>I tried to run <strong>Cudf</strong> on my 4G RAM GPU but run out of memory. I did not investigate further.</p>
+<h3 id="vagrind"><a class="header" href="#vagrind">Vagrind</a></h3>
+<p>I tried to run <strong>valgrind</strong> to do a profiling of the memory usage but it seems not to work with polars and native rust at this size.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="deep-learning-in-rust"><a class="header" href="#deep-learning-in-rust">Deep Learning in Rust</a></h1>
+<p>I have searched for months for a way to do Deep Learning(DL) Inference with Rust on GPU and I finally did it!!✨👏✨ This blog post will try to answer if Rust is a good fit for the job!</p>
+<p><em>I have put an annexe at the end with the definition of Deep Learning words.</em></p>
+<h2 id="my-setup"><a class="header" href="#my-setup">My setup</a></h2>
+<p>I am using a Hugging Face <strong>tokenizer</strong> and a custom <strong>BERT</strong> Model from Pytorch that I have converted to <strong>ONNX</strong> to be run with <a href="https://github.com/nbigaouette/onnxruntime-rs"><strong>onnxruntime-rs</strong></a><strong>.</strong></p>
+<p>I have tweaked <a href="https://github.com/nbigaouette/onnxruntime-rs">onnxruntime-rs</a> to do Deep Learning on GPU with CUDA 11 and onnxruntime 1.8 You can check it out on my git: <a href="https://github.com/haixuanTao/onnxruntime-rs">https://github.com/haixuanTao/onnxruntime-rs</a></p>
+<p>Hardware-side, I have a 6 cores/12 threads CPU and a GTX 1050 GPU.</p>
+<h2 id="unit-results"><a class="header" href="#unit-results">Unit Results</a></h2>
+<h3 id="1-inference-time"><a class="header" href="#1-inference-time">1. Inference time</a></h3>
+<table><thead><tr><th></th><th>Inferencing time per phrase</th><th>Speedup</th></tr></thead><tbody>
+<tr><td>(Rust or Python) ONNX CPU</td><td>~125ms</td><td></td></tr>
+<tr><td>(Rust or Python) ONNX GPU</td><td>~10ms</td><td><strong>x12</strong>🔥</td></tr>
+</tbody></table>
+<p><strong>DL inference using Onnxruntime will not be faster in Rust because both are wrapping the same C++ underlying engine. What is going to make a difference is the GPU.</strong></p>
+<h3 id="2-preprocessing-time"><a class="header" href="#2-preprocessing-time">2. Preprocessing time</a></h3>
+<table><thead><tr><th></th><th>Tokenizing time per phrase</th><th>Speedup</th></tr></thead><tbody>
+<tr><td>Python BertTokenizer</td><td>1000μs</td><td></td></tr>
+<tr><td>Python BertTokenizerFast</td><td>200-600μs</td><td><strong>x2.5</strong>🔥</td></tr>
+<tr><td>Rust <a href="https://docs.rs/tokenizers/0.10.1/tokenizers/">Tokenizer</a></td><td>50-150μs</td><td><strong>x4</strong>🔥</td></tr>
+</tbody></table>
+<p><strong>Gains can be made on DL Preprocessing! You can tokenize 4 times faster in Rust compared to Python, with the same Hugging Face Tokenizer library.</strong></p>
+<h2 id="case-studies-results"><a class="header" href="#case-studies-results">Case studies Results</a></h2>
+<p>Looking at those results alone is not enough. To dig a little further, I have built a DL data pipeline for batch inference and a DL server, to see what Rust for DL could be like on a daily basis.</p>
+<h3 id="1-deep-learning-batch-inference-running-bert-on-a-csv"><a class="header" href="#1-deep-learning-batch-inference-running-bert-on-a-csv">1. Deep Learning batch inference: Running BERT on a CSV</a></h3>
+<p>Let say you want the inference of a BERT model on one column of a 10 thousand lines CSV.</p>
+<p>On my setup, I got those timings:</p>
+<table><thead><tr><th>10k phrases</th><th>Python</th><th>Rust</th></tr></thead><tbody>
+<tr><td>Booting time</td><td>4s</td><td>1s</td></tr>
+<tr><td>Encoding time</td><td>0.7s</td><td>0.3s</td></tr>
+<tr><td>DL Inference time</td><td>75s</td><td>75s</td></tr>
+<tr><td>Total time</td><td>80s</td><td>76s</td></tr>
+<tr><td>Memory usage</td><td>1 GiB</td><td>0.7 GiB</td></tr>
+</tbody></table>
+<p><strong>As DL inference is taking the majority of the time, Rust will not increase performance and I would not bother with Rust and stay with Python for large batches of inference.</strong>   👍🐍</p>
+<p><em>Git:</em>  <a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline"><em>https://github.com/haixuanTao/bert-onnx-rs-pipeline</em></a></p>
+<h3 id="2-onnx-server-serving-bert-as-an-api"><a class="header" href="#2-onnx-server-serving-bert-as-an-api">2. ONNX Server: Serving BERT as an API</a></h3>
+<p>Let say you want to serve a BERT-like model through a server API endpoint.</p>
+<p>On my setup, I got those metrics:</p>
+<table><thead><tr><th></th><th>Python FastAPI</th><th>Rust Actix Web</th><th>Speedup</th></tr></thead><tbody>
+<tr><td>Encoding time</td><td>400μs</td><td>100μs</td><td></td></tr>
+<tr><td>ONNX Inference time</td><td>~10ms</td><td>~10ms</td><td></td></tr>
+<tr><td>API overhead time</td><td>~2ms</td><td>~1ms</td><td></td></tr>
+<tr><td>Mean Latency</td><td>12.8ms</td><td>10.4ms</td><td>-20%⏰</td></tr>
+<tr><td>Requests/secs</td><td>77.5 #/s</td><td>95 #/s</td><td>+22%🍾</td></tr>
+</tbody></table>
+<p><strong>The gain in performance comes from moving from considered “Fast” Python library to Rust: FastAPI -&gt; Actix Web, BertokenizerFast -&gt; Rust Tokenizer.</strong></p>
+<p><strong>Thus, as Rust libraries tend to be faster than Python ones, the more functionalities you will have, the more speedup you’re going to see with Rust when serving Deep Learning.</strong></p>
+<p><strong>That’s why, for performance-centric Deep Learning applications such as Real-Time Deep Learning, Embedded Deep Learning, Large-Scale AI servers …. I can definitely see Rust be a good fit!</strong> ❤️‍🦀</p>
+<p><em>Git:</em> <a href="https://github.com/haixuanTao/bert-onnx-rs-server"><em>https://github.com/haixuanTao/bert-onnx-rs-server</em></a></p>
+<h3 id="in-conclusion-should-you-use-rust-for-deep-learning"><a class="header" href="#in-conclusion-should-you-use-rust-for-deep-learning">In conclusion, should you use Rust for Deep Learning?</a></h3>
+<ul>
+<li>Like the whole Rust ecosystem, you should use it if it’s the best tool for the job. If you really need performance 🏎️ and resilience🛡️, and you are ok to have a stack in Rust, go ahead🚀! But be aware that making Rust fast is not easy!</li>
+<li>If you need quick prototyping with a data scientist friendly language, you should better use Python!</li>
+</ul>
+<p>‌</p>
+<p><strong>There will be a following blog post around the actual implementation of the DL pipeline and server so make sure to follow along</strong> 😀 :</p>
+<ul>
+<li>On able: <a href="https://able.bio/haixuanTao">https://able.bio/haixuanTao</a></li>
+<li>On github: <a href="https://github.com/haixuanTao">https://github.com/haixuanTao</a></li>
+<li>On linkedin: <a href="https://www.linkedin.com/in/haixuan-xavier-tao-7460b1102/">https://www.linkedin.com/in/haixuan-xavier-tao-7460b1102/</a></li>
+</ul>
+<p>‌</p>
+<p>‌</p>
+<p>‌</p>
+<p>‌</p>
+<h3 id="git-reference"><a class="header" href="#git-reference">Git reference</a></h3>
+<p><em>Git of my tweaked onnxruntime-rs library with ONNX 1.8 and GPU features with CUDA 11:</em> <a href="https://github.com/haixuanTao/onnxruntime-rs">https://github.com/haixuanTao/onnxruntime-rs</a></p>
+<p><em>Git of bert - onnxruntime-rs - Pipeline:</em>  <a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline"><em>https://github.com/haixuanTao/bert-onnx-rs-pipeline</em></a></p>
+<p><em>Git of bert - onnxruntime-rs - actix - server:</em> <a href="https://github.com/haixuanTao/bert-onnx-rs-server"><em>https://github.com/haixuanTao/bert-onnx-rs-server</em></a></p>
+<p>‌</p>
+<h3 id="annexe-2"><a class="header" href="#annexe-2">Annexe</a></h3>
+<p><a href="https://onnx.ai/">ONNX</a> is an open format built to represent machine learning models. You can convert Pytorch, Tensorflow and Sklearn models into an ONNX format and then run them with <a href="https://github.com/nbigaouette/onnxruntime-rs">onnxruntime</a>.</p>
+<p><a href="https://www.onnxruntime.ai/">ONNXRuntime</a> is the inference and optimized training engine that can read and run ONNX model. It is written in C++. There are official wrappers for Python, JS, JAVA, C and C++.</p>
+<p><a href="https://github.com/nbigaouette/onnxruntime-rs">Onnxruntime-rs</a> is the Onnxruntime wrapper for Rust, it is a community-developed solution and does not wrap all the features of the C++ engine. I have tweaked the initial repo in order to have version 1.8 of Onnxruntime with the possibility of running it in GPU. My version is here: <a href="https://github.com/haixuanTao/onnxruntime-rs">https://github.com/haixuanTao/onnxruntime-rs</a> with branch onnx1.8.</p>
+<p><a href="https://huggingface.co/transformers/main_classes/tokenizer.html">Tokenizer</a> enables you to transform words into index given a list of word.</p>
+<p><a href="https://huggingface.co/transformers/model_doc/bert.html">BERT</a> is a Deep Learning model used for natural language processing.</p>
+<p><a href="https://en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a> is a graphical processing unit for parallel computing. You will need CUDA and therefore an NVIDIA GPU to run Onnxruntime-rs.</p>
 
                     </main>
 
