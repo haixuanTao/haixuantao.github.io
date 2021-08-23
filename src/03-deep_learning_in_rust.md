@@ -1,4 +1,7 @@
 # Deep Learning in Rust
+[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/onnxruntime-rs?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/onnxruntime-rs/)
+[![GitHub forks](https://img.shields.io/github/forks/haixuanTao/onnxruntime-rs?style=social&label=Fork&maxAge=2592000)](https://github.com/haixuanTao/onnxruntime-rs/)
+[![GitHub stars](https://img.shields.io/github/last-commit/haixuantao/onnxruntime-rs)](https://github.com/haixuanTao/onnxruntime-rs/)
 
 I have searched for months for a way to do Deep Learning\(DL\) Inference with Rust on GPU and I finally did it!!✨👏✨ This blog post will try to answer if Rust is a good fit for the job!
 
@@ -36,72 +39,6 @@ Hardware-side, I have a 6 cores/12 threads CPU and a GTX 1050 GPU.
 ## Case studies Results
 
 Looking at those results alone is not enough. To dig a little further, I have built a DL data pipeline for batch inference and a DL server, to see what Rust for DL could be like on a daily basis.
-
-### 1. Deep Learning batch inference: Running BERT on a CSV
-
-Let say you want the inference of a BERT model on one column of a 10 thousand lines CSV.
-
-On my setup, I got those timings:
-
-|10k phrases |Python |Rust |
-| --- | --- | --- |
-|Booting time |4s |1s |
-|Encoding time |0.7s |0.3s |
-|DL Inference time |75s |75s |
-|Total time |80s |76s |
-|Memory usage |1 GiB |0.7 GiB |
-
-**As DL inference is taking the majority of the time, Rust will not increase performance and I would not bother with Rust and stay with Python for large batches of inference.**   👍🐍
-
-_Git:_  [_https://github.com/haixuanTao/bert-onnx-rs-pipeline_](https://github.com/haixuanTao/bert-onnx-rs-pipeline)
-
-### 2. ONNX Server: Serving BERT as an API
-
-Let say you want to serve a BERT-like model through a server API endpoint.
-
-On my setup, I got those metrics:
-
-| |Python FastAPI |Rust Actix Web |Speedup |
-| --- | --- | --- | --- |
-|Encoding time |400μs |100μs | |
-|ONNX Inference time |~10ms |~10ms | |
-|API overhead time |~2ms |~1ms | |
-|Mean Latency |12.8ms |10.4ms |-20%⏰ |
-|Requests/secs |77.5 #/s |95 #/s |\+22%🍾 |
-
-**The gain in performance comes from moving from considered “Fast” Python library to Rust: FastAPI -> Actix Web, BertokenizerFast -> Rust Tokenizer.**
-
-**Thus, as Rust libraries tend to be faster than Python ones, the more functionalities you will have, the more speedup you’re going to see with Rust when serving Deep Learning.**
-
-**That’s why, for performance-centric Deep Learning applications such as Real-Time Deep Learning, Embedded Deep Learning, Large-Scale AI servers …. I can definitely see Rust be a good fit!** ❤️‍🦀
-
-_Git:_ [_https://github.com/haixuanTao/bert-onnx-rs-server_](https://github.com/haixuanTao/bert-onnx-rs-server)
-
-### In conclusion, should you use Rust for Deep Learning?
-
-* Like the whole Rust ecosystem, you should use it if it’s the best tool for the job. If you really need performance 🏎️ and resilience🛡️, and you are ok to have a stack in Rust, go ahead🚀! But be aware that making Rust fast is not easy!
-* If you need quick prototyping with a data scientist friendly language, you should better use Python!
-
-‌
-
-**There will be a following blog post around the actual implementation of the DL pipeline and server so make sure to follow along** 😀 :
-
-* On able: [https://able.bio/haixuanTao](https://able.bio/haixuanTao)
-* On github: [https://github.com/haixuanTao](https://github.com/haixuanTao)
-* On linkedin: [https://www.linkedin.com/in/haixuan-xavier-tao-7460b1102/](https://www.linkedin.com/in/haixuan-xavier-tao-7460b1102/)
-
-    
-
-
-
-‌
-
-‌
-
-‌
-
-‌
-
 ### Git reference
 
 _Git of my tweaked onnxruntime-rs library with ONNX 1.8 and GPU features with CUDA 11:_ [https://github.com/haixuanTao/onnxruntime-rs](https://github.com/haixuanTao/onnxruntime-rs)
