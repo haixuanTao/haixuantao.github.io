@@ -11,6 +11,5 @@ edition = "2018"
 [output.html.playground]
 editable = true
 
-
 [output.html]
 additional-css = ["custom.css"]

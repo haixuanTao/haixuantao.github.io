@@ -9,7 +9,7 @@
 
   - [07.2020 - Deep Learning in Rust](./03-deep_learning_in_rust.md)
     - [Hardware](./deep-learning/hardware.md)
-    - [preprocessing](./deep-learning/preprocessing.md)
+    - [Preprocessing](./deep-learning/preprocessing.md)
     - [Batch Inference](./deep-learning/batch_inference.md)
     - [Bert Server](./deep-learning/bert-server.md)
     - [Conclusion](./deep-learning/conclusion.md)
