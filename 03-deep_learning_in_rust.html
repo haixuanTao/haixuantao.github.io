@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Deep Learning in Rust - Haixuan Xavier Tao</title>
+        <title>07.2020 - Deep Learning in Rust - Haixuan Xavier Tao</title>
                 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="about-me.html"><strong aria-hidden="true">1.</strong> About Me</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="work.html"><strong aria-hidden="true">1.1.</strong> Work Experience</a></li><li class="chapter-item expanded "><a href="education.html"><strong aria-hidden="true">1.2.</strong> Education</a></li><li class="chapter-item expanded "><a href="skills.html"><strong aria-hidden="true">1.3.</strong> Skills</a></li></ol></li><li class="chapter-item expanded "><a href="00-blog.html"><strong aria-hidden="true">2.</strong> Python vs Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="01-pandas-vs-rust.html"><strong aria-hidden="true">2.1.</strong> Pandas vs Rust</a></li><li class="chapter-item expanded "><a href="02-polars-vs-rust.html"><strong aria-hidden="true">2.2.</strong> Pandas vs Polars </a></li><li class="chapter-item expanded "><a href="03-deep_learning_in_rust.html" class="active"><strong aria-hidden="true">2.3.</strong> Deep Learning in Rust</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Resume</li><li class="chapter-item expanded "><a href="about-me.html"><strong aria-hidden="true">1.</strong> About Me</a></li><li class="chapter-item expanded "><a href="about-me/work.html"><strong aria-hidden="true">2.</strong> Work Experience</a></li><li class="chapter-item expanded "><a href="about-me/education.html"><strong aria-hidden="true">3.</strong> Education</a></li><li class="chapter-item expanded "><a href="about-me/skills.html"><strong aria-hidden="true">4.</strong> Skills</a></li><li class="chapter-item expanded affix "><li class="part-title">Latest Posts</li><li class="chapter-item expanded "><a href="03-deep_learning_in_rust.html" class="active"><strong aria-hidden="true">5.</strong> 07.2020 - Deep Learning in Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="deep-learning/batch_inference.html"><strong aria-hidden="true">5.1.</strong> Batch Inference</a></li><li class="chapter-item expanded "><a href="deep-learning/bert-server.html"><strong aria-hidden="true">5.2.</strong> Bert Server</a></li><li class="chapter-item expanded "><a href="deep-learning/conclusion.html"><strong aria-hidden="true">5.3.</strong> Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="02-polars-vs-rust.html"><strong aria-hidden="true">6.</strong> 04.2020 - Pandas vs Polars</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pandas-polars/020-reading.html"><strong aria-hidden="true">6.1.</strong> Reading</a></li><li class="chapter-item expanded "><a href="pandas-polars/021-apply.html"><strong aria-hidden="true">6.2.</strong> Apply</a></li><li class="chapter-item expanded "><a href="pandas-polars/22-merging.html"><strong aria-hidden="true">6.3.</strong> Merging</a></li><li class="chapter-item expanded "><a href="pandas-polars/23-groupby.html"><strong aria-hidden="true">6.4.</strong> Groupby</a></li><li class="chapter-item expanded "><a href="pandas-polars/24-conculsion.html"><strong aria-hidden="true">6.5.</strong> Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="01-pandas-vs-rust.html"><strong aria-hidden="true">7.</strong> 03.2020 - Pandas vs Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pandas-rust/010-reading.html"><strong aria-hidden="true">7.1.</strong> Reading</a></li><li class="chapter-item expanded "><a href="pandas-rust/011-filtering.html"><strong aria-hidden="true">7.2.</strong> Filtering</a></li><li class="chapter-item expanded "><a href="pandas-rust/012-groupby.html"><strong aria-hidden="true">7.3.</strong> Groupby</a></li><li class="chapter-item expanded "><a href="pandas-rust/013-mutation.html"><strong aria-hidden="true">7.4.</strong> Mutation</a></li><li class="chapter-item expanded "><a href="pandas-rust/014-merging.html"><strong aria-hidden="true">7.5.</strong> Merging</a></li><li class="chapter-item expanded "><a href="pandas-rust/15-conclusion.html"><strong aria-hidden="true">7.6.</strong> Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="00-scraping.html"><strong aria-hidden="true">8.</strong> 02.2020 - Scraping Rust vs Python</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -145,6 +145,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="deep-learning-in-rust"><a class="header" href="#deep-learning-in-rust">Deep Learning in Rust</a></h1>
+<p><a href="https://github.com/haixuanTao/onnxruntime-rs/"><img src="https://img.shields.io/github/stars/haixuanTao/onnxruntime-rs?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a>
+<a href="https://github.com/haixuanTao/onnxruntime-rs/"><img src="https://img.shields.io/github/forks/haixuanTao/onnxruntime-rs?style=social&amp;label=Fork&amp;maxAge=2592000" alt="GitHub forks" /></a>
+<a href="https://github.com/haixuanTao/onnxruntime-rs/"><img src="https://img.shields.io/github/last-commit/haixuantao/onnxruntime-rs" alt="GitHub stars" /></a></p>
 <p>I have searched for months for a way to do Deep Learning(DL) Inference with Rust on GPU and I finally did it!!✨👏✨ This blog post will try to answer if Rust is a good fit for the job!</p>
 <p><em>I have put an annexe at the end with the definition of Deep Learning words.</em></p>
 <h2 id="my-setup"><a class="header" href="#my-setup">My setup</a></h2>
@@ -167,48 +170,6 @@
 <p><strong>Gains can be made on DL Preprocessing! You can tokenize 4 times faster in Rust compared to Python, with the same Hugging Face Tokenizer library.</strong></p>
 <h2 id="case-studies-results"><a class="header" href="#case-studies-results">Case studies Results</a></h2>
 <p>Looking at those results alone is not enough. To dig a little further, I have built a DL data pipeline for batch inference and a DL server, to see what Rust for DL could be like on a daily basis.</p>
-<h3 id="1-deep-learning-batch-inference-running-bert-on-a-csv"><a class="header" href="#1-deep-learning-batch-inference-running-bert-on-a-csv">1. Deep Learning batch inference: Running BERT on a CSV</a></h3>
-<p>Let say you want the inference of a BERT model on one column of a 10 thousand lines CSV.</p>
-<p>On my setup, I got those timings:</p>
-<table><thead><tr><th>10k phrases</th><th>Python</th><th>Rust</th></tr></thead><tbody>
-<tr><td>Booting time</td><td>4s</td><td>1s</td></tr>
-<tr><td>Encoding time</td><td>0.7s</td><td>0.3s</td></tr>
-<tr><td>DL Inference time</td><td>75s</td><td>75s</td></tr>
-<tr><td>Total time</td><td>80s</td><td>76s</td></tr>
-<tr><td>Memory usage</td><td>1 GiB</td><td>0.7 GiB</td></tr>
-</tbody></table>
-<p><strong>As DL inference is taking the majority of the time, Rust will not increase performance and I would not bother with Rust and stay with Python for large batches of inference.</strong>   👍🐍</p>
-<p><em>Git:</em>  <a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline"><em>https://github.com/haixuanTao/bert-onnx-rs-pipeline</em></a></p>
-<h3 id="2-onnx-server-serving-bert-as-an-api"><a class="header" href="#2-onnx-server-serving-bert-as-an-api">2. ONNX Server: Serving BERT as an API</a></h3>
-<p>Let say you want to serve a BERT-like model through a server API endpoint.</p>
-<p>On my setup, I got those metrics:</p>
-<table><thead><tr><th></th><th>Python FastAPI</th><th>Rust Actix Web</th><th>Speedup</th></tr></thead><tbody>
-<tr><td>Encoding time</td><td>400μs</td><td>100μs</td><td></td></tr>
-<tr><td>ONNX Inference time</td><td>~10ms</td><td>~10ms</td><td></td></tr>
-<tr><td>API overhead time</td><td>~2ms</td><td>~1ms</td><td></td></tr>
-<tr><td>Mean Latency</td><td>12.8ms</td><td>10.4ms</td><td>-20%⏰</td></tr>
-<tr><td>Requests/secs</td><td>77.5 #/s</td><td>95 #/s</td><td>+22%🍾</td></tr>
-</tbody></table>
-<p><strong>The gain in performance comes from moving from considered “Fast” Python library to Rust: FastAPI -&gt; Actix Web, BertokenizerFast -&gt; Rust Tokenizer.</strong></p>
-<p><strong>Thus, as Rust libraries tend to be faster than Python ones, the more functionalities you will have, the more speedup you’re going to see with Rust when serving Deep Learning.</strong></p>
-<p><strong>That’s why, for performance-centric Deep Learning applications such as Real-Time Deep Learning, Embedded Deep Learning, Large-Scale AI servers …. I can definitely see Rust be a good fit!</strong> ❤️‍🦀</p>
-<p><em>Git:</em> <a href="https://github.com/haixuanTao/bert-onnx-rs-server"><em>https://github.com/haixuanTao/bert-onnx-rs-server</em></a></p>
-<h3 id="in-conclusion-should-you-use-rust-for-deep-learning"><a class="header" href="#in-conclusion-should-you-use-rust-for-deep-learning">In conclusion, should you use Rust for Deep Learning?</a></h3>
-<ul>
-<li>Like the whole Rust ecosystem, you should use it if it’s the best tool for the job. If you really need performance 🏎️ and resilience🛡️, and you are ok to have a stack in Rust, go ahead🚀! But be aware that making Rust fast is not easy!</li>
-<li>If you need quick prototyping with a data scientist friendly language, you should better use Python!</li>
-</ul>
-<p>‌</p>
-<p><strong>There will be a following blog post around the actual implementation of the DL pipeline and server so make sure to follow along</strong> 😀 :</p>
-<ul>
-<li>On able: <a href="https://able.bio/haixuanTao">https://able.bio/haixuanTao</a></li>
-<li>On github: <a href="https://github.com/haixuanTao">https://github.com/haixuanTao</a></li>
-<li>On linkedin: <a href="https://www.linkedin.com/in/haixuan-xavier-tao-7460b1102/">https://www.linkedin.com/in/haixuan-xavier-tao-7460b1102/</a></li>
-</ul>
-<p>‌</p>
-<p>‌</p>
-<p>‌</p>
-<p>‌</p>
 <h3 id="git-reference"><a class="header" href="#git-reference">Git reference</a></h3>
 <p><em>Git of my tweaked onnxruntime-rs library with ONNX 1.8 and GPU features with CUDA 11:</em> <a href="https://github.com/haixuanTao/onnxruntime-rs">https://github.com/haixuanTao/onnxruntime-rs</a></p>
 <p><em>Git of bert - onnxruntime-rs - Pipeline:</em>  <a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline"><em>https://github.com/haixuanTao/bert-onnx-rs-pipeline</em></a></p>
@@ -226,10 +187,13 @@
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="02-polars-vs-rust.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="about-me/skills.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
+                                                    <a rel="next" href="deep-learning/batch_inference.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -237,10 +201,13 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="02-polars-vs-rust.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="about-me/skills.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
+                                    <a rel="next" href="deep-learning/batch_inference.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                             </nav>
 
         </div>

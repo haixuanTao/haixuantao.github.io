@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Pandas vs Polars  - Haixuan Xavier Tao</title>
+        <title>04.2020 - Pandas vs Polars - Haixuan Xavier Tao</title>
                 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="about-me.html"><strong aria-hidden="true">1.</strong> About Me</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="work.html"><strong aria-hidden="true">1.1.</strong> Work Experience</a></li><li class="chapter-item expanded "><a href="education.html"><strong aria-hidden="true">1.2.</strong> Education</a></li><li class="chapter-item expanded "><a href="skills.html"><strong aria-hidden="true">1.3.</strong> Skills</a></li></ol></li><li class="chapter-item expanded "><a href="00-blog.html"><strong aria-hidden="true">2.</strong> Python vs Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="01-pandas-vs-rust.html"><strong aria-hidden="true">2.1.</strong> Pandas vs Rust</a></li><li class="chapter-item expanded "><a href="02-polars-vs-rust.html" class="active"><strong aria-hidden="true">2.2.</strong> Pandas vs Polars </a></li><li class="chapter-item expanded "><a href="03-deep_learning_in_rust.html"><strong aria-hidden="true">2.3.</strong> Deep Learning in Rust</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Resume</li><li class="chapter-item expanded "><a href="about-me.html"><strong aria-hidden="true">1.</strong> About Me</a></li><li class="chapter-item expanded "><a href="about-me/work.html"><strong aria-hidden="true">2.</strong> Work Experience</a></li><li class="chapter-item expanded "><a href="about-me/education.html"><strong aria-hidden="true">3.</strong> Education</a></li><li class="chapter-item expanded "><a href="about-me/skills.html"><strong aria-hidden="true">4.</strong> Skills</a></li><li class="chapter-item expanded affix "><li class="part-title">Latest Posts</li><li class="chapter-item expanded "><a href="03-deep_learning_in_rust.html"><strong aria-hidden="true">5.</strong> 07.2020 - Deep Learning in Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="deep-learning/batch_inference.html"><strong aria-hidden="true">5.1.</strong> Batch Inference</a></li><li class="chapter-item expanded "><a href="deep-learning/bert-server.html"><strong aria-hidden="true">5.2.</strong> Bert Server</a></li><li class="chapter-item expanded "><a href="deep-learning/conclusion.html"><strong aria-hidden="true">5.3.</strong> Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="02-polars-vs-rust.html" class="active"><strong aria-hidden="true">6.</strong> 04.2020 - Pandas vs Polars</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pandas-polars/020-reading.html"><strong aria-hidden="true">6.1.</strong> Reading</a></li><li class="chapter-item expanded "><a href="pandas-polars/021-apply.html"><strong aria-hidden="true">6.2.</strong> Apply</a></li><li class="chapter-item expanded "><a href="pandas-polars/22-merging.html"><strong aria-hidden="true">6.3.</strong> Merging</a></li><li class="chapter-item expanded "><a href="pandas-polars/23-groupby.html"><strong aria-hidden="true">6.4.</strong> Groupby</a></li><li class="chapter-item expanded "><a href="pandas-polars/24-conculsion.html"><strong aria-hidden="true">6.5.</strong> Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="01-pandas-vs-rust.html"><strong aria-hidden="true">7.</strong> 03.2020 - Pandas vs Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pandas-rust/010-reading.html"><strong aria-hidden="true">7.1.</strong> Reading</a></li><li class="chapter-item expanded "><a href="pandas-rust/011-filtering.html"><strong aria-hidden="true">7.2.</strong> Filtering</a></li><li class="chapter-item expanded "><a href="pandas-rust/012-groupby.html"><strong aria-hidden="true">7.3.</strong> Groupby</a></li><li class="chapter-item expanded "><a href="pandas-rust/013-mutation.html"><strong aria-hidden="true">7.4.</strong> Mutation</a></li><li class="chapter-item expanded "><a href="pandas-rust/014-merging.html"><strong aria-hidden="true">7.5.</strong> Merging</a></li><li class="chapter-item expanded "><a href="pandas-rust/15-conclusion.html"><strong aria-hidden="true">7.6.</strong> Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="00-scraping.html"><strong aria-hidden="true">8.</strong> 02.2020 - Scraping Rust vs Python</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -145,6 +145,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="pandas-vs-polars"><a class="header" href="#pandas-vs-polars">Pandas vs Polars</a></h1>
+<p><a href="https://github.com/haixuanTao/dataframe-python-rust/"><img src="https://img.shields.io/github/stars/haixuanTao/dataframe-python-rust?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a>
+<a href="https://github.com/haixuanTao/dataframe-python-rust/"><img src="https://img.shields.io/github/forks/haixuanTao/dataframe-python-rust?style=social&amp;label=Fork&amp;maxAge=2592000" alt="GitHub forks" /></a>
+<a href="https://github.com/haixuanTao/dataframe-python-rust/"><img src="https://img.shields.io/github/last-commit/haixuantao/dataframe-python-rust" alt="GitHub stars" /></a></p>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <p>Everyone loves the API of Pandas. It’s fast, easy, and well documented. There are some rough edges, but most times, it’s just a blast.</p>
 <p>Now, when it comes to production, Pandas is slightly trickier. Pandas does not scale very well… there is no multithreading… It’s not thread-safe… It’s not memory efficient.</p>
@@ -180,329 +183,9 @@
 <li><em>Multithreading is done on 12 threads Intel(R) Core(TM) i7-8750H / 20G RAM.</em></li>
 <li><em>The database is 4.2G big for around 3.6 Million rows.</em></li>
 </ul>
-<h2 id="reading"><a class="header" href="#reading">Reading</a></h2>
-<h3 id="reading-in-polars"><a class="header" href="#reading-in-polars">Reading in Polars</a></h3>
-<p>Reading is pretty straightforward with many configurations possible.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use polars::prelude::*;
-
-//...
-
-    let mut df = CsvReader::from_path(path)?
-        .with_n_threads(Some(1)) // comment for multithreading
-        .with_encoding(CsvEncoding::LossyUtf8)
-        .has_header(true)
-        .finish()?;
-<span class="boring">}
-</span></code></pre></pre>
-<h3 id="reading-in-native-rust"><a class="header" href="#reading-in-native-rust">Reading in Native Rust</a></h3>
-<p>Reading in Rust using csv and serde requires that you already have a <code>struct</code> , in my case my struct is <code>utils::NativeDataFrame</code></p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let file = File::open(path)?;
-
-    let mut rdr = csv::ReaderBuilder::new().delimiter(b',').from_reader(file);
-    let mut records: Vec&lt;utils::NativeDataFrame&gt; = rdr
-        .deserialize()
-        .into_iter()
-        .filter_map(|result| match result {
-            Ok(rec) =&gt; rec,
-            Err(e) =&gt; None,
-        })
-        .collect();
-<span class="boring">}
-</span></code></pre></pre>
-<h3 id="performance"><a class="header" href="#performance">Performance</a></h3>
-<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
-<tr><td>Native Rust (Single thread)</td><td>12 s</td><td>2.4x</td></tr>
-<tr><td>Polars(Single thread)</td><td>19 s</td><td>1.5x</td></tr>
-<tr><td>Polars(Multithread)</td><td>22 s</td><td>1.3x</td></tr>
-<tr><td>Pandas</td><td>29.6 s</td><td></td></tr>
-</tbody></table>
-<h3 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h3>
-<p>For reading, <strong>Polars</strong> has a nice happy and I bet it’s also doing some indexing which explains the difference in timing between the native implementation. There seems to be a bug for multithreaded Polars that makes it slower than single-threaded. <em>(Probably a good first issue…</em> 🤪 <em>)</em></p>
-<p>Note that reading is bound by the reading speed of my SSD around ~300Mb/s.</p>
-<h2 id="applying-functions"><a class="header" href="#applying-functions">Applying functions</a></h2>
-<h3 id="applying-function-in-polars"><a class="header" href="#applying-function-in-polars">Applying Function in Polars</a></h3>
-<p>To Apply a function in Polars, you can use the default <code>apply</code> or <code>may_apply</code>. I prefer the latter. This will mutate the original data.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>fn str_to_date(dates: &amp;Series) -&gt; std::result::Result&lt;Series, PolarsError&gt; {
-    let fmt = Some(&quot;%m/%d/%Y %H:%M:%S&quot;);
-
-    Ok(dates.utf8()?.as_date64(fmt)?.into_series())
-}
-
-fn count_words(dates: &amp;Series) -&gt; std::result::Result&lt;Series, PolarsError&gt; {
-    Ok(dates
-        .utf8()?
-        .into_iter()
-        .map(|opt_name: Option&lt;&amp;str&gt;| 
-                 opt_name.map(|name: &amp;str| name.split(&quot; &quot;).count() as u64
-        ))
-        .collect::&lt;UInt64Chunked&gt;()
-        .into_series())
-}
-
-// ...
-
-    // Apply Format Date
-    df.may_apply(&quot;PostCreationDate&quot;, str_to_date)?;
-
-    let t_formatting = Instant::now();
-
-    // Apply Custom counting words in string
-    df.may_apply(&quot;BodyMarkdown&quot;, count_words)?;
-<span class="boring">}
-</span></code></pre></pre>
-<h3 id="applying-function-in-native-rust"><a class="header" href="#applying-function-in-native-rust">Applying Function in Native Rust</a></h3>
-<p>Now, what I like about native rust mutation, is that the syntax is standard among iterator, and so once you get comfortable with the syntax, you can apply it everywhere 😀</p>
-<pre><code>use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime};
-// use rayon::prelude::*;  for multithreads
-
-    // Apply Format Date
-    let fmt = &quot;%m/%d/%Y %H:%M:%S&quot;;
-
-    records
-        .iter_mut()  // .par_iter_mut() for multithreads
-        .for_each(|record: &amp;mut utils::NativeDataFrame| {
-            record.PostCreationDatetime =
-                match DateTime::parse_from_str(
-                  record.PostCreationDate.as_ref().unwrap(), fmt) {
-                    Ok(dates) =&gt; Some(dates),
-                    Err(_) =&gt; None,
-                }
-        });
-
-    // Apply Custom Formatting counting words in string
-    records
-        .iter_mut() // .par_iter_mut() for multithreads
-        .for_each(|record: &amp;mut utils::NativeDataFrame| {
-            record.CountWords =
-                Some(
-          record.BodyMarkdown.as_ref().unwrap().split(' ').count() as f64
-                )
-        });
-</code></pre>
-<h3 id="performance-for-formatting-dates"><a class="header" href="#performance-for-formatting-dates">Performance for formatting dates</a></h3>
-<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
-<tr><td>Native Rust (Single thread)</td><td>.98 s</td><td>8x</td></tr>
-<tr><td>Native Rust (Multithread)</td><td>.148 s</td><td>52x</td></tr>
-<tr><td>Polars(Single thread)</td><td>.88 s</td><td>8.8x</td></tr>
-<tr><td>Pandas</td><td>7.8 s</td><td></td></tr>
-</tbody></table>
-<h3 id="performance-for-counting-words"><a class="header" href="#performance-for-counting-words">Performance for counting words</a></h3>
-<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
-<tr><td>Native Rust (Single thread)</td><td>9 s</td><td>2.7x</td></tr>
-<tr><td>Native Rust (Multithread)</td><td>1.3 s</td><td>19x</td></tr>
-<tr><td>Polars(Single thread)</td><td>9 s</td><td>2.7x</td></tr>
-<tr><td>Pandas</td><td>24.8 s</td><td></td></tr>
-</tbody></table>
-<h3 id="conclusion-1"><a class="header" href="#conclusion-1">Conclusion</a></h3>
-<p><strong>Polars</strong> does not seem to offer increased performance over the standard library on a single thread, and I couldn’t find a way to do multi-threaded apply… In this scenario, I’ll prefer native rust.</p>
-<h2 id="merging"><a class="header" href="#merging">Merging</a></h2>
-<h3 id="merging-in-polars"><a class="header" href="#merging-in-polars">Merging in Polars</a></h3>
-<p>Merging in Polars is dead easy, although the number of strategy for filling <code>none</code> values are limited for now.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    df = df
-        .join(&amp;df_wikipedia, &quot;Tag1&quot;, &quot;Language&quot;, JoinType::Left)?
-        .fill_none(FillNoneStrategy::Min)?;
-<span class="boring">}
-</span></code></pre></pre>
-<h3 id="merging-in-native-rust"><a class="header" href="#merging-in-native-rust">Merging in Native Rust</a></h3>
-<p>Merging in native Rust can be done with nested structure and pairing with a Hashmap:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let mut hash_wikipedia: &amp;HashMap&lt;&amp;String, &amp;utils::WikiDataFrame&gt; = &amp;records_wikipedia
-    .iter()
-    .map(|record| (record.Language.as_ref().unwrap(), record))
-    .collect();
-
-records.iter_mut().for_each(|record| {
-    record.Wikipedia = match hash_wikipedia.get(&amp;record.Tag1.as_ref().unwrap()) {
-        Some(wikipedia) =&gt; Some(wikipedia.clone().clone()),
-        None =&gt; None,
-    }
-});
-<span class="boring">}
-</span></code></pre></pre>
-<h3 id="performance-1"><a class="header" href="#performance-1">Performance</a></h3>
-<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
-<tr><td>Native Rust (Single thread)</td><td>.680 s</td><td>6.3x</td></tr>
-<tr><td>Native Rust (Multithread)</td><td>.215 s</td><td>20x</td></tr>
-<tr><td>Polars</td><td>.543 s</td><td>8x</td></tr>
-<tr><td>Pandas</td><td>4.347 s</td><td></td></tr>
-</tbody></table>
-<h3 id="conclusion-2"><a class="header" href="#conclusion-2">Conclusion</a></h3>
-<p>For merging, having a nested structure with <code>None</code> values can be very verbose. Having a flat structure is a huge plus. So, I’ll recommend using <strong>Polars</strong> if merging is key.</p>
-<p><em>I’m not sure If polars merging is done multi-threaded or not. It seems to be multithreaded by default.</em></p>
-<h2 id="group-by"><a class="header" href="#group-by">Group By</a></h2>
-<p>‌</p>
-<h3 id="group-by-in-polars"><a class="header" href="#group-by-in-polars">Group By in Polars</a></h3>
-<p>Group by in polars are really easy</p>
-<pre><code>    // Groupby series as a clone of reference
-    let groupby_series = vec![
-        df.column(&quot;OpenStatus&quot;)?.clone(),
-    ];
-
-    let target_column = vec![
-        &quot;ReputationAtPostCreation&quot;,
-        &quot;OwnerUndeletedAnswerCountAtPostTime&quot;,
-        &quot;Imperative&quot;,
-        &quot;Object-oriented&quot;,
-        &quot;Functional&quot;,
-        &quot;Procedural&quot;,
-        &quot;Generic&quot;,
-        &quot;Reflective&quot;,
-        &quot;Event-driven&quot;,
-    ];
-
-    let groups = df
-        .groupby_with_series(groupby_series, false)?
-        .select(target_column)
-        .mean()?;
-</code></pre>
-<h3 id="group-by-in-native-rust"><a class="header" href="#group-by-in-native-rust">Group By in Native Rust</a></h3>
-<p>This part is quite tricky. To make a group by in a thread-safe manner, you’ll need to use a Hashmap with <code>fold</code>. Note that, <a href="https://docs.rs/rayon/0.7.1/rayon/iter/trait.ParallelIterator.html#method.fold">parallel fold</a>s are slightly more complicated as folding requires passing data around threads.</p>
-<pre><code>    let groups_hash: HashMap&lt;String, (utils::GroupBy, i16)&gt; = records
-        .iter() // .par_iter()
-        .fold(
-            HashMap::new(), // || HashMap::new()
-            |mut hash_group: HashMap&lt;String, (utils::GroupBy, i16)&gt;, record| {
-                let group: utils::GroupBy = if let Some(wiki) = &amp;record.Wikipedia {
-                    utils::GroupBy {
-                        status: record.OpenStatus.as_ref().unwrap().to_string(),
-                        ReputationAtPostCreation: record.ReputationAtPostCreation.unwrap(),
-                        OwnerUndeletedAnswerCountAtPostTime: record
-                            .OwnerUndeletedAnswerCountAtPostTime
-                            .unwrap(),
-                        Imperative: wiki.Imperative.unwrap(),
-                        ObjectOriented: wiki.ObjectOriented.unwrap(),
-                        Functional: wiki.Functional.unwrap(),
-                        Procedural: wiki.Procedural.unwrap(),
-                        Generic: wiki.Generic.unwrap(),
-                        Reflective: wiki.Reflective.unwrap(),
-                        EventDriven: wiki.EventDriven.unwrap(),
-                    }
-                } else {
-                    utils::GroupBy {
-                        status: record.OpenStatus.as_ref().unwrap().to_string(),
-                        ReputationAtPostCreation: record.ReputationAtPostCreation.unwrap(),
-                        OwnerUndeletedAnswerCountAtPostTime: record
-                            .OwnerUndeletedAnswerCountAtPostTime
-                            .unwrap(),
-                        ..Default::default()
-                    }
-                };
-                if let Some((previous, count)) = hash_group.get_mut(&amp;group.status.to_string()) {
-                    *previous = previous.clone() + group;
-                    *count += 1;
-                } else {
-                    hash_group.insert(group.status.to_string(), (group, 1));
-                };
-                hash_group
-            },
-        ); // }
-           // .reduce(
-           //     || HashMap::new(),
-           //     |prev, other| {
-           //         let set1: HashSet&lt;String&gt; = prev.keys().cloned().collect();
-           //         let set2: HashSet&lt;String&gt; = other.keys().cloned().collect();
-           //         let unions: HashSet&lt;String&gt; = set1.union(&amp;set2).cloned().collect();
-           //         let mut map = HashMap::new();
-           //         for key in unions.iter() {
-           //             map.insert(
-           //                 key.to_string(),
-           //                 match (prev.get(key), other.get(key)) {
-           //                     (Some((previous, count_prev)), Some((group, count_other))) =&gt; {
-           //                         (previous.clone() + group.clone(), count_prev + count_other)
-           //                     }
-           //                     (Some(previous), None) =&gt; previous.clone(),
-           //                     (None, Some(other)) =&gt; other.clone(),
-           //                     (None, None) =&gt; (utils::GroupBy::new(), 0),
-           //                 },
-           //             );
-           //         }
-           //         map
-           //     },
-           // );
-
-    let groups: Vec&lt;utils::GroupBy&gt; = groups_hash
-        .iter()
-        .map(|(_, (group, count))| utils::GroupBy {
-            status: group.status.to_string(),
-            ReputationAtPostCreation: group.ReputationAtPostCreation / count.clone() as f64,
-            OwnerUndeletedAnswerCountAtPostTime: group.OwnerUndeletedAnswerCountAtPostTime
-                / count.clone() as f64,
-            Imperative: group.Imperative / count.clone() as f64,
-            ObjectOriented: group.ObjectOriented / count.clone() as f64,
-            Functional: group.Functional / count.clone() as f64,
-            Procedural: group.Procedural / count.clone() as f64,
-            Generic: group.Generic / count.clone() as f64,
-            Reflective: group.Reflective / count.clone() as f64,
-            EventDriven: group.EventDriven / count.clone() as f64,
-        })
-        .collect();
-</code></pre>
-<p><em>Uncomment for multithreading</em></p>
-<h3 id="performance-2"><a class="header" href="#performance-2">Performance</a></h3>
-<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
-<tr><td>Native Rust (Single thread)</td><td>.536 s</td><td>2x</td></tr>
-<tr><td>Native Rust (Multithread)</td><td>.115 s</td><td>9.5x</td></tr>
-<tr><td>Polars(Single thread)</td><td>.131 s</td><td>8.3x</td></tr>
-<tr><td>Polars(Multithread)</td><td>.125 s</td><td>8.8x</td></tr>
-<tr><td>Pandas</td><td>1.1 s</td><td></td></tr>
-</tbody></table>
-<h3 id="conclusion-3"><a class="header" href="#conclusion-3">Conclusion</a></h3>
-<p>Group By and Merging are the ideal case for Polars. You’ll get 8x more performance than Pandas on a single thread, and Polars handle multi-threading although, in my case, it didn’t matter much.</p>
-<p>It can be done with native rust, but judging by the size of the code, it’s not an ideal use case.</p>
-<hr />
 <h3 id="polars-lazy"><a class="header" href="#polars-lazy">Polars Lazy</a></h3>
 <p>Polars also offers a query optimized version called Lazy with a slightly different API. In my use case, I did not find it hard to go from one to the other, but I did not find any significant increase in performance either. The result is in the overall performance.</p>
 <hr />
-<h2 id="overall"><a class="header" href="#overall">Overall</a></h2>
-<h3 id="performance-overall"><a class="header" href="#performance-overall">Performance overall</a></h3>
-<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
-<tr><td>Native Rust (Single thread)</td><td>24 s</td><td>3.3x</td></tr>
-<tr><td>Native Rust (Multithread)</td><td>13.7 s</td><td>5.8x</td></tr>
-<tr><td>Polars(Single thread)</td><td>30 s</td><td>2.6x</td></tr>
-<tr><td>Polars(Multithread)</td><td>33 s</td><td>2.4x</td></tr>
-<tr><td>Polars(lazy, Multithreaded)</td><td>32s</td><td>2.5x</td></tr>
-<tr><td>Pandas</td><td>80 s</td><td></td></tr>
-</tbody></table>
-<p>As reading is io bound, I wanted to make a benchmark of pure performance.</p>
-<h3 id="performance-without-reading"><a class="header" href="#performance-without-reading">Performance without Reading</a></h3>
-<table><thead><tr><th></th><th>Time(s)</th><th>Speedup Pandas</th></tr></thead><tbody>
-<tr><td>Native Rust (Single thread)</td><td>12 s</td><td>3.3x</td></tr>
-<tr><td>Native Rust (Multithread)</td><td>1.7 s</td><td>23x</td></tr>
-<tr><td>Polars(Single thread)</td><td>10 s</td><td>4x</td></tr>
-<tr><td>Polars(Multithread)</td><td>11 s</td><td>3.6x</td></tr>
-<tr><td>Polars(Lazy, Multithread)</td><td>11 s</td><td>3.6x</td></tr>
-<tr><td>Pandas</td><td>40 s</td><td></td></tr>
-</tbody></table>
-<p>‌</p>
-<h3 id="overall-takeaway"><a class="header" href="#overall-takeaway">Overall takeaway</a></h3>
-<ul>
-<li>Use Polars if you want a great API.</li>
-<li>Use Polars for merging and group by.</li>
-<li>Use Polars for <a href="https://en.wikipedia.org/wiki/SIMD">single instruction multiple data(SIMD) </a>operation.</li>
-<li>Use Native Rust if you’re already familiar with rust generic heap structure like vectors and hashmap.</li>
-<li>Use Native Rust for linear mutation of the data with <code>map</code> and <code>fold</code>. You’ll get O(n) scalability that can be parallelized almost instantly with <code>rayon</code>.</li>
-<li>Use pandas when performance, scalability, memory usage does not matter.</li>
-</ul>
-<p>For me, both Polars and native Rust makes a lot of sense for data between 1Go and 1To, single-threaded or not.</p>
-<p>I’ll invite you to make your own opinion. The code is available here: <a href="https://github.com/haixuanTao/dataframe-python-rust">https://github.com/haixuanTao/dataframe-python-rust</a></p>
-<h3 id="future-writing"><a class="header" href="#future-writing"><em>Future writing</em></a></h3>
-<p>The output of our data pipeline show divergence in distribution between language feature and question status.</p>
-<p>This means we may have a signal for doing Machine Learning.</p>
-<p>Next Stop, ML in Rust</p>
 <h2 id="annexe"><a class="header" href="#annexe">‌Annexe</a></h2>
 <h3 id="dask"><a class="header" href="#dask">Dask</a></h3>
 <p>For the life of me, I tried to run <strong>dask</strong> for benchmarking but did not succeed in making it faster than native pandas. On the <strong>dask</strong> website, they say:</p>
@@ -518,11 +201,11 @@ records.iter_mut().for_each(|record| {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="01-pandas-vs-rust.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="deep-learning/conclusion.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="03-deep_learning_in_rust.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                                    <a rel="next" href="pandas-polars/020-reading.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -532,11 +215,11 @@ records.iter_mut().for_each(|record| {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="01-pandas-vs-rust.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="deep-learning/conclusion.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="03-deep_learning_in_rust.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                    <a rel="next" href="pandas-polars/020-reading.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                             </nav>
