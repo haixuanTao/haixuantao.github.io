@@ -107,10 +107,6 @@ But, then, we got a sort of merge! 🚀
 | |Time\(s\) |Mem\(Gb\) |
 | --- | --- | --- |
 |Pandas |22.47s |11.8Gb |
-|Rust |5.48s🔥 -75% |2.6Gb🔥 -78% |
-
-‌
-
-### **Conclusion**
+|**Rust** |**5.48s🔥 -75%** |**2.6Gb🔥 -78%** |
 
 **Rust** is capable of doing nested structs that are going to be as capable if not more capable than **Pandas** merges. However, it isn’t really a one to one comparison and in this case, it is going to depend on your use case.

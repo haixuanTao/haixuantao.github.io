@@ -75,12 +75,6 @@ I think more reduction method other than `sum` and `fold` would greatly improve 
 | |Time\(s\) |Mem\(Gb\) |
 | --- | --- | --- |
 |Pandas |2.78s |2.5Gb |
-|Rust |2.0s🔥 -35% |1.7Gb🔥 -32% |
-
-‌
-
-### **Conclusion**
+|**Rust** |**2.0s🔥 -35%** |**1.7Gb🔥 -32%** |
 
 Although the performance is better for Rust, I would advise using **Pandas** for map-reduce heavy application, as it seems more appropriate.
-
----

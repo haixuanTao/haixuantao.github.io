@@ -170,4 +170,4 @@ Performance test of scraping the 50 pages of [http://books.toscrape.com/catalogu
 
 ‌
 
-Performance are pretty similar due to the fact that web scraping is pretty much io bound
+Performance are pretty similar due to the fact that web scraping is pretty much io bound.

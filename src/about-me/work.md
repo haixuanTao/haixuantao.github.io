@@ -2,7 +2,7 @@
 
 ### Dec 2020 - Now, Central Bank of France, Data Engineer
 
-Worked on a automatic control of Bank loan using NER, NLP, and CV.
+Worked on a automated checks of Bank loan using NER, NLP, and CV.
 
 > [🎤 Speaker at the Linux Foundation AI & Data Days Europe on: Why ONNX Runtime Matters for Deploying AI in Institution.](https://events.linuxfoundation.org/lf-ai-data-day-eu-virtual/program/schedule/)
 

@@ -5,10 +5,10 @@
 | |Time\(s\) |Speedup Pandas |
 | --- | --- | --- |
 |Native Rust \(Single thread\) |24 s |3.3x |
-|Native Rust \(Multithread\) |13.7 s |5.8x |
-|Polars\(Single thread\) |30 s |2.6x |
-|Polars\(Multithread\) |33 s |2.4x |
-|Polars\(lazy, Multithreaded\) |32s |2.5x |
+|**Native Rust \(Multithread\)** |**13.7 s** |**5.8x** |
+|Polars \(Single thread\) |30 s |2.6x |
+|Polars \(Multithread\) |33 s |2.4x |
+|Polars \(lazy, Multithreaded\) |32s |2.5x |
 |Pandas |80 s | |
 
 As reading is io bound, I wanted to make a benchmark of pure performance.
@@ -18,10 +18,10 @@ As reading is io bound, I wanted to make a benchmark of pure performance.
 | |Time\(s\) |Speedup Pandas |
 | --- | --- | --- |
 |Native Rust \(Single thread\) |12 s |3.3x |
-|Native Rust \(Multithread\) |1.7 s |23x |
-|Polars\(Single thread\) |10 s |4x |
-|Polars\(Multithread\) |11 s |3.6x |
-|Polars\(Lazy, Multithread\) |11 s |3.6x |
+|**Native Rust \(Multithread\)** |**1.7 s** |**23x** |
+|Polars \(Single thread\) |10 s |4x |
+|Polars \(Multithread\) |11 s |3.6x |
+|Polars \(Lazy, Multithread\) |11 s |3.6x |
 |Pandas |40 s | |
 
 ‌

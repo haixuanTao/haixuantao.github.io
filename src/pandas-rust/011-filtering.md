@@ -36,8 +36,4 @@ There is a large umbrella of methods for Vector filtering, with many nightly fea
 
 Even though we’re using Pandas API for filtering, we get significantly better performance using Rust.
 
-### **Conclusion**
-
 On Filtering, **Rust** seems to be more capable and faster. 🚅
-
----

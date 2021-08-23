@@ -36,10 +36,8 @@ For mutation, the functional `iter` of Rust really makes this part a walk in the
 | |Time\(s\) |Mem\(Gb\) |
 | --- | --- | --- |
 |Pandas |12.82s |4.7Gb |
-|Rust |1.58s🔥 -87% |1.7Gb🔥 -64% |
+|**Rust** |**1.58s🔥 -87%** |**1.7Gb🔥 -64%** |
 
 This is where the difference really appeared to me. Pandas do not scale for line-by-line custom build lambda functions. Pandas would have been even worst if I had done an operation involving several columns.
-
-### **Conclusion**
 
 **Rust** is way better for line-by-line mutation natively.

@@ -38,12 +38,10 @@ Reading in Rust using csv and serde requires that you already have a `struct` , 
 
 | |Time\(s\) |Speedup Pandas |
 | --- | --- | --- |
-|Native Rust \(Single thread\) |12 s |2.4x |
+|**Native Rust \(Single thread\)** |**12 s** |**2.4x** |
 |Polars\(Single thread\) |19 s |1.5x |
 |Polars\(Multithread\) |22 s |1.3x |
 |Pandas |29.6 s | |
-
-### Conclusion
 
 For reading, **Polars** has a nice happy and I bet it’s also doing some indexing which explains the difference in timing between the native implementation. There seems to be a bug for multithreaded Polars that makes it slower than single-threaded. _\(Probably a good first issue…_ 🤪 _\)_
 

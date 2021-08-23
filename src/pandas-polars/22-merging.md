@@ -33,13 +33,10 @@ records.iter_mut().for_each(|record| {
 | |Time\(s\) |Speedup Pandas |
 | --- | --- | --- |
 |Native Rust \(Single thread\) |.680 s |6.3x |
-|Native Rust \(Multithread\) |.215 s |20x |
+|**Native Rust \(Multithread\)** |**.215 s** |**20x** |
 |Polars |.543 s |8x |
 |Pandas |4.347 s | |
-
-### Conclusion
 
 For merging, having a nested structure with `None` values can be very verbose. Having a flat structure is a huge plus. So, I’ll recommend using **Polars** if merging is key.
 
 _I’m not sure If polars merging is done multi-threaded or not. It seems to be multithreaded by default._
-

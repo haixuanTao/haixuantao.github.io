@@ -121,15 +121,11 @@ _Uncomment for multithreading_
 | |Time\(s\) |Speedup Pandas |
 | --- | --- | --- |
 |Native Rust \(Single thread\) |.536 s |2x |
-|Native Rust \(Multithread\) |.115 s |9.5x |
+|**Native Rust \(Multithread\)** |**.115 s** |**9.5x** |
 |Polars\(Single thread\) |.131 s |8.3x |
 |Polars\(Multithread\) |.125 s |8.8x |
 |Pandas |1.1 s | |
 
-### Conclusion
-
-Group By and Merging are the ideal case for Polars. You’ll get 8x more performance than Pandas on a single thread, and Polars handle multi-threading although, in my case, it didn’t matter much.
+Group By and Merging are the ideal case for **Polars**. You’ll get 8x more performance than Pandas on a single thread, and Polars handle multi-threading although, in my case, it didn’t matter much.
 
 It can be done with native rust, but judging by the size of the code, it’s not an ideal use case.
-
----

@@ -71,7 +71,7 @@ use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime};
 | |Time\(s\) |Speedup Pandas |
 | --- | --- | --- |
 |Native Rust \(Single thread\) |.98 s |8x |
-|Native Rust \(Multithread\) |.148 s |52x |
+|**Native Rust \(Multithread\)** |**.148 s** |**52x** |
 |Polars\(Single thread\) |.88 s |8.8x |
 |Pandas |7.8 s | |
 
@@ -80,11 +80,9 @@ use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime};
 | |Time\(s\) |Speedup Pandas |
 | --- | --- | --- |
 |Native Rust \(Single thread\) |9 s |2.7x |
-|Native Rust \(Multithread\) |1.3 s |19x |
+|**Native Rust \(Multithread\)** |**1.3 s** |**19x** |
 |Polars\(Single thread\) |9 s |2.7x |
 |Pandas |24.8 s | |
-
-### Conclusion
 
 **Polars** does not seem to offer increased performance over the standard library on a single thread, and I couldn’t find a way to do multi-threaded apply… In this scenario, I’ll prefer native rust.
 

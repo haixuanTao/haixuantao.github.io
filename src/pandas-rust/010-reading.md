@@ -143,8 +143,4 @@ This generated my vector of struct, hooray 🎉
 
 On a general note with Rust, you shouldn’t expect things to work as smoothly as it would with Python.
 
-### **Conclusion**
-
 On reading / instantiating data, **Pandas** wins hands down for CSV.
-
----

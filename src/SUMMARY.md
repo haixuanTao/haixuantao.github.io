@@ -1,7 +1,6 @@
 # Summary
 
-# Resume
-  - [About Me](./about-me.md)
+-[About Me](./about-me.md)
   - [Work Experience](./about-me/work.md)
   - [Education](./about-me/education.md)
   - [Skills](./about-me/skills.md)
