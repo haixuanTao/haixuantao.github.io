@@ -1,6 +1,6 @@
 ## Reading
 
-### \[Pandas\]
+### Pandas
 
 Reading and instantiating Data in Pandas is pretty straightforward, and handles by default many data quality problems:
 
@@ -11,14 +11,14 @@ path = "/home/peter/Documents/TEST/RUST/terrorism/src/globalterrorismdb_0718dist
 df = pd.read_csv(path)
 ```
 
-### \[Rust\] Reading CSV
+### Rust Reading CSV
 
 For Rust, Managing bad quality data is very very tedious. In this dataset, some fields are empty, some lines are badly formatted, and some are not UTF-8 encoded.
 
 To open the CSV, I used the `csv` crate but it does not solve all the issues listed above. With well-formatted data, reading can be done like so:
 
 ```rust
-let path = "/home/peter/Documents/TEST/RUST/terrorism/src/foo.csv"
+let path = "/home/peter/Documents/TEST/RUST/terrorism/src/foo.csv";
 let mut rdr = csv::Reader::from_path(path).unwrap();
 ```
 
@@ -42,7 +42,7 @@ use encoding_rs_io::DecodeReaderBytesBuilder;
 
 _ref:_ [_https://stackoverflow.com/questions/53826986/how-to-read-a-non-utf8-encoded-csv-file_](https://stackoverflow.com/questions/53826986/how-to-read-a-non-utf8-encoded-csv-file)
 
-### \[Rust\] Instantiating the data
+### Rust Instantiating the data
 
 To instantiate the data, I used Serde [https://serde.rs/](https://serde.rs/) for serializing and deserializing my data.
 

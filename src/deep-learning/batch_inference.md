@@ -1,7 +1,5 @@
 ## Deep Learning batch inference: Running BERT on a CSV
-[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-pipeline?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/bert-onnx-rs-pipeline/)
-[![GitHub forks](https://img.shields.io/github/forks/haixuanTao/bert-onnx-rs-pipeline?style=social&label=Fork&maxAge=2592000)](https://github.com/haixuanTao/bert-onnx-rs-pipeline/)
-[![GitHub stars](https://img.shields.io/github/last-commit/haixuantao/bert-onnx-rs-pipeline)](https://github.com/haixuanTao/bert-onnx-rs-pipeline/)
+
 
 Let say you want the inference of a BERT model on one column of a 10 thousand lines CSV.
 

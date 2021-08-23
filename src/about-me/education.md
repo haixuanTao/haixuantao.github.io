@@ -15,10 +15,5 @@ Awards:
 Double Major in Data Science and Business Strategy
 
 Awards:
-<!-- blank line -->
-<figure class="video_container">
-  <iframe src="https://www.youtube.com/watch?v=M7GXZ3cjviM" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
-
-- [1st Place at I-COM Data Science Hackathon - Warner Bros. Challenge](https://www.youtube.com/watch?v=M7GXZ3cjviM) 
+- [[video] 1st Place at I-COM Data Science Hackathon - Warner Bros. Challenge](https://www.youtube.com/watch?v=M7GXZ3cjviM).
 - 2nd Place at Oliver Wyman Data Challenge on Paris Public Parking Pricing 

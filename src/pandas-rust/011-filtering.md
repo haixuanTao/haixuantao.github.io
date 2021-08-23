@@ -1,6 +1,6 @@
 ## Filtering
 
-### \[Pandas\]
+### Pandas
 
 There are many ways to do filtering in pandas, the most common way for me is as follows:
 
@@ -9,7 +9,7 @@ df = df[df.country_txt == "United States"]
 df.to_csv("python_output.csv")
 ```
 
-### \[Rust\]
+### Rust
 
 To do filtering in Rust, we can refer to the docs for vector in Rust [https://doc.rust-lang.org/std/vec/struct.Vec.html](https://doc.rust-lang.org/std/vec/struct.Vec.html)
 
@@ -32,7 +32,7 @@ There is a large umbrella of methods for Vector filtering, with many nightly fea
 | |Time\(s\) |Mem Usage\(Gb\) |
 | --- | --- | --- |
 |Pandas |3.0s |2.5Gb |
-|Rust |1.6s 🔥 -50% |1.7Gb 🔥 -32% |
+|**Rust** |**1.6s 🔥 -50%** |**1.7Gb 🔥 -32%** |
 
 Even though we’re using Pandas API for filtering, we get significantly better performance using Rust.
 

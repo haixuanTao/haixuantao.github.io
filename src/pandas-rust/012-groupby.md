@@ -1,6 +1,6 @@
 ## Groupby
 
-### \[Pandas\]
+### Pandas
 
 Group by are a big part of the data reduction pipeline in python, it goes usually as follows:
 
@@ -11,7 +11,7 @@ df = df.groupby(by="country_txt", as_index=False).agg(
 df.to_csv("python_output_groupby.csv")
 ```
 
-### \[Rust\]
+### Rust
 
 For group by and data reduction, thanks to [David Sanders](https://able.bio/insideoutclub), group by can be done as follows:
 

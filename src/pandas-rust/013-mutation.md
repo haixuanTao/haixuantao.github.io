@@ -1,6 +1,6 @@
 ## Mutation
 
-### \[Pandas\]
+### Pandas
 
 There are many ways to do mutation in Pandas, I usually do the following for performance and functional style:
 
@@ -9,7 +9,7 @@ df["computed"] = df["nkill"].map(lambda x: (x - 10) / 2 + x ** 2 / 3)
 df.to_csv("python_output_map.csv")
 ```
 
-### \[Rust\]
+### Rust
 
 For mutation, the functional `iter` of Rust really makes this part a walk in the park:
 

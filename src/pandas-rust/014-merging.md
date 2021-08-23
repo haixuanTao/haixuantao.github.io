@@ -1,6 +1,6 @@
 ## Merging
 
-### \[Python\]
+### Python
 
 Merging in python is pretty efficient generally speaking, it goes like this in general:
 
@@ -15,7 +15,7 @@ df_merge = pd.merge(
 df_merge.to_csv("python_output_merge.csv")
 ```
 
-### \[Rust\]
+### Rust
 
 For Rust, however, this is a tricky part as, with Struct, merging isn’t really a thing. For me, the rustiest way of doing a merge is by adding a nested field containing the other struct we want to join data with.
 
