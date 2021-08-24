@@ -144,9 +144,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="deep-learning-batch-inference-running-bert-on-a-csv"><a class="header" href="#deep-learning-batch-inference-running-bert-on-a-csv">Deep Learning batch inference: Running BERT on a CSV</a></h2>
-<p>Let say you want the inference of a BERT model on one column of a 10 thousand lines CSV.</p>
-<p>On my setup, I got those timings:</p>
+                        <h2 id="batch-inference-running-bert-on-10k-phrases"><a class="header" href="#batch-inference-running-bert-on-10k-phrases">Batch inference: Running BERT on 10k phrases.	</a></h2>
+<p>At work, we often have situation where we develop a Deep Learning model, and then use it on large batches of data.</p>
+<p>To see if this could be done with Rust, I have customed trained a BERT model and tried to do the inference 10 thousand phrases.</p>
+<h3 id="profiling"><a class="header" href="#profiling">Profiling</a></h3>
 <table><thead><tr><th>10k phrases</th><th>Python</th><th>Rust</th></tr></thead><tbody>
 <tr><td>Booting time</td><td>4s</td><td>1s</td></tr>
 <tr><td>Encoding time</td><td>0.7s</td><td>0.3s</td></tr>
@@ -156,6 +157,8 @@
 </tbody></table>
 <p><strong>As DL inference is taking the majority of the time, Rust will not increase performance and I would not bother with Rust and stay with Python for large batches of inference.</strong>   👍🐍</p>
 <p><em>Git:</em>  <a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline"><em>https://github.com/haixuanTao/bert-onnx-rs-pipeline</em></a></p>
+<p><a href="https://github.com/haixuantao/bert-onnx-rs-server"><img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--server-fff?labelColor=000&logo=github" height="20"></a>
+<a href="https://github.com/haixuanTao/bert-onnx-rs-server/"><img src="https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-server?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a></p>
 
                     </main>
 

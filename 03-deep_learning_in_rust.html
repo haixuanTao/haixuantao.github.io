@@ -148,18 +148,22 @@
 <p><a href="https://github.com/haixuantao/onnxruntime-rs"><img alt="github" src="https://img.shields.io/badge/onnxruntime_rs-fff?labelColor=000&logo=github" height="20"></a>
 <a href="https://github.com/haixuantao/onnxruntime-rs/actions?query=branch%3Amaster"><img alt="build status" src="https://img.shields.io/github/workflow/status/haixuantao/onnxruntime-rs/Rust/master?" height="20"></a>
 <a href="https://github.com/haixuanTao/onnxruntime-rs/"><img src="https://img.shields.io/github/stars/haixuanTao/onnxruntime-rs?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a></p>
-<p><a href="https://github.com/haixuantao/bert-onnx-rs-pipeline"><img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--pipeline-fff?labelColor=000&logo=github" height="20"></a>
-<a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline/"><img src="https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-pipeline?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a></p>
-<p><a href="https://github.com/haixuantao/bert-onnx-rs-server"><img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--server-fff?labelColor=000&logo=github" height="20"></a>
-<a href="https://github.com/haixuanTao/bert-onnx-rs-server/"><img src="https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-server?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a></p>
-<p>I have searched for months for a way to do Deep Learning(DL) Inference with Rust on GPU and I finally did it!!✨👏✨ This blog post will try to answer if Rust is a good fit for the job!</p>
-<p><em>I have put an annexe at the end with the definition of Deep Learning words.</em></p>
-<h2 id="my-setup"><a class="header" href="#my-setup">My setup</a></h2>
-<p>I am using a Hugging Face <strong>tokenizer</strong> and a custom <strong>BERT</strong> Model from Pytorch that I have converted to <strong>ONNX</strong> to be run with <a href="https://github.com/nbigaouette/onnxruntime-rs"><strong>onnxruntime-rs</strong></a><strong>.</strong></p>
-<p>I have tweaked <a href="https://github.com/nbigaouette/onnxruntime-rs">onnxruntime-rs</a> to do Deep Learning on GPU with CUDA 11 and onnxruntime 1.8 You can check it out on my git: <a href="https://github.com/haixuanTao/onnxruntime-rs">https://github.com/haixuanTao/onnxruntime-rs</a></p>
-<p>Hardware-side, I have a 6 cores/12 threads CPU and a GTX 1050 GPU.</p>
-<h2 id="case-studies-results"><a class="header" href="#case-studies-results">Case studies Results</a></h2>
-<p>Looking at those results alone is not enough. To dig a little further, I have built a DL data pipeline for batch inference and a DL server, to see what Rust for DL could be like on a daily basis.</p>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>Building Deep Learning algorithms is paramount for doing Data Science in Rust. In this post, I wanted to know:</p>
+<ul>
+<li>If Rust can support GPU.</li>
+<li>If Rust can provide superior performance than Python and by how much.</li>
+<li>If Rust is viable for real DL work.</li>
+</ul>
+<h2 id="state-of-the-art-of-deep-learning-in-rust"><a class="header" href="#state-of-the-art-of-deep-learning-in-rust">State of the art of Deep Learning in Rust</a></h2>
+<p>Deep Learning in the Rust ecosystem is spread between native libraries like <a href="https://github.com/rust-ml/linfa">linfa</a> and C++ binding of common libraries like <a href="https://github.com/tensorflow/rust">Tensorflow</a>, <a href="https://github.com/LaurentMazare/tch-rs">Pytorch</a> and <a href="https://github.com/nbigaouette/onnxruntime-rs">Onnxruntime</a>.</p>
+<p>I have found <a href="https://github.com/nbigaouette/onnxruntime-rs">onnxruntime-rs</a> to be a convenient crate for DL offering:</p>
+<ul>
+<li>the ability to load sklearn, tensorflow and pytorch model.</li>
+<li>superior performance than native Pytorch or Tensorflow.</li>
+<li>a small bundle size ~30Mb compared to <a href="https://github.com/pytorch/pytorch/issues/34058">tch-rs</a> 1.2 Gb bundle. </li>
+</ul>
+<p>➡️ this post is therefore going to be based on onnxruntime-rs.</p>
 
                     </main>
 

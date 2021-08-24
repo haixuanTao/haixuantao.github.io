@@ -144,14 +144,122 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="preprocessing"><a class="header" href="#preprocessing">preprocessing</a></h1>
-<h3 id="2-preprocessing-time"><a class="header" href="#2-preprocessing-time">2. Preprocessing time</a></h3>
-<table><thead><tr><th></th><th>Tokenizing time per phrase</th><th>Speedup</th></tr></thead><tbody>
+                        <h1 id="preprocessing"><a class="header" href="#preprocessing">Preprocessing</a></h1>
+<p>Preprocessing for Deep Learning is inevitable and can be very expensive. In the case of NLP, preprocessing translates to tokenizing. </p>
+<p>To compare performance, I used HuggingFace tokenizer which is implemented in Rust, in Python and in Rust-Pyo3 Python.</p>
+<p>The code is as follows for the python native tokenizer:</p>
+<pre><code class="language-python">from transformers import BertTokenizer
+
+PRE_TRAINED_MODEL_NAME = &quot;bert-base-cased&quot;
+
+tokenizer = BertTokenizer.from_pretrained(PRE_TRAINED_MODEL_NAME)
+
+encoding = tokenizer(
+        df[&quot;Title&quot;].to_numpy().tolist(),
+        add_special_tokens=True,
+        max_length=60,
+        return_token_type_ids=False,
+        padding=&quot;max_length&quot;,
+        truncation=True,
+        return_attention_mask=True,
+        return_tensors=&quot;np&quot;,
+    )
+</code></pre>
+<p>The Rust-Python Bertokenizer:</p>
+<pre><code class="language-python">from transformers import BertTokenizerFast
+
+PRE_TRAINED_MODEL_NAME = &quot;bert-base-cased&quot;
+
+tokenizer = BertTokenizerFast.from_pretrained(PRE_TRAINED_MODEL_NAME)
+
+encoding = tokenizer(
+        df[&quot;Title&quot;].to_numpy().tolist(),
+        add_special_tokens=True,
+        max_length=60,
+        return_token_type_ids=False,
+        padding=&quot;max_length&quot;,
+        truncation=True,
+        return_attention_mask=True,
+        return_tensors=&quot;np&quot;,
+    )
+</code></pre>
+<p>And, the native Rust HuggingFace Tokenizer:</p>
+<pre><pre class="playground"><code class="language-rust edition2018">
+use tokenizers::models::wordpiece::WordPieceBuilder;
+use tokenizers::normalizers::bert::BertNormalizer;
+use tokenizers::pre_tokenizers::bert::BertPreTokenizer;
+use tokenizers::processors::bert::BertProcessing;
+use tokenizers::tokenizer::AddedToken;
+use tokenizers::tokenizer::{EncodeInput, Encoding, Tokenizer};
+use tokenizers::utils::padding::{PaddingDirection::Right, PaddingParams, PaddingStrategy::Fixed};
+use tokenizers::utils::truncation::TruncationParams;
+use tokenizers::utils::truncation::TruncationStrategy::LongestFirst;
+
+fn main() -&gt; std::result::Result&lt;(), OrtError&gt; {
+    let vocab_path = &quot;./src/vocab.txt&quot;;
+    let wp_builder = WordPieceBuilder::new()
+        .files(vocab_path.into())
+        .continuing_subword_prefix(&quot;##&quot;.into())
+        .max_input_chars_per_word(100)
+        .unk_token(&quot;[UNK]&quot;.into())
+        .build()
+        .unwrap();
+
+    let mut tokenizer = Tokenizer::new(Box::new(wp_builder));
+    tokenizer.with_pre_tokenizer(Box::new(BertPreTokenizer));
+    tokenizer.with_truncation(Some(TruncationParams {
+        max_length: 60,
+        strategy: LongestFirst,
+        stride: 0,
+    }));
+    tokenizer.with_post_processor(Box::new(BertProcessing::new(
+        (&quot;[SEP]&quot;.into(), 102),
+        (&quot;[CLS]&quot;.into(), 101),
+    )));
+    tokenizer.with_normalizer(Box::new(BertNormalizer::new(true, true, false, false)));
+    tokenizer.add_special_tokens(&amp;[
+        AddedToken {
+            content: &quot;[PAD]&quot;.into(),
+            single_word: false,
+            lstrip: false,
+            rstrip: false,
+        },
+        AddedToken {
+            content: &quot;[CLS]&quot;.into(),
+            single_word: false,
+            lstrip: false,
+            rstrip: false,
+        },
+        AddedToken {
+            content: &quot;[SEP]&quot;.into(),
+            single_word: false,
+            lstrip: false,
+            rstrip: false,
+        },
+        AddedToken {
+            content: &quot;[MASK]&quot;.into(),
+            single_word: false,
+            lstrip: false,
+            rstrip: false,
+        },
+    ]);
+    tokenizer.with_padding(Some(PaddingParams {
+        strategy: Fixed(60),
+        direction: Right,
+        pad_id: 0,
+        pad_type_id: 0,
+        pad_token: &quot;[PAD]&quot;.into(),
+    }));
+}
+</code></pre></pre>
+<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
+<table><thead><tr><th></th><th>Time per phrase</th><th>Speedup</th></tr></thead><tbody>
 <tr><td>Python BertTokenizer</td><td>1000μs</td><td></td></tr>
-<tr><td>Python BertTokenizerFast</td><td>200-600μs</td><td><strong>x2.5</strong>🔥</td></tr>
-<tr><td>Rust <a href="https://docs.rs/tokenizers/0.10.1/tokenizers/">Tokenizer</a></td><td>50-150μs</td><td><strong>x4</strong>🔥</td></tr>
+<tr><td>Python BertTokenizerFast</td><td>200-600μs</td><td>x2.5 🔥</td></tr>
+<tr><td><strong>Rust <a href="https://docs.rs/tokenizers/0.10.1/tokenizers/">Tokenizer</a></strong></td><td><strong>50-150μs</strong></td><td><strong>x4</strong> 🔥</td></tr>
 </tbody></table>
-<p><strong>Gains can be made on DL Preprocessing! You can tokenize 4 times faster in Rust compared to Python, with the same Hugging Face Tokenizer library.</strong></p>
+<p>You can tokenize 4 times faster in Rust than Python, with the same Hugging Face Tokenizer library.</p>
+<p>➡️ Preprocessing can be very performant in Rust, making a case that Rust can outperform Python for Deep Learning.</p>
 
                     </main>
 

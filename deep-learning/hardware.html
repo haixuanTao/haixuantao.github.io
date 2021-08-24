@@ -145,12 +145,65 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="hardware"><a class="header" href="#hardware">Hardware</a></h1>
-<h3 id="1-inference-time"><a class="header" href="#1-inference-time">1. Inference time</a></h3>
-<table><thead><tr><th></th><th>Inferencing time per phrase</th><th>Speedup</th></tr></thead><tbody>
-<tr><td>(Rust or Python) ONNX CPU</td><td>~125ms</td><td></td></tr>
-<tr><td>(Rust or Python) ONNX GPU</td><td>~10ms</td><td><strong>x12</strong>🔥</td></tr>
+<p>Initially, onnxruntime-rs did not support GPU / CUDA despite having a C API.</p>
+<p>But by tweaking <a href="https://github.com/nbigaouette/onnxruntime-rs">Onnxruntime-rs</a>, I could use the GPU C API and run DL Inference on GPU. </p>
+<p>I opened a PR: <a href="https://github.com/nbigaouette/onnxruntime-rs/pull/87">https://github.com/nbigaouette/onnxruntime-rs/pull/87</a> providing the CUDA support for Linux and Windows.</p>
+<p>And with similar work, a majority of the acceleration hardware could be added actually.</p>
+<p>➡️ So, yes, Rust can run DL on GPU!</p>
+<h2 id="gpu-support"><a class="header" href="#gpu-support">GPU Support</a></h2>
+<p>GPU Support was enabled by:</p>
+<ul>
+<li>adding 2 header files in bindgen's <code>wrapper.h</code> file as follows: </li>
+</ul>
+<pre><code class="language-c">#include &quot;onnxruntime_c_api.h&quot;
+#if !defined(__APPLE__)
+  #include &quot;cpu_provider_factory.h&quot;
+  #include &quot;cuda_provider_factory.h&quot;
+#endif
+</code></pre>
+<ul>
+<li>adding a safe API to the newly added bindings:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2018">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    /// Set the session to use cpu
+    #[cfg(feature = &quot;cuda&quot;)]
+    pub fn use_cpu(self, use_arena: i32) -&gt; Result&lt;SessionBuilder&lt;'a&gt;&gt; {
+        unsafe {
+            sys::OrtSessionOptionsAppendExecutionProvider_CPU(self.session_options_ptr, use_arena);
+        }
+        Ok(self)
+    }
+
+    /// Set the session to use cuda
+    #[cfg(feature = &quot;cuda&quot;)]
+    pub fn use_cuda(self, device_id: i32) -&gt; Result&lt;SessionBuilder&lt;'a&gt;&gt; {
+        unsafe {
+            sys::OrtSessionOptionsAppendExecutionProvider_CUDA(self.session_options_ptr, device_id);
+        }
+        Ok(self)
+    }
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>Generating the binding for Linux:</li>
+</ul>
+<pre><code class="language-bash">&gt;&gt;&gt; cargo build --package onnxruntime-sys --features &quot;generate-bindings cuda&quot; --target x86_64-unknown-linux-gnu
+</code></pre>
+<ul>
+<li>And, generating the bindings for Windows in a Windows VM:</li>
+</ul>
+<pre><code class="language-bash">&gt;&gt;&gt; cargo build --features &quot;generate-bindings cuda&quot; --target x86_64-pc-windows-msvc
+</code></pre>
+<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
+<table><thead><tr><th></th><th>Time per phrase</th><th>Speedup</th></tr></thead><tbody>
+<tr><td>Rust ONNX CPU</td><td>~125ms</td><td></td></tr>
+<tr><td>Rust ONNX GPU</td><td>~10ms</td><td><strong>x12</strong>🔥</td></tr>
 </tbody></table>
-<p><strong>DL inference using Onnxruntime will not be faster in Rust because both are wrapping the same C++ underlying engine. What is going to make a difference is the GPU.</strong></p>
+<p><em>Note: I have a six cores CPU and a GTX 1050 GPU.</em></p>
+<p>As expected, the GPU drastically reduced the time of inference.</p>
+<p>However, I did not found significant speedup between Onnxruntime Rust and Onnxruntime Python.</p>
 
                     </main>
 
