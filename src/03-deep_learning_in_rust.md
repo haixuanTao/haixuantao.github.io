@@ -3,24 +3,21 @@
 [<img alt="build status" src="https://img.shields.io/github/workflow/status/haixuantao/onnxruntime-rs/Rust/master?" height="20">](https://github.com/haixuantao/onnxruntime-rs/actions?query=branch%3Amaster)
 [![GitHub stars](https://img.shields.io/github/stars/haixuanTao/onnxruntime-rs?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/onnxruntime-rs/)
 
-[<img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--pipeline-fff?labelColor=000&logo=github" height="20">](https://github.com/haixuantao/bert-onnx-rs-pipeline)
-[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-pipeline?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/bert-onnx-rs-pipeline/)
+## Introduction
 
-[<img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--server-fff?labelColor=000&logo=github" height="20">](https://github.com/haixuantao/bert-onnx-rs-server)
-[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-server?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/bert-onnx-rs-server/)
+Building Deep Learning algorithms is paramount for doing Data Science in Rust. In this post, I wanted to know:
+- If Rust can support GPU.
+- If Rust can provide superior performance than Python and by how much.
+- If Rust is viable for real DL work.
 
-I have searched for months for a way to do Deep Learning\(DL\) Inference with Rust on GPU and I finally did it!!✨👏✨ This blog post will try to answer if Rust is a good fit for the job!
 
-_I have put an annexe at the end with the definition of Deep Learning words._
+## State of the art of Deep Learning in Rust
 
-## My setup
+Deep Learning in the Rust ecosystem is spread between native libraries like [linfa](https://github.com/rust-ml/linfa) and C++ binding of common libraries like [Tensorflow](https://github.com/tensorflow/rust), [Pytorch](https://github.com/LaurentMazare/tch-rs) and [Onnxruntime](https://github.com/nbigaouette/onnxruntime-rs).
 
-I am using a Hugging Face **tokenizer** and a custom **BERT** Model from Pytorch that I have converted to **ONNX** to be run with [**onnxruntime-rs**](https://github.com/nbigaouette/onnxruntime-rs)**.**
+I have found [onnxruntime-rs](https://github.com/nbigaouette/onnxruntime-rs) to be a convenient crate for DL offering:
+- the ability to load sklearn, tensorflow and pytorch model.
+- superior performance than native Pytorch or Tensorflow.  
+- a small bundle size ~30Mb compared to [tch-rs](https://github.com/pytorch/pytorch/issues/34058) 1.2 Gb bundle. 
 
-I have tweaked [onnxruntime-rs](https://github.com/nbigaouette/onnxruntime-rs) to do Deep Learning on GPU with CUDA 11 and onnxruntime 1.8 You can check it out on my git: [https://github.com/haixuanTao/onnxruntime-rs](https://github.com/haixuanTao/onnxruntime-rs)
-
-Hardware-side, I have a 6 cores/12 threads CPU and a GTX 1050 GPU.
-
-## Case studies Results
-
-Looking at those results alone is not enough. To dig a little further, I have built a DL data pipeline for batch inference and a DL server, to see what Rust for DL could be like on a daily basis.
+➡️ this post is therefore going to be based on onnxruntime-rs.

@@ -1,8 +1,6 @@
 # Education
 
-### Ecole Centrale Paris <div class="right">2015 - 2019</div>
-
-#### Diplome Ingénieur Grande Ecole
+### Ecole Centrale Paris (CentraleSupelec), Engineering Degree <div class="right">2015 - 2019</div>
 
 Majored in Applied Mathematics
 
@@ -12,9 +10,7 @@ Awards:
 - 1st Place with a 1500€ award at Schlumberger Hackathon on deep learning applied to Lithology
 
 
-### ESSEC Business School <div class="right">2018 - 2019</div>
-
-#### Msc Data Science & Business Analytics
+### ESSEC Business School, Msc Data Science & Business Analytics<div class="right">2018 - 2019</div>
 
 Double Major in Data Science and Business Strategy
 

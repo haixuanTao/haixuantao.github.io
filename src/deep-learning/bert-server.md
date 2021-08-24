@@ -18,4 +18,6 @@ On my setup, I got those metrics:
 
 **That’s why, for performance-centric Deep Learning applications such as Real-Time Deep Learning, Embedded Deep Learning, Large-Scale AI servers …. I can definitely see Rust be a good fit!** ❤️‍🦀
 
-_Git:_ [_https://github.com/haixuanTao/bert-onnx-rs-server_](https://github.com/haixuanTao/bert-onnx-rs-server)
+_Git:_ [_https://github.com/haixuanTao/bert-onnx-rs-server_](https://github.com/haixuanTao/bert-onnx-rs-server)  
+[<img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--pipeline-fff?labelColor=000&logo=github" height="20">](https://github.com/haixuantao/bert-onnx-rs-pipeline)
+[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-pipeline?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/bert-onnx-rs-pipeline/)

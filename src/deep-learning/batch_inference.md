@@ -1,9 +1,10 @@
-## Deep Learning batch inference: Running BERT on a CSV
+## Batch inference: Running BERT on 10k phrases.	
 
+At work, we often have situation where we develop a Deep Learning model, and then use it on large batches of data.
 
-Let say you want the inference of a BERT model on one column of a 10 thousand lines CSV.
+To see if this could be done with Rust, I have customed trained a BERT model and tried to do the inference 10 thousand phrases.
 
-On my setup, I got those timings:
+### Profiling
 
 |10k phrases |Python |Rust |
 | --- | --- | --- |
@@ -17,3 +18,5 @@ On my setup, I got those timings:
 
 _Git:_  [_https://github.com/haixuanTao/bert-onnx-rs-pipeline_](https://github.com/haixuanTao/bert-onnx-rs-pipeline)
 
+[<img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--server-fff?labelColor=000&logo=github" height="20">](https://github.com/haixuantao/bert-onnx-rs-server)
+[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-server?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/bert-onnx-rs-server/)
