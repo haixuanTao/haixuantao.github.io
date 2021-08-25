@@ -199,7 +199,7 @@
 <ul>
 <li>Rust can support GPU.</li>
 <li>Rust can provide superior performance than Python and by how much.</li>
-<li>Rust good and bad use case for Deep Learning.</li>
+<li>Good and bad use case for Deep Learning in Rust.</li>
 </ul>
 <h2 id="state-of-the-art-of-deep-learning-in-rust"><a class="header" href="#state-of-the-art-of-deep-learning-in-rust">State of the art of Deep Learning in Rust</a></h2>
 <p>Deep Learning in the Rust ecosystem is spread between native libraries like <a href="https://github.com/rust-ml/linfa">linfa</a> and C++ binding of common libraries like <a href="https://github.com/tensorflow/rust">Tensorflow</a>, <a href="https://github.com/LaurentMazare/tch-rs">Pytorch</a> and <a href="https://github.com/nbigaouette/onnxruntime-rs">Onnxruntime</a>.</p>
@@ -412,24 +412,24 @@ fn main() -&gt; std::result::Result&lt;(), OrtError&gt; {
 <tr><td><strong>Rust <a href="https://docs.rs/tokenizers/0.10.1/tokenizers/">Tokenizer</a></strong></td><td><strong>50-150μs</strong></td><td><strong>x4</strong> 🔥</td></tr>
 </tbody></table>
 <p>You can tokenize 4 times faster in Rust than Python, with the same Hugging Face Tokenizer library.</p>
-<p>➡️ Preprocessing can be very performant in Rust, making a case that Rust can outperform Python for Deep Learning.</p>
+<p>Preprocessing can be very performant in Rust, making a case that Rust can outperform Python for Deep Learning.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="batch-inference-running-bert-on-10k-phrases"><a class="header" href="#batch-inference-running-bert-on-10k-phrases">Batch inference: Running BERT on 10k phrases.	</a></h2>
-<p>At work, we often have situations where we develop a Deep Learning model, and then use it on large batches of data.</p>
-<p>To see if this could be done with Rust, I have customed trained a BERT model and tried to do the inference 10 thousand phrases.</p>
+<p>At work, we often develop a Deep Learning model to be used on large batches of data.</p>
+<p>To test it with Rust, I have trained a BERT-like model and infered 10 thousand phrases.</p>
 <h3 id="profiling"><a class="header" href="#profiling">Profiling</a></h3>
 <table><thead><tr><th>10k phrases</th><th>Python</th><th>Rust</th></tr></thead><tbody>
-<tr><td>Booting time</td><td>4s</td><td>1s</td></tr>
-<tr><td>Encoding time</td><td>0.7s</td><td>0.3s</td></tr>
-<tr><td>DL Inference time</td><td>75s</td><td>75s</td></tr>
-<tr><td>Total time</td><td>80s</td><td>76s</td></tr>
+<tr><td>Booting</td><td>4s</td><td>1s</td></tr>
+<tr><td>Encoding</td><td>0.7s</td><td>0.3s</td></tr>
+<tr><td>DL Inference</td><td>75s</td><td>75s</td></tr>
+<tr><td>Total</td><td>80s</td><td>76s</td></tr>
 <tr><td>Memory usage</td><td>1 GiB</td><td>0.7 GiB</td></tr>
 </tbody></table>
-<p>As DL inference is taking the majority of the time, Rust will not increase performance and I would not bother with Rust and stay with Python for large batches of inference.  👍🐍</p>
+<p>As DL inference is taking the majority of the time, Rust will not increase performance. This is an example of a bad use case where the time consuming section is the C API which does not get affected by Rust.</p>
 <p><em>Git:</em>  <a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline"><em>https://github.com/haixuanTao/bert-onnx-rs-pipeline</em></a></p>
 <p><a href="https://github.com/haixuantao/bert-onnx-rs-server"><img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--server-fff?labelColor=000&logo=github" height="20"></a>
 <a href="https://github.com/haixuanTao/bert-onnx-rs-server/"><img src="https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-server?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a></p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="onnx-server-serving-bert-as-an-api"><a class="header" href="#onnx-server-serving-bert-as-an-api">ONNX Server: Serving BERT as an API</a></h2>
-<p>Let say you want to serve a BERT-like model through a server API endpoint.</p>
+<p>Another work exemple is serving a BERT-like model through a server API endpoint.</p>
 <p>On my setup, I got those metrics:</p>
 <table><thead><tr><th></th><th>Python FastAPI</th><th>Rust Actix Web</th><th>Speedup</th></tr></thead><tbody>
 <tr><td>Encoding time</td><td>400μs</td><td>100μs</td><td></td></tr>
