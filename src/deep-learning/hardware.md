@@ -8,12 +8,10 @@ I opened a PR: [https://github.com/nbigaouette/onnxruntime-rs/pull/87](https://g
 
 And with similar work, a majority of the acceleration hardware could be added actually.
 
-➡️ So, yes, Rust can run DL on GPU!
-
 ## GPU Support
 
-GPU Support was enabled by:
-- adding 2 header files in bindgen's `wrapper.h` file as follows: 
+To enable GPU support, I had to:
+- add 2 header files in bindgen's `wrapper.h` file as follows: 
 ```c
 #include "onnxruntime_c_api.h"
 #if !defined(__APPLE__)
@@ -21,8 +19,12 @@ GPU Support was enabled by:
   #include "cuda_provider_factory.h"
 #endif
 ```
-
-- adding a safe API to the newly added bindings:
+- Add a feature flag:
+```toml
+[build-dependencies]
+cuda = []
+```
+- add a safe API to the newly added bindings:
 
 ```rust
     /// Set the session to use cpu
@@ -43,17 +45,36 @@ GPU Support was enabled by:
         Ok(self)
     }
 ```
-- Generating the binding for Linux:
+- Generate bindings for Linux:
 
 ```bash
 >>> cargo build --package onnxruntime-sys --features "generate-bindings cuda" --target x86_64-unknown-linux-gnu
 ```
 
-- And, generating the bindings for Windows in a Windows VM:
+- Generate bindings for Windows through a Windows VM:
 ```bash
 >>> cargo build --features "generate-bindings cuda" --target x86_64-pc-windows-msvc
 ```
 
+- Modify github CI for autonomous build test:
+```yaml
+      - name: Download prebuilt archive (GPU, x86_64-unknown-linux-gnu)
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --target x86_64-unknown-linux-gnu --features cuda
+      - name: Verify prebuilt archive downloaded (GPU, x86_64-unknown-linux-gnu)
+        run: ls -lh target/x86_64-unknown-linux-gnu/debug/build/onnxruntime-sys-*/out/onnxruntime-linux-x64-gpu-1.*.tgz
+      # ******************************************************************
+      - name: Download prebuilt archive (GPU, x86_64-pc-windows-msvc)
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --target x86_64-pc-windows-msvc --features cuda
+      - name: Verify prebuilt archive downloaded (GPU, x86_64-pc-windows-msvc)
+        run: ls -lh target/x86_64-pc-windows-msvc/debug/build/onnxruntime-sys-*/out/onnxruntime-win-gpu-x64-1.*.zip
+```
+- As well as documentation.
 ## Performance
 
 | |Time per phrase |Speedup |

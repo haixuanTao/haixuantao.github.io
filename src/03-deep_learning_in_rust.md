@@ -5,10 +5,10 @@
 
 ## Introduction
 
-Building Deep Learning algorithms is paramount for doing Data Science in Rust. In this post, I wanted to know:
-- If Rust can support GPU.
-- If Rust can provide superior performance than Python and by how much.
-- If Rust is viable for real DL work.
+Building Deep Learning algorithms is paramount for doing Data Science in Rust. In this post, I show how:
+- Rust can support GPU.
+- Rust can provide superior performance than Python and by how much.
+- Rust good and bad use case for Deep Learning.
 
 
 ## State of the art of Deep Learning in Rust
