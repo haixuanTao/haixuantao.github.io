@@ -1,10 +1,10 @@
 ## Batch inference: Running BERT on 10k phrases.	
 
-At work, we often develop a Deep Learning model to be used on large batches of data.
+At work, we often develop Deep Learning model to be used on large batches of data.
 
-To test it with Rust, I have trained a BERT-like model and infered 10 thousand phrases.
+To see if Rust can improve this usecase, I trained a BERT-like model and infered 10k phrases using Python and Rust.
 
-### Profiling
+### Performance
 
 |10k phrases |Python |Rust |
 | --- | --- | --- |
@@ -14,9 +14,12 @@ To test it with Rust, I have trained a BERT-like model and infered 10 thousand p
 |Total |80s |76s |
 |Memory usage |1 GiB |0.7 GiB |
 
-As DL inference is taking the majority of the time, Rust will not increase performance. This is an example of a bad use case where the time consuming section is the C API which does not get affected by Rust.
+As DL inference is taking the majority of the time, Rust will only marginely improve performance.
 
-_Git:_  [_https://github.com/haixuanTao/bert-onnx-rs-pipeline_](https://github.com/haixuanTao/bert-onnx-rs-pipeline)
+This is an example of a bad use case for Rust as time is consumed in the C API which does not get affected by Rust.
 
-[<img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--server-fff?labelColor=000&logo=github" height="20">](https://github.com/haixuantao/bert-onnx-rs-server)
-[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-server?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/bert-onnx-rs-server/)
+_You can check out the code for this specific job at:_  [_https://github.com/haixuanTao/bert-onnx-rs-pipeline_](https://github.com/haixuanTao/bert-onnx-rs-pipeline) 
+
+
+[<img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--pipeline-fff?labelColor=000&logo=github" height="20">](https://github.com/haixuantao/bert-onnx-rs-pipeline)
+[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-pipeline?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/bert-onnx-rs-pipeline/)

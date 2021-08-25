@@ -13,7 +13,7 @@ df.to_csv("python_output_map.csv")
 
 For mutation, the functional `iter` of Rust really makes this part a walk in the park:
 
-```rust
+```rust,noplaypen
     records.iter_mut().for_each(|x: &mut DataFrame| {
         let nkill = match &x.nkill {
             Some(nkill) => nkill,

@@ -51,7 +51,7 @@ Python does provide the `async/await` terminology which makes it easier to read 
 
 Rust, on the contrary to Python, has been built with asynchronous computation in mind. It is thread-safe and extremely efficient. The fact that the language, in its nature. is super fast makes it great for coroutines. The code might look like that:
 
-```rust,editable
+```rust,noplaypen,editable
 use csv::Writer;
 use select::document::Document;
 use select::predicate::{Attr, Name};

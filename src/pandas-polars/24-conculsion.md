@@ -7,11 +7,11 @@
 |Native Rust \(Single thread\) |24 s |3.3x |
 |**Native Rust \(Multithread\)** |**13.7 s** |**5.8x** |
 |Polars \(Single thread\) |30 s |2.6x |
-|Polars \(Multithread\) |33 s |2.4x |
-|Polars \(lazy, Multithreaded\) |32s |2.5x |
+|Polars \(Multithread\) |17 s |4.7x |
+|Polars \(lazy, Multithreaded\) |16.5 s |4.8x |
 |Pandas |80 s | |
 
-As reading is io bound, I wanted to make a benchmark of pure performance.
+As reading is IO bound, I wanted to make a benchmark of pure performance.
 
 ### Performance without Reading
 
@@ -35,6 +35,9 @@ As reading is io bound, I wanted to make a benchmark of pure performance.
 * Use Native Rust for linear mutation of the data with `map` and `fold`. You’ll get O\(n\) scalability that can be parallelized almost instantly with `rayon`.
 * Use pandas when performance, scalability, memory usage does not matter.
 
-For me, both Polars and native Rust makes a lot of sense for data between 1Go and 1To, single-threaded or not.
+For me, both Polars and native Rust makes a lot of sense for data between 1Go and 1To.
 
 I’ll invite you to make your own opinion. The code is available here: [https://github.com/haixuanTao/dataframe-python-rust](https://github.com/haixuanTao/dataframe-python-rust)
+
+[<img alt="github" src="https://img.shields.io/badge/dataframe--python--rust-fff?labelColor=000&logo=github" height="20">](https://github.com/haixuantao/dataframe-python-rust)
+[![GitHub stars](https://img.shields.io/github/stars/haixuanTao/dataframe-python-rust?style=social&label=Star&maxAge=2592000)](https://github.com/haixuanTao/dataframe-python-rust/)

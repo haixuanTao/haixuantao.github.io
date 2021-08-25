@@ -2,9 +2,9 @@
 
 ### Group By in Polars
 
-Group by in polars are really easy
+Group by in polars are pretty easy.
 
-```rust
+```rust,noplaypen
     // Groupby series as a clone of reference
     let groupby_series = vec![
         df.column("OpenStatus")?.clone(),
@@ -30,9 +30,9 @@ Group by in polars are really easy
 
 ### Group By in Native Rust
 
-This part is quite tricky. To make a group by in a thread-safe manner, you’ll need to use a Hashmap with `fold`. Note that, [parallel fold](https://docs.rs/rayon/0.7.1/rayon/iter/trait.ParallelIterator.html#method.fold)s are slightly more complicated as folding requires passing data around threads.
+However, it is quite tricky in native Rust. To make a group by in a thread-safe manner, you’ll need to use a Hashmap with the `fold` method. Note that, [parallel folds](https://docs.rs/rayon/0.7.1/rayon/iter/trait.ParallelIterator.html#method.fold) are slightly more complicated as folding requires passing data around threads.
 
-```rust
+```rust,noplaypen
     let groups_hash: HashMap<String, (utils::GroupBy, i16)> = records
         .iter() // .par_iter()
         .fold(
@@ -126,6 +126,6 @@ _Uncomment for multithreading_
 |Polars\(Multithread\) |.125 s |8.8x |
 |Pandas |1.1 s | |
 
-Group By and Merging are the ideal case for **Polars**. You’ll get 8x more performance than Pandas on a single thread, and Polars handle multi-threading although, in my case, it didn’t matter much.
+Group By and Merging are the ideal case for **Polars**. You’ll get 8x more performance than Pandas on a single thread, and Polars handles multithreading, although in my case, it didn’t matter much.
 
-It can be done with native rust, but judging by the size of the code, it’s not an ideal use case.
+Native Rust can do it as well, but judging by the size of the code, it is not an ideal use case.

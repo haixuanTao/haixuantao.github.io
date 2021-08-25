@@ -2,9 +2,9 @@
 
 ### Applying Function in Polars
 
-To Apply a function in Polars, you can use the default `apply` or `may_apply`. I prefer the latter. This will mutate the original data.
+To Apply a function in Polars, you can use the default `apply` or `may_apply`. I prefer the latter. 
 
-```rust
+```rust,noplaypen
 fn str_to_date(dates: &Series) -> std::result::Result<Series, PolarsError> {
     let fmt = Some("%m/%d/%Y %H:%M:%S");
 
@@ -33,11 +33,12 @@ fn count_words(dates: &Series) -> std::result::Result<Series, PolarsError> {
     df.may_apply("BodyMarkdown", count_words)?;
 ```
 
+Note that parallel apply is not yet implemented for utf8 series.
 ### Applying Function in Native Rust
 
-Now, what I like about native rust mutation, is that the syntax is standard among iterator, and so once you get comfortable with the syntax, you can apply it everywhere 😀
+What I like about native rust mutation, is that the syntax is standard among iterator, and so once you get comfortable with the syntax, you can apply it everywhere 😀
 
-```rust
+```rust,noplaypen
 use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime};
 // use rayon::prelude::*;  for multithreads
 
@@ -84,5 +85,5 @@ use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime};
 |Polars\(Single thread\) |9 s |2.7x |
 |Pandas |24.8 s | |
 
-**Polars** does not seem to offer increased performance over the standard library on a single thread, and I couldn’t find a way to do multi-threaded apply… In this scenario, I’ll prefer native rust.
+**Polars** does not seem to offer increased performance over the standard library on a single thread, and I couldn’t find a way to do multi-threaded apply… In this scenario, I’ll prefer **native Rust**.
 

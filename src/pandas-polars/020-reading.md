@@ -2,9 +2,9 @@
 
 ### Reading in Polars
 
-Reading is pretty straightforward with many configurations possible.
+Reading in Polars is pretty straightforward:
 
-```rust
+```rust,noplaypen
 use polars::prelude::*;
 
 //...
@@ -18,9 +18,9 @@ use polars::prelude::*;
 
 ### Reading in Native Rust
 
-Reading in Rust using csv and serde requires that you already have a `struct` , in my case my struct is `utils::NativeDataFrame`
+Reading in Rust using `csv` and `serde` requires that you already have a `struct`, in my case my struct is `utils::NativeDataFrame`
 
-```rust
+```rust,noplaypen
     let file = File::open(path)?;
 
     let mut rdr = csv::ReaderBuilder::new().delimiter(b',').from_reader(file);
@@ -38,12 +38,9 @@ Reading in Rust using csv and serde requires that you already have a `struct` , 
 
 | |Time\(s\) |Speedup Pandas |
 | --- | --- | --- |
-|**Native Rust \(Single thread\)** |**12 s** |**2.4x** |
+|Native Rust \(Single thread\) |12 s |2.4x |
 |Polars\(Single thread\) |19 s |1.5x |
-|Polars\(Multithread\) |22 s |1.3x |
+|**Polars\(Multithread\)** |**6.6 s** |**4.5x** |
 |Pandas |29.6 s | |
 
-For reading, **Polars** has a nice happy and I bet it’s also doing some indexing which explains the difference in timing between the native implementation. There seems to be a bug for multithreaded Polars that makes it slower than single-threaded. _\(Probably a good first issue…_ 🤪 _\)_
-
-Note that reading is bound by the reading speed of my SSD around ~300Mb/s.
-
+For reading, **Polars** is faster than Pandas and Native Rust, being able to do it in multithreading.

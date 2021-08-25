@@ -4,7 +4,7 @@
 
 Merging in Polars is dead easy, although the number of strategy for filling `none` values are limited for now.
 
-```rust
+```rust,noplaypen
     df = df
         .join(&df_wikipedia, "Tag1", "Language", JoinType::Left)?
         .fill_none(FillNoneStrategy::Min)?;
@@ -14,7 +14,7 @@ Merging in Polars is dead easy, although the number of strategy for filling `non
 
 Merging in native Rust can be done with nested structure and pairing with a Hashmap:
 
-```rust
+```rust,noplaypen
 let mut hash_wikipedia: &HashMap<&String, &utils::WikiDataFrame> = &records_wikipedia
     .iter()
     .map(|record| (record.Language.as_ref().unwrap(), record))
@@ -37,6 +37,6 @@ records.iter_mut().for_each(|record| {
 |Polars |.543 s |8x |
 |Pandas |4.347 s | |
 
-For merging, having a nested structure with `None` values can be very verbose. Having a flat structure is a huge plus. So, I’ll recommend using **Polars** if merging is key.
+For merging, having a nested structure with `None` values can be very verbose. So, I’ll recommend using **Polars** for merging.
 
 _I’m not sure If polars merging is done multi-threaded or not. It seems to be multithreaded by default._

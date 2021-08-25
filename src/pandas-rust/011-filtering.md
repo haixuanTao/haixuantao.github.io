@@ -15,7 +15,7 @@ To do filtering in Rust, we can refer to the docs for vector in Rust [https://do
 
 There is a large umbrella of methods for Vector filtering, with many nightly features that are going to be great for data manipulation when they ship. For this use case, I used the `retain` method has it was fitted my need perfectly:
 
-```rust
+```rust,noplaypen
     records.retain(|x| &x.country_txt.unwrap() == "United States");
     let mut wtr =
         csv::Writer::from_path("output_rust_filter.csv")?;

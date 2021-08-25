@@ -21,7 +21,7 @@ For Rust, however, this is a tricky part as, with Struct, merging isn’t really
 
 I  first created a new struct and a new heap for the new data:
 
-```rust
+```rust,noplaypen
 #[skip_serializing_none]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 struct DataFrameCountry {
@@ -58,7 +58,7 @@ struct DataFrameCountry {
 
 I then cloned this new struct with the previous struct on a specific field that is unique.
 
-```rust
+```rust,noplaypen
 
 impl DataFrame {
     fn add_country_ext(&mut self, country: Option<DataFrameCountry>) {
@@ -92,7 +92,7 @@ Except, a nested struct is not yet serializable in CSV for Rust -> [https://gith
 
 So I had to adapt it to:
 
-```rust
+```rust,noplaypen
 impl DataFrame {
     fn add_country_ext(&mut self, country: Option<DataFrameCountry>) {
         self.country_ext = Some(format!("{:?}", country))

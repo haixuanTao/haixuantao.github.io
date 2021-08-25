@@ -15,7 +15,7 @@ df.to_csv("python_output_groupby.csv")
 
 For group by and data reduction, thanks to [David Sanders](https://able.bio/insideoutclub), group by can be done as follows:
 
-```rust
+```rust,noplaypen
 use itertools::Itertools;
 
 

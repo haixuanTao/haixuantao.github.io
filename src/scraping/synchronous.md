@@ -25,7 +25,7 @@ In itself, handling edge cases with  `if`  is not so bad and pretty natural. But
 
 In Rust, functions return either a success or an error, and, you have to deal with each case before compiling. This makes the code way more robust against errors at runtimes. In practice, the code might look like this:
 
-```rust
+```rust,noplaypen
 let name = match node.find(Name("h3")).next() {
     Some(h3) => h3.text(),
     None => "".to_string(),
@@ -34,7 +34,7 @@ let name = match node.find(Name("h3")).next() {
 
 Rust also has other ways to handle Success / Errors Result, such as “?” à la Typescript:
 
-```rust
+```rust,noplaypen
 let response = reqwest::get(&url).await?.text().await?;
 ```
 

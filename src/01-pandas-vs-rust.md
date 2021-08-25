@@ -4,7 +4,7 @@
 ## Introduction
 
 
-Pandas is the main Data analysis package of Python. For many reasons, Native Python has very poor performance on data analysis without vectorizing with NumPy and the likes. And historically, Pandas has been created by Wes McKinney to package those optimisations in a nice API to facilitate data analysis in Python.
+Pandas is the main Data analysis package of Python. For many reasons, Native Python has poor performance on data analysis without vectorizing with NumPy and the likes. And historically, Pandas has been created by Wes McKinney to package those optimisations in a nice API to facilitate data analysis in Python.
 
 This, however, is not necessary for Rust. Rust has great data performance natively. This is why Rust doesn’t really need a package like Pandas.
 

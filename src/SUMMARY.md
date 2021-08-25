@@ -13,7 +13,7 @@
     - [Batch Inference](./deep-learning/batch_inference.md)
     - [Bert Server](./deep-learning/bert-server.md)
     - [Conclusion](./deep-learning/conclusion.md)
-  - [04.2020 - Pandas vs Polars](./02-polars-vs-rust.md)
+  - [04.2020 - Rust vs Polars](./02-polars-vs-rust.md)
     - [Polars](./pandas-polars/polars.md)
     - [Reading](./pandas-polars/020-reading.md)
     - [Apply](./pandas-polars/021-apply.md)

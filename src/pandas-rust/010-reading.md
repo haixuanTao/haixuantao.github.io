@@ -17,14 +17,14 @@ For Rust, Managing bad quality data is very very tedious. In this dataset, some 
 
 To open the CSV, I used the `csv` crate but it does not solve all the issues listed above. With well-formatted data, reading can be done like so:
 
-```rust
+```rust,noplaypen
 let path = "/home/peter/Documents/TEST/RUST/terrorism/src/foo.csv";
 let mut rdr = csv::Reader::from_path(path).unwrap();
 ```
 
 But with bad quality formatting, mine looked like this:
 
-```rust
+```rust,noplaypen
 use std::fs::File;    
 use encoding_rs::WINDOWS_1252;
 use encoding_rs_io::DecodeReaderBytesBuilder;
@@ -52,7 +52,7 @@ However, the data I wanted to use has 130 columns… And, It seemed that there i
 
 To avoid doing the definition manually, I had to build my own struct generator:
 
-```rust
+```rust,noplaypen
 fn inspect(path: &str) {
     let mut record: Record = HashMap::new();
 
@@ -96,7 +96,7 @@ fn inspect(path: &str) {
 
 This generated the struct as follows:
 
-```rust
+```rust,noplaypen
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 

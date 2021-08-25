@@ -26,7 +26,7 @@ cuda = []
 ```
 - add a safe API to the newly added bindings:
 
-```rust
+```rust,noplaypen
     /// Set the session to use cpu
     #[cfg(feature = "cuda")]
     pub fn use_cpu(self, use_arena: i32) -> Result<SessionBuilder<'a>> {
@@ -80,7 +80,7 @@ cuda = []
 | |Time per phrase |Speedup |
 | --- | --- | --- |
 |Rust ONNX CPU |~125ms | |
-|Rust ONNX GPU |~10ms |**x12**🔥 |
+|**Rust ONNX GPU** |**~10ms** |**x12**🔥 |
 
 *Note: I have a six cores CPU and a GTX 1050 GPU.*
 

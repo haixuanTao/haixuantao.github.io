@@ -44,7 +44,7 @@ encoding = tokenizer(
     )
 ```
 And, the native Rust HuggingFace Tokenizer:
-```rust
+```rust,noplaypen
 
 use tokenizers::models::wordpiece::WordPieceBuilder;
 use tokenizers::normalizers::bert::BertNormalizer;
@@ -111,6 +111,12 @@ fn main() -> std::result::Result<(), OrtError> {
         pad_type_id: 0,
         pad_token: "[PAD]".into(),
     }));
+
+    // ...
+    
+    let input_ids = tokenizer.encode_batch(df, true).unwrap();
+    
+    Ok(())
 }
 ```
 ## Performance 
