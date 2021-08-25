@@ -123,4 +123,4 @@ fn main() -> std::result::Result<(), OrtError> {
 
 You can tokenize 4 times faster in Rust than Python, with the same Hugging Face Tokenizer library.
 
-➡️ Preprocessing can be very performant in Rust, making a case that Rust can outperform Python for Deep Learning.
+Preprocessing can be very performant in Rust, making a case that Rust can outperform Python for Deep Learning.

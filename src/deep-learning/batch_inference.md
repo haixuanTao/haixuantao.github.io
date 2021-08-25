@@ -1,20 +1,20 @@
 ## Batch inference: Running BERT on 10k phrases.	
 
-At work, we often have situations where we develop a Deep Learning model, and then use it on large batches of data.
+At work, we often develop a Deep Learning model to be used on large batches of data.
 
-To see if this could be done with Rust, I have customed trained a BERT model and tried to do the inference 10 thousand phrases.
+To test it with Rust, I have trained a BERT-like model and infered 10 thousand phrases.
 
 ### Profiling
 
 |10k phrases |Python |Rust |
 | --- | --- | --- |
-|Booting time |4s |1s |
-|Encoding time |0.7s |0.3s |
-|DL Inference time |75s |75s |
-|Total time |80s |76s |
+|Booting |4s |1s |
+|Encoding |0.7s |0.3s |
+|DL Inference |75s |75s |
+|Total |80s |76s |
 |Memory usage |1 GiB |0.7 GiB |
 
-As DL inference is taking the majority of the time, Rust will not increase performance and I would not bother with Rust and stay with Python for large batches of inference.  👍🐍
+As DL inference is taking the majority of the time, Rust will not increase performance. This is an example of a bad use case where the time consuming section is the C API which does not get affected by Rust.
 
 _Git:_  [_https://github.com/haixuanTao/bert-onnx-rs-pipeline_](https://github.com/haixuanTao/bert-onnx-rs-pipeline)
 
