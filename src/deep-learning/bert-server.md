@@ -1,6 +1,6 @@
 ## ONNX Server: Serving BERT as an API
 
-Let say you want to serve a BERT-like model through a server API endpoint.
+Another work exemple is serving a BERT-like model through a server API endpoint.
 
 On my setup, I got those metrics:
 
