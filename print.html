@@ -387,7 +387,7 @@ fn main() -&gt; std::result::Result&lt;(), OrtError&gt; {
 <p>You can tokenize 4 times faster in Rust than Python, with the same Hugging Face Tokenizer library.</p>
 <p>➡️ Preprocessing can be very performant in Rust, making a case that Rust can outperform Python for Deep Learning.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="batch-inference-running-bert-on-10k-phrases"><a class="header" href="#batch-inference-running-bert-on-10k-phrases">Batch inference: Running BERT on 10k phrases.	</a></h2>
-<p>At work, we often have situation where we develop a Deep Learning model, and then use it on large batches of data.</p>
+<p>At work, we often have situations where we develop a Deep Learning model, and then use it on large batches of data.</p>
 <p>To see if this could be done with Rust, I have customed trained a BERT model and tried to do the inference 10 thousand phrases.</p>
 <h3 id="profiling"><a class="header" href="#profiling">Profiling</a></h3>
 <table><thead><tr><th>10k phrases</th><th>Python</th><th>Rust</th></tr></thead><tbody>
@@ -397,7 +397,7 @@ fn main() -&gt; std::result::Result&lt;(), OrtError&gt; {
 <tr><td>Total time</td><td>80s</td><td>76s</td></tr>
 <tr><td>Memory usage</td><td>1 GiB</td><td>0.7 GiB</td></tr>
 </tbody></table>
-<p><strong>As DL inference is taking the majority of the time, Rust will not increase performance and I would not bother with Rust and stay with Python for large batches of inference.</strong>   👍🐍</p>
+<p>As DL inference is taking the majority of the time, Rust will not increase performance and I would not bother with Rust and stay with Python for large batches of inference.  👍🐍</p>
 <p><em>Git:</em>  <a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline"><em>https://github.com/haixuanTao/bert-onnx-rs-pipeline</em></a></p>
 <p><a href="https://github.com/haixuantao/bert-onnx-rs-server"><img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--server-fff?labelColor=000&logo=github" height="20"></a>
 <a href="https://github.com/haixuanTao/bert-onnx-rs-server/"><img src="https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-server?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a></p>
@@ -411,9 +411,9 @@ fn main() -&gt; std::result::Result&lt;(), OrtError&gt; {
 <tr><td>Mean Latency</td><td>12.8ms</td><td>10.4ms</td><td>-20%⏰</td></tr>
 <tr><td>Requests/secs</td><td>77.5 #/s</td><td>95 #/s</td><td>+22%🍾</td></tr>
 </tbody></table>
-<p><strong>The gain in performance comes from moving from considered “Fast” Python library to Rust: FastAPI -&gt; Actix Web, BertokenizerFast -&gt; Rust Tokenizer.</strong></p>
-<p><strong>Thus, as Rust libraries tend to be faster than Python ones, the more functionalities you will have, the more speedup you’re going to see with Rust when serving Deep Learning.</strong></p>
-<p><strong>That’s why, for performance-centric Deep Learning applications such as Real-Time Deep Learning, Embedded Deep Learning, Large-Scale AI servers …. I can definitely see Rust be a good fit!</strong> ❤️‍🦀</p>
+<p>The gain in performance comes from moving from considered “Fast” Python library to Rust: FastAPI -&gt; Actix Web, BertokenizerFast -&gt; Rust Tokenizer.</p>
+<p>Thus, as Rust libraries tend to be faster than Python ones, the more functionalities you will have, the more speedup you’re going to see with Rust when serving Deep Learning.</p>
+<p>That’s why, for performance-centric Deep Learning applications such as Real-Time Deep Learning, Embedded Deep Learning, Large-Scale AI servers …. I can definitely see Rust be a good fit! ❤️‍🦀</p>
 <p><em>Git:</em> <a href="https://github.com/haixuanTao/bert-onnx-rs-server"><em>https://github.com/haixuanTao/bert-onnx-rs-server</em></a><br />
 <a href="https://github.com/haixuantao/bert-onnx-rs-pipeline"><img alt="github" src="https://img.shields.io/badge/bert--onnx--rs--pipeline-fff?labelColor=000&logo=github" height="20"></a>
 <a href="https://github.com/haixuanTao/bert-onnx-rs-pipeline/"><img src="https://img.shields.io/github/stars/haixuanTao/bert-onnx-rs-pipeline?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a></p>
