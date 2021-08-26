@@ -13,3 +13,4 @@ editable = true
 
 [output.html]
 additional-css = ["custom.css"]
+google-analytics = "G-F58YNE6LHC"

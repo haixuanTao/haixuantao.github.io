@@ -7,7 +7,7 @@ Majored in Applied Mathematics
 Awards:
 - 2500 euros Innovation award for building an European Statistics search engine
 - 2nd Place at BCG Gamma Data Challenge on Preventive Health Care Measure Optimization
-- 1st Place with a 1500€ award at Schlumberger Hackathon on deep learning applied to Lithology
+- 1st Place with a 2400€ award at Schlumberger Hackathon on deep learning applied to Lithology
 
 
 ### ESSEC Business School, Msc Data Science & Business Analytics<div class="right">2018 - 2019</div>
