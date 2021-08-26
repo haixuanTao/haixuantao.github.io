@@ -211,6 +211,8 @@
 <li>a small bundle size ~30Mb compared to <a href="https://github.com/pytorch/pytorch/issues/34058">tch-rs</a> 1.2 Gb bundle. </li>
 </ul>
 <p>➡️ this post is therefore going to be based on onnxruntime-rs.</p>
+<br/>
+<p><em>This blog was originally published here: <a href="https://able.bio/haixuanTao/deep-learning-in-rust-with-gpu--26c53a7f">https://able.bio/haixuanTao/deep-learning-in-rust-with-gpu--26c53a7f</a></em></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hardware"><a class="header" href="#hardware">Hardware</a></h1>
 <p>Initially, onnxruntime-rs did not support GPU / CUDA despite having a C API.</p>
 <p>But by tweaking <a href="https://github.com/nbigaouette/onnxruntime-rs">Onnxruntime-rs</a>, I could use the GPU C API and run DL Inference on GPU. </p>
@@ -467,6 +469,8 @@ fn main() -&gt; std::result::Result&lt;(), OrtError&gt; {
 <p>Now, when it comes to production, Pandas is slightly trickier. Pandas does not scale very well… there is no multithreading… It’s not thread-safe… It’s not memory efficient.</p>
 <p>But all those problems are the raison d’être of Rust.</p>
 <p><strong>What if, there was a DataFrame API written in Rust that solves all those issues and at the same time keeps a nice API?</strong></p>
+<br/>
+<p><em>This blog was originally published here: <a href="https://able.bio/haixuanTao/data-manipulation-polars-vs-rust--3def44c8">https://able.bio/haixuanTao/data-manipulation-polars-vs-rust--3def44c8</a></em></p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="polars"><a class="header" href="#polars">Polars</a></h2>
 <p>Well, <a href="https://github.com/ritchie46/polars"><strong>Polars</strong></a> allows you to do read, write, filter, apply functions, group by and merge, all in a similar API as Pandas but in Rust.</p>
 <p>It uses <a href="https://github.com/apache/arrow"><strong>Apache Arrow</strong></a>, a data framework purposely built for doing efficient data processing and data sharing across language.</p>
@@ -798,6 +802,8 @@ records.iter_mut().for_each(|record| {
 <h3 id="data"><a class="header" href="#data">Data</a></h3>
 <p>Performance benchmarks are done on this very random dataset: <a href="https://www.kaggle.com/START-UMD/gtd">https://www.kaggle.com/START-UMD/gtd</a> that offers around 160,000 lines / 130 columns for a total size of 150Mb. The size of this dataset corresponds to the type of dataset I regularly encounter, that’s why I chose this one. It isn’t the biggest dataset in the world, and, more studies should probably be done on a larger dataset.</p>
 <p>The merge will be done with another random dataset: <a href="https://datacatalog.worldbank.org/dataset/world-development-indicators">https://datacatalog.worldbank.org/dataset/world-development-indicators</a>, the <code>WDICountry.csv</code></p>
+<br/>
+<p><em>This blog was originally published on <a href="https://able.bio/haixuanTao/data-manipulation-pandas-vs-rust--1d70e7fc">https://able.bio/haixuanTao/data-manipulation-pandas-vs-rust--1d70e7fc</a></em></p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="reading-1"><a class="header" href="#reading-1">Reading</a></h2>
 <h3 id="pandas"><a class="header" href="#pandas">Pandas</a></h3>
 <p>Reading and instantiating Data in Pandas is pretty straightforward, and handles by default many data quality problems:</p>
@@ -1149,6 +1155,8 @@ impl DataFrame {
 </tbody></table>
 <p>‌
 Performances are pretty similar for such low level of requests. Time is consumed downloading. Maybe with significantly more requests, bigger difference would be seen.</p>
+<br/>
+<p><em>This blog was originally published on: <a href="https://able.bio/haixuanTao/web-scraper-python-vs-rust--d6176429">https://able.bio/haixuanTao/web-scraper-python-vs-rust--d6176429</a></em></p>
 <div style="break-before: page; page-break-before: always;"></div><h3 id="synchronous-python-code"><a class="header" href="#synchronous-python-code">Synchronous Python code</a></h3>
 <pre><code class="language-python">import requests
 import bs4 as bs
