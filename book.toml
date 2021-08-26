@@ -4,7 +4,7 @@ language = "en"
 multilingual = false
 src = "src"
 title = "Haixuan Xavier Tao"
-
+description = "Inspired by Rustdoc resume, I wanted to use a Rust tool to build an enhanced resume. Mdbook seemed like a great fit, and what is a resume other than a documentation of self."
 [rust]
 edition = "2018"
 
@@ -13,4 +13,4 @@ editable = true
 
 [output.html]
 additional-css = ["custom.css"]
-google-analytics = "G-F58YNE6LHC"
+google-analytics = "284355753"
