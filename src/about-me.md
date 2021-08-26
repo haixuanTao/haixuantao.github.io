@@ -10,3 +10,5 @@
 [![Github](https://img.shields.io/badge/HaixuanTao-fff?logo=github&logoColor=black)](https://github.com/haixuanTao)
 
 Data Engineer belivieving in Rust for ML/IA engineering.
+
+Searching for a great Rust ML/IA Engineer? Get in touch 📬 [tao.xavier@outlook.com](mailto:tao.xavier@outlook.com)

@@ -13,7 +13,7 @@ df.to_csv("python_output.csv")
 
 To do filtering in Rust, we can refer to the docs for vector in Rust [https://doc.rust-lang.org/std/vec/struct.Vec.html](https://doc.rust-lang.org/std/vec/struct.Vec.html)
 
-There is a large umbrella of methods for Vector filtering, with many nightly features that are going to be great for data manipulation when they ship. For this use case, I used the `retain` method has it was fitted my need perfectly:
+There is a large umbrella of methods for Vector filtering, with many nightly features that are going to be great for data manipulation when they ship. For this use case, I used the `retain` method as it fitted my need perfectly:
 
 ```rust,noplaypen
     records.retain(|x| &x.country_txt.unwrap() == "United States");
@@ -25,7 +25,7 @@ There is a large umbrella of methods for Vector filtering, with many nightly fea
     }
 ```
 
-**One big difference between Pandas and Rust is that Rust filtering uses Closures \(_eq. lambda function in python_\) whereas Pandas filtering uses Pandas API based on columns. This means Rust can make more complex filters compared to Pandas. It also adds in readability in my opinion.**
+**One big difference between Pandas and Rust is that Rust filtering uses Closures \(_eq. lambda function in python_\) whereas Pandas filtering uses Pandas API based on columns. Rust can therefore make more complex filters compared to Pandas. It also adds in readability.**
 
 ### Performance
 

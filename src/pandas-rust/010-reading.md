@@ -22,7 +22,7 @@ let path = "/home/peter/Documents/TEST/RUST/terrorism/src/foo.csv";
 let mut rdr = csv::Reader::from_path(path).unwrap();
 ```
 
-But with bad quality formatting, mine looked like this:
+But with bad quality formatting, I had to add additional parameters like:
 
 ```rust,noplaypen
 use std::fs::File;    
@@ -46,13 +46,14 @@ _ref:_ [_https://stackoverflow.com/questions/53826986/how-to-read-a-non-utf8-enc
 
 To instantiate the data, I used Serde [https://serde.rs/](https://serde.rs/) for serializing and deserializing my data.
 
-To use Serde, I needed to make a struct of my data. But, having a struct of my data is great has it makes my code follow a model-based coding paradigm with a well-defined type for each field. It also enables me to implement traits and methods on top of them.
+To use Serde, I needed to make a struct of my data. Having a struct of my data is great as it makes my code follow a model-based coding paradigm with a well-defined type for each field. It also enables me to implement traits and methods on top of them.
 
 However, the data I wanted to use has 130 columns… And, It seemed that there is no way to generate the definition of the struct automatically.
 
 To avoid doing the definition manually, I had to build my own struct generator:
 
 ```rust,noplaypen
+
 fn inspect(path: &str) {
     let mut record: Record = HashMap::new();
 
@@ -126,7 +127,7 @@ _serialize\_always: Makes the number of field when writing csv fixed._
 
 Now, that I had my struct, I used serde serialization to populate a vector of struct:
 
-```
+```rust,noplaypen
     let mut records: Vec<DataFrame> = Vec::new();
 
     for result in rdr.deserialize() {
