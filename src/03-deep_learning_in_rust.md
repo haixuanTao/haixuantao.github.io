@@ -21,3 +21,7 @@ I have found [onnxruntime-rs](https://github.com/nbigaouette/onnxruntime-rs) to 
 - a small bundle size ~30Mb compared to [tch-rs](https://github.com/pytorch/pytorch/issues/34058) 1.2 Gb bundle. 
 
 ➡️ this post is therefore going to be based on onnxruntime-rs.
+
+<br/>
+
+_This blog was originally published here: [https://able.bio/haixuanTao/deep-learning-in-rust-with-gpu--26c53a7f](https://able.bio/haixuanTao/deep-learning-in-rust-with-gpu--26c53a7f)_

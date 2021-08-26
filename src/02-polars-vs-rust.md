@@ -11,3 +11,7 @@ Now, when it comes to production, Pandas is slightly trickier. Pandas does not s
 But all those problems are the raison d’être of Rust.
 
 **What if, there was a DataFrame API written in Rust that solves all those issues and at the same time keeps a nice API?**
+
+<br/>
+
+_This blog was originally published here: [https://able.bio/haixuanTao/data-manipulation-polars-vs-rust--3def44c8](https://able.bio/haixuanTao/data-manipulation-polars-vs-rust--3def44c8)_

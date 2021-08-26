@@ -17,3 +17,7 @@ Performance test of scraping the 50 pages of [http://books.toscrape.com/catalogu
 
 ‌
 Performances are pretty similar for such low level of requests. Time is consumed downloading. Maybe with significantly more requests, bigger difference would be seen.
+
+<br/>
+
+_This blog was originally published on: [https://able.bio/haixuanTao/web-scraper-python-vs-rust--d6176429](https://able.bio/haixuanTao/web-scraper-python-vs-rust--d6176429)_

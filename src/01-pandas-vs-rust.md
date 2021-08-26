@@ -17,3 +17,7 @@ This is my experience and reasoning comparing **Pandas vs Rust**.
 Performance benchmarks are done on this very random dataset: [https://www.kaggle.com/START-UMD/gtd](https://www.kaggle.com/START-UMD/gtd) that offers around 160,000 lines / 130 columns for a total size of 150Mb. The size of this dataset corresponds to the type of dataset I regularly encounter, that’s why I chose this one. It isn’t the biggest dataset in the world, and, more studies should probably be done on a larger dataset.
 
 The merge will be done with another random dataset: [https://datacatalog.worldbank.org/dataset/world-development-indicators](https://datacatalog.worldbank.org/dataset/world-development-indicators), the `WDICountry.csv`
+
+<br/>
+
+_This blog was originally published on [https://able.bio/haixuanTao/data-manipulation-pandas-vs-rust--1d70e7fc](https://able.bio/haixuanTao/data-manipulation-pandas-vs-rust--1d70e7fc)_
