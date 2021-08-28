@@ -1,12 +1,5 @@
 # Summary
-
--[About Me](./about-me.md)
-  - [Work Experience](./about-me/work.md)
-  - [Education](./about-me/education.md)
-  - [Skills](./about-me/skills.md)
-
-# Latest Posts
-
+  - [About Me](./about-me.md)
   - [07.2020 - Deep Learning in Rust](./03-deep_learning_in_rust.md)
     - [Hardware](./deep-learning/hardware.md)
     - [Preprocessing](./deep-learning/preprocessing.md)
@@ -30,3 +23,7 @@
   - [02.2020 - Scraping Rust v Python](./00-scraping.md)
     - [Synchronous](./scraping/synchronous.md)
     - [Asynchronous](./scraping/asynchronous.md)
+# Bio
+  - [Work Experience](./about-me/work.md)
+  - [Education](./about-me/education.md)
+  - [Skills](./about-me/skills.md)
