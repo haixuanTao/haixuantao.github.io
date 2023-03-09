@@ -13,4 +13,3 @@ editable = true
 
 [output.html]
 additional-css = ["custom.css"]
-google-analytics = "UA-134601956-5"
