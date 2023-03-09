@@ -23,7 +23,3 @@
   - [02.2020 - Scraping Rust v Python](./00-scraping.md)
     - [Synchronous](./scraping/synchronous.md)
     - [Asynchronous](./scraping/asynchronous.md)
-# Bio
-  - [Work Experience](./about-me/work.md)
-  - [Education](./about-me/education.md)
-  - [Skills](./about-me/skills.md)
