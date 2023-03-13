@@ -10,8 +10,7 @@
         <!-- Custom HTML head -->
         
 
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="Inspired by Rustdoc resume, I wanted to use a Rust tool to build an enhanced resume. Mdbook seemed like a great fit, and what is a resume other than a documentation of self.">
+        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
@@ -36,14 +35,15 @@
         
             </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -59,7 +59,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -71,12 +71,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -102,7 +104,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -135,7 +137,7 @@
                 </div>
                 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -151,7 +153,7 @@
 <p><a href="mailto:tao.xavier@outlook.com"><img src="https://img.shields.io/badge/tao.xavier@outlook.com-EA4335?logo=gmail&amp;logoColor=white" alt="Mail" /></a>
 <a href="https://www.linkedin.com/in/haixuan-xavier-tao-7460b1102/"><img src="https://img.shields.io/badge/Haixuan_Xavier_Tao-0077B5?logo=linkedin&amp;logoColor=white" alt="Linkedin" /></a>
 <a href="https://github.com/haixuanTao"><img src="https://img.shields.io/badge/HaixuanTao-fff?logo=github&amp;logoColor=black" alt="Github" /></a></p>
-<p>Software Engineer belivieving in Rust for ML/IA.</p>
+<p>Software Engineer believing in Rust for ML/IA.</p>
 <p>Get in touch 📬 <a href="mailto:tao.xavier@outlook.com">tao.xavier@outlook.com</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="deep-learning-in-rust"><a class="header" href="#deep-learning-in-rust">Deep Learning in Rust</a></h1>
 <p><a href="https://github.com/haixuantao/onnxruntime-rs"><img alt="github" src="https://img.shields.io/badge/onnxruntime_rs-fff?labelColor=000&logo=github" height="20"></a>
@@ -1286,6 +1288,21 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 </code></pre>
 <p>‌</p>
 
+                        
+                        <script src="https://giscus.app/client.js"
+                            data-repo="haixuantao/haixuantao.github.io"
+                            data-repo-id="MDEwOlJlcG9zaXRvcnkzOTgzNzE1MjU="
+                            data-category-id="DIC_kwDOF76qxc4CUw4i"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="preferred_color_scheme"
+                            data-lang="en"
+                            crossorigin="anonymous"
+                            async>
+                        </script> 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -1306,31 +1323,32 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
         
         
         
-                <script type="text/javascript">
+                <script>
             window.playground_copyable = true;
         </script>
         
-                <script src="ace.js" type="text/javascript" charset="utf-8"></script>
-        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
-        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
-        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+                <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
         
-                <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+                <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
         
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
         
-                        <script type="text/javascript">
+                        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
                 
+    </div>
     </body>
 </html>
