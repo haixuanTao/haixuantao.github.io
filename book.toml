@@ -13,3 +13,5 @@ editable = true
 
 [output.html]
 additional-css = ["custom.css"]
+additional-js = ["instagram-embed.js"]
+no-section-label = true
