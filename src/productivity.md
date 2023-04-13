@@ -20,7 +20,7 @@ Features I use on a daily basis With `prezto`:
 - docker completion
 - git completion
 
-More info: https://github.com/sorin-ionescu/prezto
+> More info: [https://github.com/sorin-ionescu/prezto](https://github.com/sorin-ionescu/prezto)
 
 ## FZF
 
@@ -40,7 +40,7 @@ Features I use on a daily basis With `prezto`:
 - `cd **`
 - `vim **`
 
-More info at: https://github.com/junegunn/fzf
+> More info at: [https://github.com/junegunn/fzf](https://github.com/junegunn/fzf)
 
 ## VSCode
 
