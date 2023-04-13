@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="about-me.html">About Me</a></li><li class="chapter-item expanded "><a href="03-deep_learning_in_rust.html">Deep Learning in Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="deep-learning/hardware.html">Hardware</a></li><li class="chapter-item expanded "><a href="deep-learning/preprocessing.html">Preprocessing</a></li><li class="chapter-item expanded "><a href="deep-learning/batch_inference.html">Batch Inference</a></li><li class="chapter-item expanded "><a href="deep-learning/bert-server.html">Bert Server</a></li><li class="chapter-item expanded "><a href="deep-learning/conclusion.html">Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="02-polars-vs-rust.html">Rust v Polars</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pandas-polars/polars.html">Polars</a></li><li class="chapter-item expanded "><a href="pandas-polars/020-reading.html">Reading</a></li><li class="chapter-item expanded "><a href="pandas-polars/021-apply.html">Apply</a></li><li class="chapter-item expanded "><a href="pandas-polars/22-merging.html">Merging</a></li><li class="chapter-item expanded "><a href="pandas-polars/23-groupby.html">Groupby</a></li><li class="chapter-item expanded "><a href="pandas-polars/24-conculsion.html">Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="01-pandas-vs-rust.html">Pandas v Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pandas-rust/010-reading.html">Reading</a></li><li class="chapter-item expanded "><a href="pandas-rust/011-filtering.html">Filtering</a></li><li class="chapter-item expanded "><a href="pandas-rust/012-groupby.html">Groupby</a></li><li class="chapter-item expanded "><a href="pandas-rust/013-mutation.html">Mutation</a></li><li class="chapter-item expanded "><a href="pandas-rust/014-merging.html">Merging</a></li><li class="chapter-item expanded "><a href="pandas-rust/15-conclusion.html">Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="00-scraping.html">Scraping Rust v Python</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="scraping/synchronous.html">Synchronous</a></li><li class="chapter-item expanded "><a href="scraping/asynchronous.html">Asynchronous</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="about-me.html">About Me</a></li><li class="chapter-item expanded affix "><li class="part-title">Rust, Python and Data Science</li><li class="chapter-item expanded "><a href="03-deep_learning_in_rust.html">Deep Learning in Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="deep-learning/hardware.html">Hardware</a></li><li class="chapter-item expanded "><a href="deep-learning/preprocessing.html">Preprocessing</a></li><li class="chapter-item expanded "><a href="deep-learning/batch_inference.html">Batch Inference</a></li><li class="chapter-item expanded "><a href="deep-learning/bert-server.html">Bert Server</a></li><li class="chapter-item expanded "><a href="deep-learning/conclusion.html">Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="02-polars-vs-rust.html">Rust v Polars</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pandas-polars/polars.html">Polars</a></li><li class="chapter-item expanded "><a href="pandas-polars/020-reading.html">Reading</a></li><li class="chapter-item expanded "><a href="pandas-polars/021-apply.html">Apply</a></li><li class="chapter-item expanded "><a href="pandas-polars/22-merging.html">Merging</a></li><li class="chapter-item expanded "><a href="pandas-polars/23-groupby.html">Groupby</a></li><li class="chapter-item expanded "><a href="pandas-polars/24-conculsion.html">Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="01-pandas-vs-rust.html">Pandas v Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="pandas-rust/010-reading.html">Reading</a></li><li class="chapter-item expanded "><a href="pandas-rust/011-filtering.html">Filtering</a></li><li class="chapter-item expanded "><a href="pandas-rust/012-groupby.html">Groupby</a></li><li class="chapter-item expanded "><a href="pandas-rust/013-mutation.html">Mutation</a></li><li class="chapter-item expanded "><a href="pandas-rust/014-merging.html">Merging</a></li><li class="chapter-item expanded "><a href="pandas-rust/15-conclusion.html">Conclusion</a></li></ol></li><li class="chapter-item expanded "><a href="00-scraping.html">Scraping Rust v Python</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="scraping/synchronous.html">Synchronous</a></li><li class="chapter-item expanded "><a href="scraping/asynchronous.html">Asynchronous</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Blog</li><li class="chapter-item expanded "><a href="productivity.html">productivity cheatsheet</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -1287,6 +1287,67 @@ async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 }
 </code></pre>
 <p>‌</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="productivity"><a class="header" href="#productivity">Productivity</a></h1>
+<p>This humble personal productivity cheatsheet is here to help other identify things that can help them increase their productivity.</p>
+<h2 id="prezto"><a class="header" href="#prezto">Prezto</a></h2>
+<p><code>prezto</code> main idea is that shell can be interactive. </p>
+<h3 id="installation"><a class="header" href="#installation">Installation</a></h3>
+<pre><code class="language-bash">sudo apt-get update
+sudo apt-get install zsh
+git clone --recursive https://github.com/sorin-ionescu/prezto.git &quot;${ZDOTDIR:-$HOME}/.zprezto&quot;
+</code></pre>
+<p>Features I use on a daily basis With <code>prezto</code>:</p>
+<ul>
+<li>auto-completion </li>
+<li>auto-suggestion</li>
+<li>docker completion</li>
+<li>git completion</li>
+</ul>
+<p>More info: https://github.com/sorin-ionescu/prezto</p>
+<h2 id="fzf"><a class="header" href="#fzf">FZF</a></h2>
+<p><code>fzf</code> main idea is that you should never have to know by heart strings that you can approximate.</p>
+<h3 id="installation-1"><a class="header" href="#installation-1">Installation</a></h3>
+<pre><code class="language-bash">git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+</code></pre>
+<p>Features I use on a daily basis With <code>prezto</code>:</p>
+<ul>
+<li><code>kill **</code></li>
+<li><kbd>ctrl</kbd>+<kbd>r</kbd> </li>
+<li><kbd>ctrl</kbd>+<kbd>t</kbd> </li>
+<li><code>cd **</code></li>
+<li><code>vim **</code></li>
+</ul>
+<p>More info at: https://github.com/junegunn/fzf</p>
+<h2 id="vscode"><a class="header" href="#vscode">VSCode</a></h2>
+<p>VSCode makes it really easy to have flexibility and automation put in place.</p>
+<p>Productivity shortcut I use on daily basis:</p>
+<ul>
+<li><kbd>ctrl</kbd>+<kbd>p</kbd> : To open a file</li>
+<li><kbd>ctrl</kbd>+<kbd>`</kbd> : To open the terminal</li>
+<li><kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>p</kbd> : To access extension functionilities.</li>
+<li><kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>p</kbd>+<code>Open User Settings(JSON)</code> : For scripted settings.</li>
+<li><kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>p</kbd>+<code>Snippets</code> : For automating the generation of code.</li>
+</ul>
+<h2 id="vim-vscode"><a class="header" href="#vim-vscode">Vim (VSCode)</a></h2>
+<p>Vim idea is to allow automation on-the-lfy given a set of functionality to each key.</p>
+<p>Vim has some great automation features that I just can't live without:</p>
+<ul>
+<li><kbd>/</kbd> : Search</li>
+<li><kbd>v</kbd> : Visual mode to select block of text</li>
+<li><kbd>:</kbd>+<kbd>s</kbd> : Replace within a selection</li>
+<li><kbd>ctrl</kbd>+<kbd>z</kbd> ... <kbd>f</kbd>+<kbd>g</kbd> : Jump in and out of vim mode</li>
+<li><kbd>.</kbd> : Repeat previous command.</li>
+</ul>
+<h2 id="touchtyping"><a class="header" href="#touchtyping">Touchtyping</a></h2>
+<p>Touch Typing main idea is that you can type faster by moving less your hands.</p>
+<p>And, you can reduce hand movement by learning how to maximize the utilization of your fingers.</p>
+<p>Features I use on a daily basis:</p>
+<ul>
+<li>Not having sour wrist.</li>
+</ul>
+<h3 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h3>
+<p><a href="https://www.typingclub.com/">https://www.typingclub.com/</a></p>
 
                         
                         <script src="https://giscus.app/client.js"
