@@ -26,5 +26,8 @@
     - [Synchronous](./scraping/synchronous.md)
     - [Asynchronous](./scraping/asynchronous.md)
 
+# Robotics
+- [OpenArm 3D Visualizer](../openarm/openarm.html)
+
 # Blog
 - [productivity cheatsheet](./productivity.md)

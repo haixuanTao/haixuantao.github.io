@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xoq publisher</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+    button { font-size: 1rem; padding: 0.5rem 1rem; margin: 0.5rem 0; cursor: pointer; }
+    #log { background: #1a1a1a; color: #0f0; padding: 1rem; height: 300px; overflow-y: auto; font-family: monospace; font-size: 0.9rem; }
+    .error { color: #f00; }
+  </style>
+  <script type="module" crossorigin src="/assets/publish-IjwDLK4H.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/connect-DkGLCYAo.js">
+</head>
+<body>
+  <h1>xoq publisher</h1>
+  <div>
+    <label>URL: <input type="text" id="url" value="https://cdn.moq.dev/anon" /></label>
+  </div>
+  <div>
+    <label>Path: <input type="text" id="path" value="xoq-duplex" /></label>
+  </div>
+  <div>
+    <label>Baud rate: <input type="number" id="baudRate" value="1000000" /></label>
+  </div>
+  <button id="start">Select Port & Start</button>
+  <button id="stop" disabled>Stop</button>
+  <h3>Log</h3>
+  <div id="log"></div>
+
+</body>
+</html>

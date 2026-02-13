@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URDF Robot Viewer - xoq</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top bar */
+    .top-bar {
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #333;
+      background: #16162a;
+    }
+    .top-bar h1 { color: #00d4ff; font-size: 1.1rem; white-space: nowrap; }
+    .top-bar label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+    .top-bar input[type="text"] {
+      padding: 0.35rem 0.5rem;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: #2a2a4a;
+      color: #fff;
+      font-size: 0.85rem;
+      width: 240px;
+    }
+    button {
+      padding: 0.35rem 0.75rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #loadUrdfBtn { background: #a855f7; color: #fff; }
+    #loadUrdfBtn:hover:not(:disabled) { background: #9333ea; }
+    #startBtn { background: #00d4ff; color: #000; }
+    #startBtn:hover:not(:disabled) { background: #00b8e6; }
+    #stopBtn { background: #ff4757; color: #fff; }
+    #stopBtn:hover:not(:disabled) { background: #ff3344; }
+    #queryBtn { background: #2a2a4a; color: #888; border: 1px solid #444; }
+    #queryBtn.active { background: #2ed573; color: #000; border-color: #2ed573; }
+    #queryBtn:hover:not(:disabled) { background: #444; }
+    #queryBtn.active:hover:not(:disabled) { background: #26b860; }
+
+    /* Main layout */
+    .main {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+    }
+
+    /* 3D canvas */
+    .canvas-container {
+      flex: 1;
+      position: relative;
+      min-width: 0;
+    }
+    #threeCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .canvas-overlay {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      font-size: 0.7rem;
+      color: #888;
+      pointer-events: none;
+    }
+
+    /* Right panel */
+    .side-panel {
+      width: 300px;
+      background: #16162a;
+      border-left: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .panel-section {
+      padding: 0.75rem;
+      border-bottom: 1px solid #2a2a4a;
+    }
+    .panel-section h3 {
+      font-size: 0.8rem;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Joint rows */
+    .joint-row {
+      display: grid;
+      grid-template-columns: 70px 1fr 50px;
+      gap: 0.25rem;
+      align-items: center;
+      padding: 0.3rem 0;
+      font-size: 0.8rem;
+      border-bottom: 1px solid #1e1e3a;
+    }
+    .joint-row:last-child { border-bottom: none; }
+    .joint-label {
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .joint-angle {
+      font-family: 'Monaco', 'Menlo', monospace;
+      text-align: right;
+      font-size: 0.85rem;
+    }
+    .joint-raw {
+      font-family: 'Monaco', 'Menlo', monospace;
+      text-align: right;
+      font-size: 0.7rem;
+      color: #888;
+    }
+
+    /* Mapping rows */
+    .mapping-row {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0;
+      font-size: 0.8rem;
+    }
+    .mapping-row input {
+      width: 40px;
+      padding: 0.2rem 0.3rem;
+      border: 1px solid #444;
+      border-radius: 3px;
+      background: #2a2a4a;
+      color: #fff;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+    .mapping-row select {
+      flex: 1;
+      padding: 0.2rem 0.3rem;
+      border: 1px solid #444;
+      border-radius: 3px;
+      background: #2a2a4a;
+      color: #fff;
+      font-size: 0.8rem;
+    }
+    .mapping-row .remove-btn {
+      padding: 0.1rem 0.4rem;
+      background: #ff475733;
+      color: #ff4757;
+      border: 1px solid #ff475744;
+      font-size: 0.7rem;
+    }
+    .mapping-actions {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+    .mapping-actions button {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      background: #2a2a4a;
+      color: #aaa;
+      border: 1px solid #444;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+    }
+    .stat {
+      background: #2a2a4a;
+      padding: 0.4rem;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .stat-label { color: #888; font-size: 0.65rem; text-transform: uppercase; }
+    .stat-value { font-size: 0.9rem; font-weight: bold; color: #00d4ff; }
+
+    /* Log */
+    .log-panel {
+      height: 120px;
+      border-top: 1px solid #333;
+      background: #0a0a1a;
+      overflow-y: auto;
+      padding: 0.5rem;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.7rem;
+      flex-shrink: 0;
+    }
+    .log-entry { margin: 0.15rem 0; }
+    .log-info { color: #888; }
+    .log-success { color: #2ed573; }
+    .log-error { color: #ff4757; }
+    .log-data { color: #00d4ff; }
+  </style>
+  <script type="module" crossorigin src="/assets/urdf_viewer-trQNEAhR.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/connect-DkGLCYAo.js">
+  <link rel="modulepreload" crossorigin href="/assets/URDFLoader-CL7UVBjw.js">
+</head>
+<body>
+  <div class="top-bar">
+    <h1>URDF Viewer</h1>
+    <label>
+      URDF:
+      <input type="text" id="urdfUrl" style="width:300px;" />
+    </label>
+    <button id="loadUrdfBtn">Load</button>
+    <span style="color:#444;">|</span>
+    <label>
+      Relay:
+      <input type="text" id="relayUrl" />
+    </label>
+    <label>
+      Path:
+      <input type="text" id="path" />
+    </label>
+    <label>
+      Cert hash:
+      <input type="text" id="certHash" placeholder="sha256 hex (optional)" style="width:180px;" />
+    </label>
+    <button id="startBtn">Connect</button>
+    <button id="stopBtn" disabled>Disconnect</button>
+    <button id="queryBtn" disabled>Query Servos</button>
+    <span id="statusText" style="color:#888; font-size:0.8rem;">Idle</span>
+  </div>
+
+  <div class="main">
+    <div class="canvas-container">
+      <canvas id="threeCanvas"></canvas>
+      <div class="canvas-overlay">
+        <span>Drag to orbit / Scroll to zoom / Right-drag to pan</span>
+      </div>
+    </div>
+
+    <div class="side-panel">
+      <div class="panel-section">
+        <h3>Joint Angles</h3>
+        <div class="joint-row" style="font-size:0.65rem; color:#666;">
+          <span>Joint</span><span style="text-align:right;">Angle</span><span style="text-align:right;">Raw</span>
+        </div>
+        <div id="jointRows"><span style="color:#666; font-size:0.75rem;">Load a URDF to see joints</span></div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Joint Mapping (Servo ID &rarr; Joint)</h3>
+        <div id="mappingRows"></div>
+        <div class="mapping-actions">
+          <button id="addMappingBtn">+ Add</button>
+          <button id="resetMappingBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Stats</h3>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-label">Frames</div>
+            <div class="stat-value" id="frameCount">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Bytes</div>
+            <div class="stat-value" id="bytesReceived">0 B</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">FPS</div>
+            <div class="stat-value" id="canFps">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Last</div>
+            <div class="stat-value" id="lastUpdate">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="log-panel" id="log"></div>
+
+</body>
+</html>
