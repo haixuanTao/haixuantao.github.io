@@ -1,0 +1,1 @@
+searchState.loadedDescShard("zealot", 0, "Training the biped on an RTX 5090 (native CUDA)")
