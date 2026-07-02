@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera CMAF Player - xoq</title>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    h1 { color: #00d4ff; margin-bottom: 0.5rem; }
+    .subtitle { color: #888; margin-bottom: 1.5rem; }
+
+    .controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+    .controls label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .controls input[type="text"] {
+      padding: 0.5rem;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: #2a2a4a;
+      color: #fff;
+      width: 300px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #startBtn { background: #00d4ff; color: #000; }
+    #startBtn:hover:not(:disabled) { background: #00b8e6; }
+    #stopBtn { background: #ff4757; color: #fff; }
+    #stopBtn:hover:not(:disabled) { background: #ff3344; }
+
+    .video-container {
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      aspect-ratio: 16/9;
+    }
+    video { width: 100%; height: 100%; display: block; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .stat {
+      background: #2a2a4a;
+      padding: 0.75rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-label { color: #888; font-size: 0.75rem; text-transform: uppercase; }
+    .stat-value { font-size: 1.2rem; font-weight: bold; color: #00d4ff; }
+
+    .info-box {
+      background: #2a2a4a;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .info-box h3 { margin-top: 0; color: #00d4ff; }
+    .info-box pre {
+      background: #1a1a2e;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 0.5rem 0;
+    }
+
+    #log {
+      background: #0a0a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 1rem;
+      height: 200px;
+      overflow-y: auto;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.8rem;
+    }
+    .log-entry { margin: 0.2rem 0; }
+    .log-info { color: #888; }
+    .log-success { color: #2ed573; }
+    .log-error { color: #ff4757; }
+    .log-data { color: #00d4ff; }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "@moq/lite": "https://esm.sh/@moq/lite@0.1.0"
+      }
+    }
+  </script>
+  <script type="module" crossorigin src="/assets/video_player-BJSMA0Bo.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/connect-DkGLCYAo.js">
+</head>
+<body>
+  <h1>Camera CMAF Player</h1>
+  <p class="subtitle">xoq MoQ Video Stream Client</p>
+
+  <div class="controls">
+    <label>
+      URL:
+      <input type="text" id="relayUrl" value="https://cdn.moq.dev/anon" />
+    </label>
+    <label>
+      Path:
+      <input type="text" id="path" value="camera" />
+    </label>
+  </div>
+  <div class="controls">
+    <button id="startBtn">Connect</button>
+    <button id="stopBtn" disabled>Disconnect</button>
+  </div>
+
+  <div class="video-container">
+    <video id="video" autoplay muted playsinline></video>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Status</div>
+      <div class="stat-value" id="status">Idle</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Groups</div>
+      <div class="stat-value" id="groupCount">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Received</div>
+      <div class="stat-value" id="bytesReceived">0 B</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Buffer</div>
+      <div class="stat-value" id="bufferLength">0s</div>
+    </div>
+  </div>
+
+  <h3>Log</h3>
+  <div id="log"></div>
+
+  <div class="info-box">
+    <h3>How to Run</h3>
+    <p>This player requires running from the xoq JS dev server:</p>
+    <pre>cd ../wser/js
+npm install
+npm run examples</pre>
+    <p>Or start the camera stream with:</p>
+    <pre>cargo run --example camera_xoq_stream --features xoq</pre>
+  </div>
+
+</body>
+</html>
