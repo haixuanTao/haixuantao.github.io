@@ -9,7 +9,7 @@ backend — physics <em>and</em> the PPO update on the GPU, no PhysX / no Isaac.
 <p>This is the all-Rust path: nexus physics + vortx PPO shaders compiled Rust→PTX via
 <a href="https://github.com/haixuanTao/cuda-oxide">cuda-oxide</a> and loaded as <code>sm_120</code>
 cubins. The Mac is Metal-only and its contact path is broken — <strong>train on CUDA
-boxes only</strong> (<code>baguette</code> / <code>champagne</code> = the two 5090s; the vast 5060 also works).</p>
+boxes only</strong> (any RTX 5090 box; the vast 5060 also works).</p>
 <h3 id="conventions"><a class="doc-anchor" href="#conventions">§</a>Conventions</h3>
 <p>Every path below is derived from two variables — set them once and the rest of
 the guide is copy-paste:</p>
@@ -23,7 +23,7 @@ is load-bearing — keep them side by side. <code>$WORK</code> itself can be any
 <hr />
 <h3 id="tldr-box-already-provisioned"><a class="doc-anchor" href="#tldr-box-already-provisioned">§</a>TL;DR (box already provisioned)</h3>
 <p>If the toolchain, wheels, and cubins already exist on the box (the usual case on
-<code>baguette</code>/<code>champagne</code>), you only need three things: fresh cubins, the two env
+a provisioned 5090), you only need three things: fresh cubins, the two env
 vars, and the run command.</p>
 <div class="example-wrap"><pre class="language-bash"><code>cd &quot;$WORK/nexus-cuda&quot;
 bash build_cuda/build_nexus_cubin.sh        # -&gt; $PTX/nexus_rbd_shaders3d.cubin
@@ -75,10 +75,10 @@ scripts reference that path); adjust if you keep it elsewhere.</li>
 </ul>
 </blockquote>
 <p><strong>Fastest path — copy a built environment from an existing 5090:</strong></p>
-<div class="example-wrap"><pre class="language-bash"><code>rsync -a baguette:&#39;~/{cuda-oxide-src,make_cubin,nvvm-wheel,nvjit-wheel,llvm21}&#39; &quot;$HOME/&quot;
-rsync -a baguette:&#39;~/work/{nexus-cuda,khal,vortx,zealot}&#39; &quot;$WORK/&quot;</code></pre></div>
+<div class="example-wrap"><pre class="language-bash"><code>rsync -a &lt;5090-host&gt;:&#39;~/{cuda-oxide-src,make_cubin,nvvm-wheel,nvjit-wheel,llvm21}&#39; &quot;$HOME/&quot;
+rsync -a &lt;5090-host&gt;:&#39;~/work/{nexus-cuda,khal,vortx,zealot}&#39; &quot;$WORK/&quot;</code></pre></div>
 <p>This skips sections 2–4 entirely. Prefer it when a 5090 is reachable. (Adjust the
-remote source paths to wherever baguette keeps its checkout.)</p>
+remote source paths to wherever that host keeps its checkout.)</p>
 <hr />
 <h3 id="2-toolchain"><a class="doc-anchor" href="#2-toolchain">§</a>2. Toolchain</h3><div class="example-wrap"><pre class="language-bash"><code>rustup toolchain install nightly-2026-04-03
 rustup component add rust-src rustc-dev llvm-tools --toolchain nightly-2026-04-03</code></pre></div>
@@ -117,7 +117,7 @@ bash build_cuda/build_nexus_cubin.sh       # nexus physics -&gt; $PTX/nexus_rbd_
 bash build_cuda/build_vortx_cubin_llc.sh   # vortx PPO     -&gt; $PTX/vortx_shaders.cubin</code></pre></div>
 <blockquote>
 <p><strong>Edit the paths in the scripts first.</strong> They still contain absolute
-<code>/home/baguette/...</code> paths and a stale <code>nightly-2025-08-04</code> llvm-tools path.
+absolute home paths (e.g. <code>/home/&lt;user&gt;/...</code>) and a stale <code>nightly-2025-08-04</code> llvm-tools path.
 Point <code>TOOL</code>/<code>LIBDEV</code>/<code>PTXAS</code>/<code>BACKEND</code> at <em>this</em> box’s toolchain, wheels, and
 the <code>.so</code> from section 4, and <code>CUDA_OXIDE_PTX_DIR</code> at <code>$PTX</code>. The <code>.ll</code> is
 LLVM-21 IR, so the assembler must be LLVM 21.</p>
