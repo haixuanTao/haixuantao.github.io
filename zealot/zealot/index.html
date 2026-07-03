@@ -116,11 +116,14 @@ cargo +nightly-2026-04-03 build          # -&gt; target/debug/librustc_codegen_c
 bash build_cuda/build_nexus_cubin.sh       # nexus physics -&gt; $PTX/nexus_rbd_shaders3d.cubin
 bash build_cuda/build_vortx_cubin_llc.sh   # vortx PPO     -&gt; $PTX/vortx_shaders.cubin</code></pre></div>
 <blockquote>
-<p><strong>Edit the paths in the scripts first.</strong> They still contain absolute
-absolute home paths (e.g. <code>/home/&lt;user&gt;/...</code>) and a stale <code>nightly-2025-08-04</code> llvm-tools path.
-Point <code>TOOL</code>/<code>LIBDEV</code>/<code>PTXAS</code>/<code>BACKEND</code> at <em>this</em> box’s toolchain, wheels, and
-the <code>.so</code> from section 4, and <code>CUDA_OXIDE_PTX_DIR</code> at <code>$PTX</code>. The <code>.ll</code> is
-LLVM-21 IR, so the assembler must be LLVM 21.</p>
+<p><strong>No hand-editing needed.</strong> The scripts source <code>build_cuda/detect_env.sh</code>, which
+auto-detects the toolchain, LLVM-21 tools, CUDA-12.9 wheel artifacts (libdevice
+/ libnvvm / nvjitlink / ptxas), the backend <code>.so</code>, and the sibling repo paths —
+all derived from the script location + <code>$HOME</code>. Override any of them by
+exporting the var first, e.g.:</p>
+<div class="example-wrap"><pre class="language-bash"><code>SM=sm_89 PTXAS=/path/to/ptxas bash build_cuda/build_nexus_cubin.sh   # 4090 example</code></pre></div>
+<p>Target arch defaults to <code>SM=sm_120</code> (Blackwell). Set <code>CUDA_OXIDE_PTX_DIR=$PTX</code>
+if you want the cubins somewhere other than <code>~/nexus_ptx</code>.</p>
 </blockquote>
 <h4 id="critical-flags-already-baked-into-the-scripts--do-not-drop-them"><a class="doc-anchor" href="#critical-flags-already-baked-into-the-scripts--do-not-drop-them">§</a>Critical flags (already baked into the scripts — do not drop them)</h4>
 <ul>
